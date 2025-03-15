@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
-using QuanLiQuanAn.DBContext;
-using QuanLiQuanAn.Models;
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -34,7 +26,7 @@ namespace QuanLiQuanAn.ViewModels
         private void ChangeView(string view)
         {
             SelectedMenuItem = view;
-            switch(view)
+            switch (view)
             {
                 case "Dashboard":
                     CurrentViewModel = new DashboardViewModel();

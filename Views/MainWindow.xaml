@@ -4,9 +4,137 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuanLiQuanAn"
+        xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels"
+        xmlns:views="clr-namespace:QuanLiQuanAn.Views" d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1600">
-    <Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SidebarButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Foreground" Value="#FBEAD9"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Width" Value="230"/>
+                <Setter Property="Height" Value="56"/>
+                <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            CornerRadius="20">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Background" Value="#3A3935"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Margin" Value="12 0 12 12"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
 
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#646963"/>
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="#646963"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="ListBox">
+                <Setter Property="Background" Value="#3A3935"/>
+            </Style>
+
+
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="#3A3935">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="/Assets/Images/Logo.png" Width="100" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="Saku Ramen" FontFamily="{StaticResource Kaushan}" Foreground="#FBEAD9" FontSize="36" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Grid>
+            <Grid Grid.Row="1" Margin="0 12 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <ListBox ItemsSource="{Binding MenuItems}" 
+                        SelectedItem="{Binding SelectedMenuItem}" 
+                        BorderThickness="0"
+                        Grid.Row="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding}" 
+                                    Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}" 
+                                    Style="{StaticResource SidebarButtonStyle}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
+                    <views:DashboardView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+                    <views:MenuView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:TableViewModel}">
+                    <views:TableView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:BillViewModel}">
+                    <views:BillView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:EmployeeViewModel}">
+                    <views:EmployeeView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:UserViewModel}">
+                    <views:UserView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:StockViewModel}">
+                    <views:StockView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

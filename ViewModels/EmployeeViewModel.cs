@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
 using QuanLiQuanAn.DBContext;
-using QuanLiQuanAn.Singleton;
 using QuanLiQuanAn.Models;
+using System.Collections.ObjectModel;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -79,7 +78,7 @@ namespace QuanLiQuanAn.ViewModels
         }
         [RelayCommand]
         private void InteractEmployee(Information btn)
-        {            
+        {
             Console.WriteLine(btn.Name);
         }
 
