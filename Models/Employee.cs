@@ -7,6 +7,7 @@ namespace QuanLiQuanAn.Models;
 public partial class Employee
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
     public int Id { get; set; }
 

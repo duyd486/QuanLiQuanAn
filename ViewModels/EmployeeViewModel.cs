@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
 using QuanLiQuanAn.DBContext;
 using QuanLiQuanAn.Models;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -12,10 +14,10 @@ namespace QuanLiQuanAn.ViewModels
         private ObservableCollection<Employee> employeeOb;
         public IEnumerable<Employee> EmployeeOb => employeeOb;
 
-        public ObservableCollection<string> SortItems { get; } = new()
-        {
+        public ObservableCollection<string> SortItems { get; } =
+        [
         "All", "Chef", "Cashier", "Waitress"
-        };
+        ];
 
         [ObservableProperty]
         private string? selectedSortItem;
@@ -80,6 +82,42 @@ namespace QuanLiQuanAn.ViewModels
         private void InteractEmployee(Information btn)
         {
             Console.WriteLine(btn.Name);
+        }
+
+
+        Views.AddEmployee add = new();
+        [ObservableProperty]
+        Employee? employeeTmp;
+        [ObservableProperty]
+        Information informationTmp;
+
+
+        QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+
+
+        [RelayCommand]
+        private void AddEmployee()
+        {
+            add = new();
+            InformationTmp = new();
+            EmployeeTmp = new();
+            add.DataContext = this;
+            add.ShowDialog();
+        }
+        [RelayCommand] 
+        private void ApplyEmployee()
+        {
+            InformationTmp.Id = db.Informations.OrderBy(e => e.Id).Last().Id + 1;
+            EmployeeTmp.Id = db.Employees.OrderBy(e => e.Id).Last().Id + 1;
+            EmployeeTmp.InformationId = InformationTmp.Id;
+            Console.WriteLine(EmployeeTmp.InformationId + " " + InformationTmp.Id);
+
+            db.Informations.Add(InformationTmp);
+            db.Employees.Add(EmployeeTmp);
+            db.SaveChanges();
+
+            MessageBox.Show("Them thanh cong");
+            add.Close();
         }
 
 

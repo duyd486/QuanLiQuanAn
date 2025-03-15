@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1333">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -55,8 +55,8 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="164,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Welcome Manager!" Width="434"/>
-                        <Image Source="/Assets/Images/RoundAvatar.png" Margin="22,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
+                        <TextBlock Margin="203,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Welcome Manager!" Width="454" Grid.ColumnSpan="2"/>
+                        <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
                     </Grid>
                 </Grid>
             </Border>
@@ -210,7 +210,7 @@
                                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                                                 <Setter Property="FontSize" Value="14"/>
                                             </Style>
-                                            
+
                                             <Style TargetType="Image">
                                                 <Setter Property="Margin" Value="4"/>
                                                 <Setter Property="Stretch" Value="UniformToFill"/>
@@ -289,8 +289,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Add Employee" Grid.Row="0"/>
-                    <Button Content="Export Excel" Grid.Row="1" Margin="0,2,20,10"/>
+                    <Button Content="Add Employee" Command="{Binding AddEmployeeCommand}" Grid.Row="0"/>
+                    <Button Content="Import Excel" Grid.Row="1" Margin="0,2,20,10"/>
                     <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
                 </Grid>
             </Grid>
