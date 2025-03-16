@@ -47,6 +47,7 @@ namespace QuanLiQuanAn.ViewModels
             {
                 employeeOb.Add(employee);
             }
+            Console.WriteLine("Hello");
         }
         [RelayCommand]
         private void SortRole(string roleStr)
@@ -85,40 +86,44 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-        Views.AddEmployee add = new();
+        Views.AddEmployee addEmployeeView = new();
         [ObservableProperty]
         Employee? employeeTmp;
         [ObservableProperty]
         Information informationTmp;
-
-
-        QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-
-
+        [ObservableProperty]
+        private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
         [RelayCommand]
         private void AddEmployee()
         {
-            add = new();
+            addEmployeeView = new();
             InformationTmp = new();
             EmployeeTmp = new();
-            add.DataContext = this;
-            add.ShowDialog();
+            addEmployeeView.DataContext = this;
+            addEmployeeView.ShowDialog();
         }
         [RelayCommand] 
         private void ApplyEmployee()
         {
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+
             InformationTmp.Id = db.Informations.OrderBy(e => e.Id).Last().Id + 1;
             EmployeeTmp.Id = db.Employees.OrderBy(e => e.Id).Last().Id + 1;
             EmployeeTmp.InformationId = InformationTmp.Id;
-            Console.WriteLine(EmployeeTmp.InformationId + " " + InformationTmp.Id);
+            InformationTmp.Birth = Date;
+            Console.WriteLine(InformationTmp.Birth);
+            Console.WriteLine(InformationTmp.Name);
 
-            db.Informations.Add(InformationTmp);
-            db.Employees.Add(EmployeeTmp);
-            db.SaveChanges();
+
+            //db.Informations.Add(InformationTmp);
+            //db.Employees.Add(EmployeeTmp);
+            //db.SaveChanges();
 
             MessageBox.Show("Them thanh cong");
-            add.Close();
+            //add.Close();
         }
+
+
 
 
         private void SearchByName(string name)
