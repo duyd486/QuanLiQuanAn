@@ -152,6 +152,52 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <StackPanel Width="100" Height="100" Visibility="{Binding IsLoading}">
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <Style x:Key="CircularProgressBar" TargetType="ProgressBar">
+                            <Setter Property="Width" Value="50"/>
+                            <Setter Property="Height" Value="50"/>
+                            <Setter Property="IsIndeterminate" Value="True"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ProgressBar">
+                                        <Grid>
+                                            <Ellipse Width="50"
+                                                     Height="50"
+                                                     RenderTransformOrigin="0.5,0.5"
+                                                     Stroke="#BC4C33"
+                                                     StrokeDashArray="10"
+                                                     StrokeDashCap="Round"
+                                                     StrokeThickness="10"
+                                                     Visibility="{Binding IsLoading}">
+                                                <Ellipse.RenderTransform>
+                                                    <RotateTransform/>
+                                                </Ellipse.RenderTransform>
+                                                <Ellipse.Triggers>
+                                                    <EventTrigger RoutedEvent="Loaded">
+                                                        <BeginStoryboard>
+                                                            <Storyboard RepeatBehavior="Forever">
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle"
+                                                                                 From="0" To="360"
+                                                                                 Duration="0:0:1"
+                                                                                 RepeatBehavior="Forever"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Ellipse.Triggers>
+                                            </Ellipse>
+
+                                        </Grid>
+                                        
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+                <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
+            </StackPanel>
             <ScrollViewer Margin="30 10 0 0" Grid.Column="0" VerticalScrollBarVisibility="Hidden">
                 <ItemsControl Name="item" ItemsSource="{Binding EmployeeOb}">
                     <ItemsControl.ItemTemplate>
@@ -235,8 +281,7 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding Information}"/>
-                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding Information}"/>
+                                        <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -290,7 +335,7 @@
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Button Content="Add Employee" Command="{Binding AddEmployeeCommand}" Grid.Row="0"/>
-                    <Button Content="Import Excel" Grid.Row="1" Margin="0,2,20,10"/>
+                    <Button Content="Import Excel" Command="{Binding ImportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
                     <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
                 </Grid>
             </Grid>

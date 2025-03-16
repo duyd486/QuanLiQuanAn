@@ -43,9 +43,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Full Name"/>
-                <TextBox Grid.Column="0" Margin="20 48 0 0" Text="{Binding InformationTmp.Name, TargetNullValue='Nhập tên...', StringFormat='{}{0}'}"/>
+                <TextBox Grid.Column="0" Margin="20 48 0 0" Text="{Binding InformationTmp.Name, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="1" Text="Birth"/>
-                <DatePicker Grid.Column="1" SelectedDate="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" VerticalContentAlignment="Center" Margin="20 48 20 0"/>
+                <DatePicker Grid.Column="1"  Text="{Binding InformationTmp.Birth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" VerticalContentAlignment="Center" Margin="20 48 20 0"/>
             </Grid>
         </Grid>
 
@@ -62,11 +62,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Address"/>
-                <TextBox Grid.Column="0" Text="{Binding InformationTmp.Address}"/>
+                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding City}" SelectedItem="{Binding InformationTmp.Address, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="1" Text="Gender"/>
-                <TextBox Grid.Column="1" Text="{Binding InformationTmp.Gender}"/>
+                <ComboBox Grid.Column="1" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding Gender}" SelectedItem="{Binding InformationTmp.Gender, Mode=TwoWay}" SelectedValue="{Binding InformationTmp.Gender, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="2" Text="Status"/>
-                <TextBox Grid.Column="2" Text="{Binding EmployeeTmp.Status}"/>
+                <ComboBox Grid.Column="2" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Status}">
+                    <ComboBoxItem Height="0"></ComboBoxItem>
+                    <ComboBoxItem>Dừng hoạt động</ComboBoxItem>
+                    <ComboBoxItem>Đang hoạt động</ComboBoxItem>
+                </ComboBox>
             </Grid>
         </Grid>
 
@@ -82,7 +86,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Role"/>
-                <TextBox Grid.Column="0" Text="{Binding EmployeeTmp.Role}"/>
+                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Role}">
+                    <ComboBoxItem></ComboBoxItem>
+                    <ComboBoxItem>Waitress</ComboBoxItem>
+                    <ComboBoxItem>Cashier</ComboBoxItem>
+                    <ComboBoxItem>Chef</ComboBoxItem>
+                </ComboBox>
                 <TextBlock Grid.Column="1" Text="Salary"/>
                 <TextBox Grid.Column="1" Text="{Binding EmployeeTmp.Salary}"/>
             </Grid>
@@ -105,8 +114,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" IsCancel="True"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyEmployeeCommand}" IsCancel="True"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Cancel"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Apply"/>
         </Grid>
     </Grid>
 </Window>

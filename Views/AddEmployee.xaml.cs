@@ -22,7 +22,7 @@ namespace QuanLiQuanAn.Views
     {
         public AddEmployee()
         {
-            WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
     }
