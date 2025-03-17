@@ -45,13 +45,14 @@ public partial class QuanannhatContext : DbContext
     public virtual DbSet<Wishlist> Wishlists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-0333H5R\\SQLEXPRESS;Initial Catalog=quanannhat;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Discount>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__discount__3213E83F0AC63B60");
+            entity.HasKey(e => e.Id).HasName("PK__discount__3213E83FE6A6F747");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -60,7 +61,7 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Dish>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__dishes__3213E83F561BD26B");
+            entity.HasKey(e => e.Id).HasName("PK__dishes__3213E83FCAC1C1AA");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -69,14 +70,14 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Dishlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__dishlist__3213E83F48695A0E");
+            entity.HasKey(e => e.Id).HasName("PK__dishlist__3213E83F5073668A");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__employee__3213E83F18E194C6");
+            entity.HasKey(e => e.Id).HasName("PK__employee__3213E83FA2005E23");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -85,21 +86,21 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Information>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__informat__3213E83F8EE09101");
+            entity.HasKey(e => e.Id).HasName("PK__informat__3213E83FC360AF55");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<Ingredient>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ingredie__3213E83FC2A382CB");
+            entity.HasKey(e => e.Id).HasName("PK__ingredie__3213E83F912D214C");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<IngredientBill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ingredie__3213E83F0AACB8D7");
+            entity.HasKey(e => e.Id).HasName("PK__ingredie__3213E83FFB287E69");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -108,31 +109,34 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__orders__3213E83FD41DCCE7");
+            entity.HasKey(e => e.Id).HasName("PK__orders__3213E83FBC1F099F");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Dish).WithMany(p => p.Orders).HasConstraintName("FK__orders__dish_id__5629CD9C");
+            entity.HasOne(d => d.Dish).WithMany(p => p.Orders).HasConstraintName("FK__orders__dish_id__571DF1D5");
 
-            entity.HasOne(d => d.Table).WithMany(p => p.Orders).HasConstraintName("FK__orders__table_id__571DF1D5");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Orders).HasConstraintName("FK__orders__user_id__5812160E");
+            entity.HasOne(d => d.Orderbill).WithMany(p => p.Orders).HasConstraintName("FK__orders__orderbil__5812160E");
         });
 
         modelBuilder.Entity<OrderBill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__order_bi__3213E83F66EB17F8");
+            entity.HasKey(e => e.Id).HasName("PK__order_bi__3213E83F83C32B48");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Time)
+                .IsRowVersion()
+                .IsConcurrencyToken();
 
             entity.HasOne(d => d.Discount).WithMany(p => p.OrderBills).HasConstraintName("FK__order_bil__disco__5441852A");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.OrderBills).HasConstraintName("FK__order_bil__order__5535A963");
+            entity.HasOne(d => d.Table).WithMany(p => p.OrderBills).HasConstraintName("FK__order_bil__table__5535A963");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OrderBills).HasConstraintName("FK__order_bil__user___5629CD9C");
         });
 
         modelBuilder.Entity<Rate>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__rates__3213E83FE4E86105");
+            entity.HasKey(e => e.Id).HasName("PK__rates__3213E83FAEDE97D3");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -141,7 +145,7 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<SalaryBill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__salary_b__3213E83FB0583AF5");
+            entity.HasKey(e => e.Id).HasName("PK__salary_b__3213E83FF62F40C4");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -150,14 +154,14 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Table>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__tables__3213E83FFBAB2D66");
+            entity.HasKey(e => e.Id).HasName("PK__tables__3213E83FAD57F26A");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__users__3213E83F8018F831");
+            entity.HasKey(e => e.Id).HasName("PK__users__3213E83F61BE925A");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -166,7 +170,7 @@ public partial class QuanannhatContext : DbContext
 
         modelBuilder.Entity<Wishlist>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__wishlist__3213E83F8B336647");
+            entity.HasKey(e => e.Id).HasName("PK__wishlist__3213E83FFC6411CE");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
