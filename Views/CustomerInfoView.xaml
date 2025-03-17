@@ -1,13 +1,11 @@
-﻿<Window x:Class="QuanLiQuanAn.Views.AddEmployee"
+﻿<Window x:Class="QuanLiQuanAn.Views.CustomerInfoView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLiQuanAn.Views" xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployeeViewModel}"
+        xmlns:local="clr-namespace:QuanLiQuanAn.Views"
         mc:Ignorable="d"
-        WindowStyle="None"
-        ResizeMode="NoResize"
-        Title="AddEmployee" Height="900" Width="800">
+        Title="CustomerInfoView" Height="900" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <Style TargetType="TextBlock">
@@ -34,7 +32,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="40" Text="Employee Information"/>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="40" Text="Customer Information"/>
 
         <Grid Grid.Row="1">
             <Grid>
@@ -45,7 +43,7 @@
                 <TextBlock Grid.Column="0" Text="Full Name"/>
                 <TextBox Grid.Column="0" Margin="20 48 0 0" Text="{Binding InformationTmp.Name, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="1" Text="Birth"/>
-                <DatePicker Grid.Column="1"  Text="{Binding InformationTmp.Birth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" VerticalContentAlignment="Center" Margin="20 48 20 0"/>
+                <DatePicker Grid.Column="1"  Text="{Binding InformationTmp.Birth, Mode=OneTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="20" VerticalContentAlignment="Center" Margin="20 48 20 0"/>
             </Grid>
         </Grid>
 
@@ -80,25 +78,11 @@
         </Grid>
 
         <Grid Grid.Row="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Role"/>
-                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Role}">
-                    <ComboBoxItem></ComboBoxItem>
-                    <ComboBoxItem>Waitress</ComboBoxItem>
-                    <ComboBoxItem>Cashier</ComboBoxItem>
-                    <ComboBoxItem>Chef</ComboBoxItem>
-                </ComboBox>
-                <TextBlock Grid.Column="1" Text="Salary"/>
-                <TextBox Grid.Column="1" Text="{Binding EmployeeTmp.Salary}"/>
-            </Grid>
+            
         </Grid>
 
         <ScrollViewer Grid.Row="6" Margin="20">
-            
+
         </ScrollViewer>
 
         <Grid Grid.Row="7">
@@ -116,8 +100,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Cancel"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Apply"/>
+            <Button Grid.Column="2" Content="Apply" IsCancel="True"/>
         </Grid>
     </Grid>
 </Window>

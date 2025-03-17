@@ -167,7 +167,7 @@ namespace QuanLiQuanAn.ViewModels
                     UpdateEmployee();
                 }
             }
-            GetAll();
+            _ = GetAll();
             addEmployeeView.Close();
         }
 
@@ -196,7 +196,7 @@ namespace QuanLiQuanAn.ViewModels
                 for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
                     SalaryBill salaryBill = new SalaryBill();
-                    salaryBill.Id = db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
+                    salaryBill.Id =db.SalaryBills.IsNullOrEmpty() ? 1 : db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
 
                     int employeeIdCollum = 1;
                     salaryBill.EmployeeId = Convert.ToInt32(worksheet.Cells[i, employeeIdCollum].Value);

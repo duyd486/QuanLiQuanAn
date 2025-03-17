@@ -55,7 +55,7 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="203,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Welcome Manager!" Width="454" Grid.ColumnSpan="2"/>
+                        <TextBlock Margin="288,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Employee Page!" Width="454" Grid.ColumnSpan="2"/>
                         <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
                     </Grid>
                 </Grid>
@@ -247,6 +247,15 @@
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect Opacity="0"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
                                             </Style>
 
                                             <Style TargetType="TextBlock">
@@ -282,6 +291,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding}"/>
+                                        <Button Grid.Column="1" Content="Delete" />
                                     </Grid>
                                 </Grid>
                             </Border>
