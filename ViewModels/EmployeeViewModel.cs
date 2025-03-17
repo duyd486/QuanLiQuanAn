@@ -10,6 +10,7 @@ using QuanLiQuanAn.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -262,8 +263,8 @@ namespace QuanLiQuanAn.ViewModels
             try
             {
                 QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-                InformationTmp.Id = db.Informations.OrderBy(e => e.Id).Last().Id + 1;
-                EmployeeTmp.Id = db.Employees.OrderBy(e => e.Id).Last().Id + 1;
+                InformationTmp.Id = db.Informations.IsNullOrEmpty() ? 1 : db.Informations.OrderBy(e => e.Id).Last().Id + 1;
+                EmployeeTmp.Id = db.Employees.IsNullOrEmpty() ? 1 : db.Employees.OrderBy(e => e.Id).Last().Id + 1;
                 EmployeeTmp.InformationId = InformationTmp.Id;
                 InformationTmp.Birth = Date;
 

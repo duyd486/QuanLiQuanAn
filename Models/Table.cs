@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLiQuanAn.Models;
 
@@ -17,5 +20,5 @@ public partial class Table
     public int? Status { get; set; }
 
     [InverseProperty("Table")]
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<OrderBill> OrderBills { get; set; } = new List<OrderBill>();
 }
