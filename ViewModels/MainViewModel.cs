@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using QuanLiQuanAn.DBContext;
 using System.Collections.ObjectModel;
 
 namespace QuanLiQuanAn.ViewModels
@@ -8,6 +9,7 @@ namespace QuanLiQuanAn.ViewModels
     {
         public MainViewModel()
         {
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
         }
 
 

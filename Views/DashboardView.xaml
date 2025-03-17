@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
-    <Grid Background="LightBlue">
-        <TextBlock Text="Dashboard Page" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
+    <ScrollViewer>
+        <Grid Background="LightBlue" Height="2700">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Dashboard Page" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Text="Dashboard Page 2" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Text="Dashboard Page 3" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

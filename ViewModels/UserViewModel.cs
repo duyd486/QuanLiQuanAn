@@ -19,7 +19,7 @@ namespace QuanLiQuanAn.ViewModels
     public partial class UserViewModel : ObservableObject
     {
         [ObservableProperty]
-        private ObservableCollection<Employee> employeeOb;
+        private ObservableCollection<User> userOb;
 
         public ObservableCollection<string> SortItems { get; } =
         [
@@ -60,7 +60,7 @@ namespace QuanLiQuanAn.ViewModels
 
         public UserViewModel()
         {
-            EmployeeOb = new ObservableCollection<Employee>();
+            UserOb = new ObservableCollection<User>();
             _ = Loading();
             selectedSortItem = "All";
         }
@@ -80,10 +80,10 @@ namespace QuanLiQuanAn.ViewModels
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).ToList())
+            UserOb.Clear();
+            foreach (User user in db.Users.OrderByDescending(e => e.Id).Include(e => e.Information).ToList())
             {
-                EmployeeOb.Add(employee);
+                UserOb.Add(user);
             }
         }
         [RelayCommand]
@@ -103,29 +103,29 @@ namespace QuanLiQuanAn.ViewModels
                     break;
             }
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
+            UserOb.Clear();
+            foreach (User user in db.Users.Include(e => e.Information).ToList())
             {
-                if (employee.Information.Gender == gender)
+                if (user.Information.Gender == gender)
                 {
-                    EmployeeOb.Add(employee);
+                    UserOb.Add(user);
                 }
             }
         }
 
         [ObservableProperty]
-        Employee? employeeTmp;
+        User? userTmp;
         [ObservableProperty]
         Information informationTmp;
         [ObservableProperty]
         private CustomerInfoView customerInfoView;
         [RelayCommand]
-        private void InteractEmployee(Employee employee)
+        private void InteractEmployee(User user)
         {
-            EmployeeTmp = new();
-            EmployeeTmp = employee;
+            UserTmp = new();
+            UserTmp = user;
             InformationTmp = new();
-            InformationTmp = employee.Information;
+            InformationTmp = user.Information;
 
             customerInfoView = new();
             customerInfoView.DataContext = this;
@@ -134,12 +134,12 @@ namespace QuanLiQuanAn.ViewModels
         private void SearchByName(string name)
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
+            UserOb.Clear();
+            foreach (User user in db.Users.Include(e => e.Information).ToList())
             {
-                if (employee.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (user.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    EmployeeOb.Add(employee);
+                    UserOb.Add(user);
                 }
             }
         }

@@ -18,6 +18,7 @@
     <None Remove="Assets\Images\EmployeePic.png" />
     <None Remove="Assets\Images\Logo.png" />
     <None Remove="Assets\Images\RoundAvatar.png" />
+    <None Remove="Assets\Images\Table.png" />
     <None Remove="Assets\Images\User.png" />
   </ItemGroup>
 
@@ -46,6 +47,7 @@
     <Resource Include="Assets\Images\EmployeePic.png" />
     <Resource Include="Assets\Images\Logo.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />
+    <Resource Include="Assets\Images\Table.png" />
     <Resource Include="Assets\Images\User.png" />
   </ItemGroup>
 
