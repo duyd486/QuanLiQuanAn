@@ -15,6 +15,7 @@
     <None Remove="Assets\Icons\SearchIcon.png" />
     <None Remove="Assets\Images\Avatar.png" />
     <None Remove="Assets\Images\Background.png" />
+    <None Remove="Assets\Images\Employee.png" />
     <None Remove="Assets\Images\EmployeePic.png" />
     <None Remove="Assets\Images\Logo.png" />
     <None Remove="Assets\Images\RoundAvatar.png" />
@@ -44,6 +45,7 @@
     <Resource Include="Assets\Icons\SearchIcon.png" />
     <Resource Include="Assets\Images\Avatar.png" />
     <Resource Include="Assets\Images\Background.png" />
+    <Resource Include="Assets\Images\Employee.png" />
     <Resource Include="Assets\Images\EmployeePic.png" />
     <Resource Include="Assets\Images\Logo.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />

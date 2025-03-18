@@ -6,14 +6,6 @@
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d"
              d:DesignHeight="900" d:DesignWidth="1333">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style x:Key="SortButtonStyle" TargetType="Button">
-
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>
@@ -231,7 +223,7 @@
                                             </Style>
                                         </ResourceDictionary>
                                     </Grid.Resources>
-                                    <Image Grid.Row="0" Source="/Assets/Images/User.png" Stretch="Fill"/>
+                                    <Image Grid.Row="0" Source="/Assets/Images/Employee.png" Stretch="Fill"/>
 
                                     <Grid Grid.Row="1">
                                         <Grid.RowDefinitions>
