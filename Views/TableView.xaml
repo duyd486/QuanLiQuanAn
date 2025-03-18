@@ -29,19 +29,6 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TextBox Background="#F8E8D9" Grid.Column="0" Margin="24" FontSize="28" VerticalContentAlignment="Center" Text="{Binding NameSearch, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="10"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*"/>
@@ -106,7 +93,7 @@
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -128,7 +115,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Button Content="{Binding}" 
-                                    Command="{Binding DataContext.SortRoleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    Command="{Binding DataContext.SortContainCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                     CommandParameter="{Binding}"
                                     />
                             </DataTemplate>
@@ -148,7 +135,7 @@
                 <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
             </StackPanel>
             <ScrollViewer Margin="30 10 0 0" Grid.Column="0" VerticalScrollBarVisibility="Hidden">
-                <ItemsControl Name="item" ItemsSource="{Binding EmployeeOb}">
+                <ItemsControl Name="item" ItemsSource="{Binding TableOb}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border 
@@ -229,19 +216,17 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0"  FontSize="18" FontWeight="Bold" Text="{Binding Information.Name, StringFormat='Name: {0}'}"/>
-                                        <TextBlock Grid.Row="1"  Text="{Binding Information.Birth, StringFormat='Birth: {0}'}"/>
-                                        <TextBlock Grid.Row="2"  VerticalAlignment="Top" Text="{Binding Salary, StringFormat='Salary: {0}'}"/>
+                                        <TextBlock Grid.Row="0"  FontSize="18" FontWeight="Bold" Text="{Binding Id, StringFormat='Id: {0}'}"/>
+                                        <TextBlock Grid.Row="1"  Text="{Binding Contain, StringFormat='Contain: {0}'}"/>
                                     </Grid>
                                     <Grid Grid.Row="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding}"/>
-                                        <Button Grid.Column="1" Content="Delete" />
+                                        <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractTableCommand}" CommandParameter="{Binding}"/>
+                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.DeleteTableCommand}" CommandParameter="{Binding}" />
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -304,7 +289,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Add New Table" Command="{Binding AddEmployeeCommand}" Grid.Row="0"/>
+                    <Button Content="Add New Table" Command="{Binding AddTableCommand}" Grid.Row="0"/>
                 </Grid>
             </Grid>
 
