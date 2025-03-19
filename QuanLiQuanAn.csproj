@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Assets\Fonts\KaushanScript-Regular.ttf" />
     <None Remove="Assets\Fonts\MontserratAlternates-Medium.ttf" />
     <None Remove="Assets\Icons\DashboardIcon.png" />
@@ -39,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Fonts\Font Awesome 6 Free-Solid-900.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Fonts\KaushanScript-Regular.ttf" />
     <Resource Include="Assets\Fonts\MontserratAlternates-Medium.ttf" />
     <Resource Include="Assets\Icons\DashboardIcon.png" />

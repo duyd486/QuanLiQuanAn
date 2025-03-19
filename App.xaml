@@ -7,6 +7,9 @@
     <Application.Resources>
         <FontFamily x:Key="Montserrat">/Assets/Fonts/#Montserrat Alternates</FontFamily>
         <FontFamily x:Key="Kaushan">/Assets/Fonts/#Kaushan Script</FontFamily>
+        <FontFamily x:Key="FontAwesome">/Assets/Fonts/#Font Awesome 6 Free Solid</FontFamily>
+        
+        
         <Style x:Key="CircularProgressBar" TargetType="ProgressBar">
             <Setter Property="Width" Value="50"/>
             <Setter Property="Height" Value="50"/>
