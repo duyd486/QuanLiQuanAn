@@ -240,8 +240,8 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Content="Edit" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding}"/>
-                                        <Button Grid.Column="1" Content="Delete" />
+                                        <Button Grid.Column="0" Content="Edit/Info" Command="{Binding ElementName=item, Path=DataContext.InteractEmployeeCommand}" CommandParameter="{Binding}"/>
+                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.DeleteEmployeeCommand}" CommandParameter="{Binding}" />
                                     </Grid>
                                 </Grid>
                             </Border>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
-    <Grid Background="LightBlue">
+    <Grid>
         <Grid>
             <Grid.Background>
                 <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>

@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:QuanLiQuanAn.Views" xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployeeViewModel}"
         mc:Ignorable="d"
         WindowStyle="None"
-        ResizeMode="NoResize"
         Title="AddEmployee" Height="900" Width="800">
     <Window.Resources>
         <ResourceDictionary>
@@ -18,7 +17,6 @@
                 <Setter Property="Margin" Value="20 48 20 0"/>
                 <Setter Property="FontSize" Value="28"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-
             </Style>
         </ResourceDictionary>
     </Window.Resources>
@@ -97,9 +95,59 @@
             </Grid>
         </Grid>
 
-        <ScrollViewer Grid.Row="6" Margin="20">
-            
-        </ScrollViewer>
+        <Grid Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="20,20,37,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="38*"/>
+                    <ColumnDefinition Width="38*"/>
+                    <ColumnDefinition Width="38*"/>
+                    <ColumnDefinition Width="38*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Id" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+                <TextBlock Text="Time" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+                <TextBlock Text="Total Shifts" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+                <TextBlock Text="Status" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+                <TextBlock Text="Total" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" Margin="20 0 20 0" Background="LightGray">
+                <ItemsControl Name="item" ItemsSource="{Binding EmployeeTmp.SalaryBills}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                                Background="White"
+                                Height="40"
+                                Margin="10 12 10 0"
+                                >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+
+
+                                    <Button Grid.Column="5" Margin="8"/>
+                                </Grid>
+
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
 
         <Grid Grid.Row="7">
             <Grid.Resources>

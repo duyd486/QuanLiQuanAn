@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -18,6 +19,9 @@ namespace QuanLiQuanAn.ViewModels
     {
         [ObservableProperty]
         private ObservableCollection<Employee> employeeOb;
+
+        [ObservableProperty]
+        private List<SalaryBill> salaryBillOb;
 
         public ObservableCollection<string> SortItems { get; } =
         [
@@ -61,6 +65,7 @@ namespace QuanLiQuanAn.ViewModels
         public EmployeeViewModel()
         {
             EmployeeOb = new ObservableCollection<Employee>();
+            SalaryBillOb = new List<SalaryBill>();
             _ = Loading();
             selectedSortItem = "All";
         }
@@ -83,7 +88,7 @@ namespace QuanLiQuanAn.ViewModels
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
             EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).ToList())
+            foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).Include(e => e.SalaryBills).ToList())
             {
                 EmployeeOb.Add(employee);
             }
@@ -169,6 +174,22 @@ namespace QuanLiQuanAn.ViewModels
             }
             _ = GetAll();
             addEmployeeView.Close();
+        }
+
+        [RelayCommand]
+        private void DeleteEmployee(Employee employee)
+        {
+            EmployeeTmp = new();
+            EmployeeTmp = employee;
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            SalaryBillOb.Clear();
+            SalaryBillOb = (List<SalaryBill>)EmployeeTmp.SalaryBills;
+            foreach (SalaryBill salaryBill in SalaryBillOb)
+            {
+                Console.WriteLine(salaryBill.EmployeeId);
+            }
+            Console.WriteLine("Delete" + EmployeeTmp.Id);
+
         }
 
         [RelayCommand]
