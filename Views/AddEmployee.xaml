@@ -101,7 +101,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="20,20,37,0">
+            <Grid Grid.Row="0" Margin="40,20,37,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="9*"/>
                     <ColumnDefinition Width="67*"/>
@@ -124,20 +124,32 @@
                             <Border 
                                 Background="White"
                                 Height="40"
-                                Margin="10 12 10 0"
+                                Margin="20 12 10 0"
                                 >
                                 <Grid>
+                                    <Grid.Resources>
+                                        <ResourceDictionary>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="24"/>
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </ResourceDictionary>
+                                    </Grid.Resources>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="9*"/>
+                                        <ColumnDefinition Width="67*"/>
+                                        <ColumnDefinition Width="38*"/>
+                                        <ColumnDefinition Width="38*"/>
+                                        <ColumnDefinition Width="38*"/>
+                                        <ColumnDefinition Width="38*"/>
                                     </Grid.ColumnDefinitions>
-
-
-
+                                    <TextBlock Text="{Binding Id}" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding Time}" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding TotalShifts}" Grid.Column="2"/>
+                                    <TextBlock Text="{Binding Status}" Grid.Column="3"/>
+                                    <TextBlock Text="Total" Grid.Column="4"/>
                                     <Button Grid.Column="5" Margin="8"/>
                                 </Grid>
 
