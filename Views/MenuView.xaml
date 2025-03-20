@@ -78,12 +78,6 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="Background" Value="Black"
-                                </Trigger>
-                            </Style.Triggers>
                         </Style>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Margin" Value="10"/>
@@ -100,7 +94,6 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="#E55F41"/>
@@ -112,11 +105,11 @@
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="13*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
                     <ListBox 
+                         Grid.Column="0"
                          ItemsSource="{Binding SortItems}" 
                          SelectedItem="{Binding SelectedSortItem}"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -143,12 +136,32 @@
                                     <Button Content="{Binding}" Grid.Column="0" TextBlock.TextAlignment="Right"
                                          Command="{Binding DataContext.SortDishCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                          CommandParameter="{Binding}"/>
-                                    <Button Grid.Column="1" Width="40" FontFamily="{StaticResource FontAwesome}" Content="&#xf044;" Background="Transparent"/>
-                                    <Button Grid.Column="2" Width="40" FontFamily="{StaticResource FontAwesome}" Content="&#xf1f8;" Background="Transparent"/>
+                                    <Button Grid.Column="1" 
+                                            Width="40" 
+                                            FontFamily="{StaticResource FontAwesome}" 
+                                            Content="&#xf044;" 
+                                            Background="Transparent" 
+                                            Command="{Binding DataContext.InteractDishlistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                            CommandParameter="{Binding}"/>
+                                    <Button Grid.Column="2" 
+                                            Width="40" 
+                                            FontFamily="{StaticResource FontAwesome}" 
+                                            Content="&#xf1f8;" 
+                                            Background="Transparent" 
+                                            Command="{Binding DataContext.DeleteDishlistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                            CommandParameter="{Binding}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+
+                    <Button Grid.Column="1" 
+                            Content="&#x2b;"
+                            FontFamily="{StaticResource FontAwesome}"
+                            Width="60"
+                            HorizontalAlignment="Center"
+                            />
+
                 </Grid>
             </Border>
         </Grid>

@@ -128,6 +128,16 @@ namespace QuanLiQuanAn.ViewModels
             //addEmployeeView.DataContext = this;
             //addEmployeeView.ShowDialog();
         }
+        [RelayCommand]
+        private void InteractDishlist(string name)
+        {
+            Console.WriteLine("Edit " + name);
+        }
+        [RelayCommand]
+        private void DeleteDishlist(string name)
+        {
+            Console.WriteLine("Delete " + name);
+        }
 
         [RelayCommand]
         private void AddDish()
