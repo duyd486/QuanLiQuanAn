@@ -5,8 +5,310 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="LightBlue">
-        <TextBlock Text="Stock Page" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+             d:DesignHeight="900" d:DesignWidth="1333">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="10 10 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border CornerRadius="20" Grid.Row="0" Background="#BC4C33" Margin="20 20 20 20" Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                </Border.Effect>
+                <Grid Background="#BC4C33">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Background="#F8E8D9" Grid.Column="0" Margin="24" FontSize="28" VerticalContentAlignment="Center" Text="{Binding NameSearch, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="376,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Stock Page!" Width="454" Grid.ColumnSpan="2"/>
+                        <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
+                    </Grid>
+                </Grid>
+            </Border>
+            <Border Background="#BC4C33" Grid.Row="1" Margin="20,10,20,5" Padding="0" CornerRadius="12">
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                </Border.Effect>
+                <Grid >
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#F5EFDF"/>
+                            <Setter Property="Width" Value="180"/>
+                            <Setter Property="Height" Value="48"/>
+                            <Setter Property="FontSize" Value="22"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border
+                                     Background="{TemplateBinding Background}"
+                                     BorderThickness="0"
+                                     CornerRadius="20">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border 
+                                     Background="{TemplateBinding Background}" 
+                                     CornerRadius="12" 
+                                     BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#E55F41"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E55F41"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox 
+                         ItemsSource="{Binding SortItems}" 
+                         SelectedItem="{Binding SelectedSortItem}"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         Background="#BC4C33"
+                         BorderThickness="0"
+                         Margin="8 0 0 0"
+                         Height="68"
+                         VerticalAlignment="Center"
+                         >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding}" 
+                                 Command="{Binding DataContext.SortDishCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                 CommandParameter="{Binding}"
+                                 />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+            </Border>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Width="100" Height="100" Visibility="{Binding IsLoading}">
+                <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
+            </StackPanel>
+            <ScrollViewer Margin="30 10 0 0" Grid.Column="0" VerticalScrollBarVisibility="Hidden">
+                <ItemsControl Name="item" ItemsSource="{Binding DishOb}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                         Width="300"
+                         Height="300"
+                         Margin="0 0 20 32"
+                         BorderBrush="LightGray"
+                         Background="#BC4C33"
+                         CornerRadius="16"
+                         BorderThickness="0">
+                                <Border.Effect>
+                                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                </Border.Effect>
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="8*"/>
+                                        <RowDefinition Height="3*"/>
+                                        <RowDefinition Height="2.5*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.Resources>
+                                        <ResourceDictionary>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="#F8E8D9"/>
+                                                <Setter Property="Foreground" Value="#521C10"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="FontSize" Value="18"/>
+                                                <Setter Property="Margin" Value="4"/>
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="Effect">
+                                                    <Setter.Value>
+                                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border
+                                                         Background="{TemplateBinding Background}"
+                                                         BorderThickness="0"
+                                                         CornerRadius="10">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect Opacity="0"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Margin" Value="4 6 4 2"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="Foreground" Value="#F5EFDF"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                            </Style>
+
+                                            <Style TargetType="Image">
+                                                <Setter Property="Margin" Value="4"/>
+                                                <Setter Property="Stretch" Value="UniformToFill"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </ResourceDictionary>
+                                    </Grid.Resources>
+                                    <Image Grid.Row="0" Source="/Assets/Images/Employee.png" Stretch="Fill"/>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0"  FontSize="18" FontWeight="Bold" Text="{Binding Name, StringFormat='Name: {0}'}"/>
+                                        <TextBlock Grid.Row="2"  Text="{Binding Price, StringFormat='Price: {0}'}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0" Content="Edit/Info" Command="{Binding ElementName=item, Path=DataContext.InteractDishCommand}" CommandParameter="{Binding}"/>
+                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.DeleteDishCommand}" CommandParameter="{Binding}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Grid Grid.Column="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#BC4C33"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                            <Setter Property="FontWeight" Value="Medium"/>
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="Margin" Value="0 0 20 12"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border
+                                     Background="{TemplateBinding Background}"
+                                     BorderThickness="0"
+                                     CornerRadius="14">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Opacity="0"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Margin" Value="0 2 20 10"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Button Content="Add Dish" Command="{Binding AddDishCommand}" Grid.Row="0"/>
+                    <Button Content="Import Excel" Command="{Binding ImportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
+                    <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
+                </Grid>
+            </Grid>
+
+        </Grid>
     </Grid>
 </UserControl>

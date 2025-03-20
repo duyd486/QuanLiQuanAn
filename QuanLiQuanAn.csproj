@@ -18,6 +18,7 @@
     <None Remove="Assets\Images\Background.png" />
     <None Remove="Assets\Images\Employee.png" />
     <None Remove="Assets\Images\EmployeePic.png" />
+    <None Remove="Assets\Images\Food.png" />
     <None Remove="Assets\Images\Logo.png" />
     <None Remove="Assets\Images\RoundAvatar.png" />
     <None Remove="Assets\Images\Table.png" />
@@ -51,6 +52,7 @@
     <Resource Include="Assets\Images\Background.png" />
     <Resource Include="Assets\Images\Employee.png" />
     <Resource Include="Assets\Images\EmployeePic.png" />
+    <Resource Include="Assets\Images\Food.png" />
     <Resource Include="Assets\Images\Logo.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />
     <Resource Include="Assets\Images\Table.png" />
