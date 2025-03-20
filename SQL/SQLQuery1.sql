@@ -1,30 +1,32 @@
 ﻿-- Chèn dữ liệu vào bảng informations
 INSERT INTO informations (id, name, birth, gender, phone, address, citizen_id)
 VALUES
+(1, 'Quach Thi Phuong', '06/05/1994', 'Female', '0945123456', 'Phan Thiet', 1016),
 (2, 'Nguyen Van A', '07/12/1995', 'Male', '0123456789', 'Ha Noi', 1001),
-(3, 'Le Thi B', '05/22/1992', 'Female', '0987654321', 'Sai Gon', 1002),
-(4, 'Pham Van C', '11/30/1998', 'Male', '0321654987', 'Da Nang', 1003),
-(5, 'Tran Thi D', '03/18/1990', 'Female', '0975316428', 'Hai Phong', 1004),
-(6, 'Bui Van E', '09/25/1996', 'Male', '0932148576', 'Can Tho', 1005),
-(7, 'Ho Thi F', '12/14/1994', 'Female', '0965478123', 'Nha Trang', 1006),
+(3, 'Le Thi B', '05/12/1992', 'Female', '0987654321', 'Sai Gon', 1002),
+(4, 'Pham Van C', '11/03/1998', 'Male', '0321654987', 'Da Nang', 1003),
+(5, 'Tran Thi D', '03/11/1990', 'Female', '0975316428', 'Hai Phong', 1004),
+(6, 'Bui Van E', '09/02/1996', 'Male', '0932148576', 'Can Tho', 1005),
+(7, 'Ho Thi F', '12/11/1994', 'Female', '0965478123', 'Nha Trang', 1006),
 (8, 'Vu Van G', '06/07/1989', 'Male', '0912345678', 'Hue', 1007),
-(9, 'Ngo Thi H', '02/27/1997', 'Female', '0981122334', 'Vung Tau', 1008),
+(9, 'Ngo Thi H', '02/07/1997', 'Female', '0981122334', 'Vung Tau', 1008),
 (10, 'Dang Van I', '04/10/1993', 'Male', '0976655443', 'Buon Ma Thuot', 1009),
-(11, 'Do Thi J', '08/29/1991', 'Female', '0945678123', 'Rach Gia', 1010),
-(12, 'Trinh Van K', '07/16/1999', 'Male', '0936789123', 'Long Xuyen', 1011),
+(11, 'Do Thi J', '08/09/1991', 'Female', '0945678123', 'Rach Gia', 1010),
+(12, 'Trinh Van K', '07/12/1999', 'Male', '0936789123', 'Long Xuyen', 1011),
 (13, 'Phan Thi L', '01/02/1998', 'Female', '0956782345', 'Bien Hoa', 1012),
 (14, 'Ly Van M', '10/08/2000', 'Male', '0903456789', 'Thanh Hoa', 1013),
-(15, 'Cao Thi N', '11/21/1988', 'Female', '0921123344', 'Thai Nguyen', 1014),
-(16, 'Hoang Van O', '03/13/1995', 'Male', '0934567891', 'Quy Nhon', 1015),
-(17, 'Quach Thi P', '06/25/1994', 'Female', '0945123456', 'Phan Thiet', 1016),
-(18, 'Ton Van Q', '09/17/1992', 'Male', '0956234789', 'Cam Ranh', 1017),
+(15, 'Cao Thi N', '11/10/1988', 'Female', '0921123344', 'Thai Nguyen', 1014),
+(16, 'Hoang Van O', '03/12/1995', 'Male', '0934567891', 'Quy Nhon', 1015),
+(17, 'Quach Thi P', '06/05/1994', 'Female', '0945123456', 'Phan Thiet', 1016),
+(18, 'Ton Van Q', '09/12/1992', 'Male', '0956234789', 'Cam Ranh', 1017),
 (19, 'Vu Thi R', '07/05/1987', 'Female', '0967345678', 'Tam Ky', 1018),
-(20, 'Le Van S', '12/20/1990', 'Male', '0978456789', 'Dong Hoi', 1019),
+(20, 'Le Van S', '12/02/1990', 'Male', '0978456789', 'Dong Hoi', 1019),
 (21, 'Ngo Thi T', '02/11/1996', 'Female', '0989567123', 'Bac Giang', 1020);
 
 -- Chèn dữ liệu vào bảng employees
 INSERT INTO employees (id, information_id, role, salary, status)
 VALUES
+(1, 1, 3, 15500000, 2),
 (2, 2, 1, 12000000, 1),
 (3, 3, 2, 15000000, 2),
 (4, 4, 3, 18000000, 1),

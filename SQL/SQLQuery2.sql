@@ -1,16 +1,16 @@
 ﻿-- Chèn dữ liệu vào bảng informations
 INSERT INTO informations (id, name, birth, gender, phone, address, citizen_id)
 VALUES
-(22, 'Nguyen Van U', '03/15/1995', 'Male', '0901122334', 'Ha Noi', 1021),
+(22, 'Nguyen Van U', '03/12/1995', 'Male', '0901122334', 'Ha Noi', 1021),
 (23, 'Le Thi V', '07/09/1992', 'Female', '0912456789', 'Sai Gon', 1022),
-(24, 'Pham Van W', '12/25/1998', 'Male', '0923344556', 'Da Nang', 1023),
-(25, 'Tran Thi X', '05/30/1996', 'Female', '0932233445', 'Hai Phong', 1024),
-(26, 'Bui Van Y', '08/17/1993', 'Male', '0941122334', 'Can Tho', 1025),
+(24, 'Pham Van W', '12/05/1998', 'Male', '0923344556', 'Da Nang', 1023),
+(25, 'Tran Thi X', '05/03/1996', 'Female', '0932233445', 'Hai Phong', 1024),
+(26, 'Bui Van Y', '08/12/1993', 'Male', '0941122334', 'Can Tho', 1025),
 (27, 'Ho Thi Z', '02/05/1999', 'Female', '0952233445', 'Nha Trang', 1026),
-(28, 'Vu Van AA', '06/22/1997', 'Male', '0963344556', 'Hue', 1027),
-(29, 'Ngo Thi BB', '09/14/2000', 'Female', '0974455667', 'Vung Tau', 1028),
+(28, 'Vu Van AA', '06/12/1997', 'Male', '0963344556', 'Hue', 1027),
+(29, 'Ngo Thi BB', '09/12/2000', 'Female', '0974455667', 'Vung Tau', 1028),
 (30, 'Dang Van CC', '11/08/1994', 'Male', '0985566778', 'Bien Hoa', 1029),
-(31, 'Do Thi DD', '01/20/1991', 'Female', '0996677889', 'Thanh Hoa', 1030);
+(31, 'Do Thi DD', '01/12/1991', 'Female', '0996677889', 'Thanh Hoa', 1030);
 
 -- Chèn dữ liệu vào bảng users
 INSERT INTO users (id, email, password, role, status, avatar, information_id, score, total_score)

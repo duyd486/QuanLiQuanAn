@@ -5,9 +5,10 @@ namespace QuanLiQuanAn.Singleton
     class DatabaseSingleton
     {
         private static DatabaseSingleton? instance;
-        public QuanannhatContext db = new QuanannhatContext();
+        public QuanannhatContext db;
         private DatabaseSingleton()
         {
+            db = new QuanannhatContext();
         }
         public static DatabaseSingleton GetInstance()
         {

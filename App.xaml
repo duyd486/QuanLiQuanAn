@@ -24,8 +24,7 @@
                                      Stroke="#BC4C33"
                                      StrokeDashArray="10"
                                      StrokeDashCap="Round"
-                                     StrokeThickness="10"
-                                     Visibility="{Binding IsLoading}">
+                                     StrokeThickness="10">
                                 <Ellipse.RenderTransform>
                                     <RotateTransform/>
                                 </Ellipse.RenderTransform>

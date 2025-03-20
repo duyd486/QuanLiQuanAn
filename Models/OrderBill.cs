@@ -30,14 +30,14 @@ public partial class OrderBill
     [Unicode(false)]
     public string? Note { get; set; }
 
-    [Column("time")]
-    public byte[] Time { get; set; } = null!;
-
     [Column("user_id")]
     public int? UserId { get; set; }
 
     [Column("table_id")]
     public int? TableId { get; set; }
+
+    [Column("time", TypeName = "datetime")]
+    public DateTime Time { get; set; }
 
     [ForeignKey("DiscountId")]
     [InverseProperty("OrderBills")]
