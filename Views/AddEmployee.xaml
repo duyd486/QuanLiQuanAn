@@ -20,7 +20,7 @@
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#F8E8D9">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
             <RowDefinition Height="*"/>
