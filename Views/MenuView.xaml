@@ -11,13 +11,13 @@
             <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2.5*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="10 10 10 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="0.7*"/>
             </Grid.RowDefinitions>
 
             <Border CornerRadius="20" Grid.Row="0" Background="#BC4C33" Margin="20 20 20 20" Padding="10">
@@ -114,12 +114,44 @@
                          SelectedItem="{Binding SelectedSortItem}"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         ScrollViewer.PanningMode="Both"
                          Background="#BC4C33"
                          BorderThickness="0"
                          Margin="8 0 0 0"
-                         Height="68"
+                         Height="86"
                          VerticalAlignment="Center"
                          >
+                        <ListBox.Resources>
+                            <Style TargetType="Thumb">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Border 
+                                                Background="#F8E8D9" 
+                                                CornerRadius="14" 
+                                                BorderThickness="0"
+                                                Margin="10 0 10 0"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style TargetType="ScrollBar">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ScrollBar">
+                                            <Grid>
+                                                <Track Name="PART_Track">
+                                                    <Track.Thumb>
+                                                        <Thumb Height="16" Background="Transparent" BorderThickness="0"/>
+                                                    </Track.Thumb>
+                                                </Track>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.Resources>
+
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>
