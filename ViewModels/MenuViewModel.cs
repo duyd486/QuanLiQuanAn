@@ -7,6 +7,7 @@ using OfficeOpenXml;
 using System.IO;
 using QuanLiQuanAn.DBContext;
 using QuanLiQuanAn.Models;
+using QuanLiQuanAn.Views;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
@@ -46,9 +47,10 @@ namespace QuanLiQuanAn.ViewModels
         public MenuViewModel()
         {
             DishOb = new ObservableCollection<Dish>();
-            dishlistOb = new ObservableCollection<Dishlist>();
+            DishlistOb = new ObservableCollection<Dishlist>();
             _ = Loading();
             SelectedSortItem = "All";
+            
         }
 
 
@@ -56,15 +58,17 @@ namespace QuanLiQuanAn.ViewModels
         {
             IsLoading = Visibility.Visible;
 
-            await GetAll();
+            await GetAllDish();
+
+            await GetAllDishlist();
 
             IsLoading = Visibility.Hidden;
 
         }
 
 
-        [RelayCommand]
-        private async Task GetAll()
+
+        private async Task GetAllDish()
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
@@ -73,6 +77,11 @@ namespace QuanLiQuanAn.ViewModels
             {
                 DishOb.Add(dish);
             }
+        }
+        private async Task GetAllDishlist()
+        {
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            await Task.Delay(100);
             DishlistOb.Clear();
             SortItems.Clear();
             SortItems.Add("All");
@@ -83,13 +92,15 @@ namespace QuanLiQuanAn.ViewModels
             }
             SelectedSortItem = "All";
         }
+
+
         [RelayCommand]
         private void SortDish(string dishStr)
         {
             SelectedSortItem = dishStr;
             if (dishStr == "All")
             {
-                _ = GetAll();
+                _ = Loading();
                 return;
             }
             else
@@ -98,8 +109,10 @@ namespace QuanLiQuanAn.ViewModels
                 DishOb.Clear();
                 foreach(Dishlist dishlist in DishlistOb.Where(e => e.Name.Equals(dishStr)))
                 {
+                    Console.WriteLine(dishlist.Name);
                     foreach(Dish dish in dishlist.Dishes)
                     {
+                        Console.WriteLine(dish.Name);
                         DishOb.Add(dish);
                     }
                 }
@@ -112,21 +125,21 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty]
         Dishlist dishlistTmp;
         [ObservableProperty]
-        //private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
-        //private Views.AddEmployee addEmployeeView;
+        private AddDishView addDishView;
         private bool isEdit;
         [RelayCommand]
         private void InteractDish(Dish dish)
         {
-            //isEdit = true;
-            //EmployeeTmp = new();
-            //EmployeeTmp = employee;
-            //InformationTmp = new();
-            //InformationTmp = employee.Information;
+            isEdit = true;
+            DishTmp = new();
+            DishTmp = dish;
 
-            //addEmployeeView = new();
-            //addEmployeeView.DataContext = this;
-            //addEmployeeView.ShowDialog();
+            DishlistTmp = new();
+            DishlistTmp = dish.Dishlist;
+
+            addDishView = new();
+            addDishView.DataContext = this;
+            addDishView.ShowDialog();
         }
         [RelayCommand]
         private void InteractDishlist(string name)
@@ -152,19 +165,18 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void ApplyDish(string sender)
         {
-            //if (sender == "Apply")
-            //{
-            //    if (!isEdit)
-            //    {
-            //        SaveNewEmployee();
-            //    }
-            //    else
-            //    {
-            //        UpdateEmployee();
-            //    }
-            //}
-            //_ = GetAll();
-            //addEmployeeView.Close();
+            if (sender == "Apply")
+            {
+                if (!isEdit)
+                {
+                    SaveNewDish();
+                }
+                else
+                {
+                    UpdateDish();
+                }
+            }
+            addDishView.Close();
         }
 
         [RelayCommand]
@@ -237,38 +249,25 @@ namespace QuanLiQuanAn.ViewModels
 
         private void UpdateDish()
         {
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            //    if (EmployeeTmp.Salary.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Salary was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.CitizenId.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.Name == "")
-            //    {
-            //        Exception exception = new Exception("Name is emty");
-            //        throw exception;
-            //    }
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                //if (EmployeeTmp.Salary.ToString() == "")
+                //{
+                //    Exception exception = new Exception("Salary was write in wrong condiction");
+                //    throw exception;
+                //}
+                db.Dishes.Update(DishTmp);
+                db.SaveChanges();
+                db.Entry(DishTmp).State = EntityState.Detached;
 
-            //    db.Informations.Update(InformationTmp);
-            //    db.Employees.Update(EmployeeTmp);
-            //    db.SaveChanges();
-            //    db.Entry(InformationTmp).State = EntityState.Detached;
+                MessageBox.Show("Sua thanh cong");
 
-            //    MessageBox.Show("Sua thanh cong");
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SaveNewDish()
