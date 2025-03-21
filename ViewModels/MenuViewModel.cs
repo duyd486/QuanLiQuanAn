@@ -109,10 +109,8 @@ namespace QuanLiQuanAn.ViewModels
                 DishOb.Clear();
                 foreach(Dishlist dishlist in DishlistOb.Where(e => e.Name.Equals(dishStr)))
                 {
-                    Console.WriteLine(dishlist.Name);
                     foreach(Dish dish in dishlist.Dishes)
                     {
-                        Console.WriteLine(dish.Name);
                         DishOb.Add(dish);
                     }
                 }
@@ -131,6 +129,7 @@ namespace QuanLiQuanAn.ViewModels
         private void InteractDish(Dish dish)
         {
             isEdit = true;
+            SelectedDishlist = dish.Dishlist.Name;
             DishTmp = new();
             DishTmp = dish;
 
@@ -144,12 +143,12 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void InteractDishlist(string name)
         {
-            Console.WriteLine("Edit " + name);
+            //Console.WriteLine("Edit " + name);
         }
         [RelayCommand]
         private void DeleteDishlist(string name)
         {
-            Console.WriteLine("Delete " + name);
+            //Console.WriteLine("Delete " + name);
         }
 
         [RelayCommand]
@@ -174,6 +173,8 @@ namespace QuanLiQuanAn.ViewModels
                 else
                 {
                     UpdateDish();
+                    string selectedSortTmp = SelectedSortItem;
+                    SortDish(selectedSortTmp);
                 }
             }
             addDishView.Close();
@@ -246,17 +247,22 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-
+        [ObservableProperty]
+        private string selectedDishlist;
         private void UpdateDish()
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
                 //if (EmployeeTmp.Salary.ToString() == "")
                 //{
                 //    Exception exception = new Exception("Salary was write in wrong condiction");
                 //    throw exception;
                 //}
+                foreach(Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
+                {
+                    DishTmp.Dishlist = dishlist;
+                }
                 db.Dishes.Update(DishTmp);
                 db.SaveChanges();
                 db.Entry(DishTmp).State = EntityState.Detached;
