@@ -6,21 +6,80 @@
         xmlns:local="clr-namespace:QuanLiQuanAn.Views" xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:EmployeeViewModel}"
         mc:Ignorable="d"
         WindowStyle="None"
-        Title="AddEmployee" Height="900" Width="800">
+        Title="AddEmployee" Height="1000" Width="800">
     <Window.Resources>
         <ResourceDictionary>
+            <local:MultiplyConverter x:Key="MultiplyConverter"/>
+            <local:PaymentStatusConverter x:Key="PaymentStatusConverter"/>
             <Style TargetType="TextBlock">
                 <Setter Property="FontSize" Value="24"/>
                 <Setter Property="Margin" Value="20 12 0 0"/>
+                <Setter Property="Foreground" Value="#42150D"/>
+                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
             </Style>
             <Style TargetType="TextBox">
                 <Setter Property="Margin" Value="20 48 20 0"/>
                 <Setter Property="FontSize" Value="28"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Background" Value="#F5D5C2"/>
+                <Setter Property="Foreground" Value="#42150D"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Border x:Name="Border" BorderThickness="0" CornerRadius="18" 
+                                    Background="#F5D5C2" 
+                                    Padding="5">
+                                <Grid>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Background" Value="#F5D5C2"/>
+                <Setter Property="Foreground" Value="#42150D"/>
+                <Setter Property="Margin" Value="20 48 20 0"/>
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Grid>
+                                <Border BorderThickness="0" CornerRadius="18" Background="#F5D5C2">
+                                    <Grid>
+                                        <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" 
+                                                          VerticalAlignment="Center" 
+                                                          Margin="10,0,30,0"/>
+                                        <ToggleButton x:Name="ToggleButton" Grid.Column="1"
+                                                      Width="68" Height="80" 
+                                                      HorizontalAlignment="Right"
+                                                      HorizontalContentAlignment="Center"
+                                                      VerticalContentAlignment="Center"
+                                                      Background="#B03A25"
+                                                      IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                            <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0d7;" Foreground="#FFEDDB" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="28"/>
+                                        </ToggleButton>
+                                    </Grid>
+                                </Border>
+                                <Popup x:Name="Popup" Placement="Bottom" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                        StaysOpen="False" AllowsTransparency="True">
+                                    <Border BorderThickness="1" Background="#F5D5C2"
+                                            MinWidth="{TemplateBinding ActualWidth}">
+                                        <ScrollViewer>
+                                            <ItemsPresenter/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="#F8E8D9">
+    <Grid Background="#FFEDDB">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
             <RowDefinition Height="*"/>
@@ -28,8 +87,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2.2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="0.9*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="40" Text="Employee Information"/>
@@ -60,11 +119,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Address"/>
-                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding City}" SelectedItem="{Binding InformationTmp.Address, Mode=TwoWay}"/>
+                <ComboBox Grid.Column="0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding City}" SelectedItem="{Binding InformationTmp.Address, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="1" Text="Gender"/>
-                <ComboBox Grid.Column="1" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding Gender}" SelectedItem="{Binding InformationTmp.Gender, Mode=TwoWay}" SelectedValue="{Binding InformationTmp.Gender, Mode=TwoWay}"/>
+                <ComboBox Grid.Column="1" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding Gender}" SelectedItem="{Binding InformationTmp.Gender, Mode=TwoWay}" SelectedValue="{Binding InformationTmp.Gender, Mode=TwoWay}"/>
                 <TextBlock Grid.Column="2" Text="Status"/>
-                <ComboBox Grid.Column="2" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Status}">
+                <ComboBox Grid.Column="2" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Status}">
                     <ComboBoxItem Height="0"></ComboBoxItem>
                     <ComboBoxItem>Dừng hoạt động</ComboBoxItem>
                     <ComboBoxItem>Đang hoạt động</ComboBoxItem>
@@ -84,7 +143,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Role"/>
-                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Role}">
+                <ComboBox Grid.Column="0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Role}">
                     <ComboBoxItem></ComboBoxItem>
                     <ComboBoxItem>Waitress</ComboBoxItem>
                     <ComboBoxItem>Cashier</ComboBoxItem>
@@ -95,80 +154,126 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="6">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Border Grid.Row="6"
+                Margin="20 20 20 0"
+                CornerRadius="18"
+                Background="#B03A25">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="40,20,37,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="9*"/>
-                    <ColumnDefinition Width="67*"/>
-                    <ColumnDefinition Width="38*"/>
-                    <ColumnDefinition Width="38*"/>
-                    <ColumnDefinition Width="38*"/>
-                    <ColumnDefinition Width="38*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Id" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
-                <TextBlock Text="Time" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
-                <TextBlock Text="Total Shifts" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
-                <TextBlock Text="Status" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
-                <TextBlock Text="Total" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Margin="0,10,0,10"/>
+                <Grid Grid.Row="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="46*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="48*"/>
+                        <ColumnDefinition Width="38*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="Foreground" Value="#FFEDDB"/>
+                        </Style>
+                    </Grid.Resources>
+                    <TextBlock Text="Id" HorizontalAlignment="Right" Grid.Column="0"/>
+                    <TextBlock Text="Time" Grid.Column="1"/>
+                    <TextBlock Text="Total Shifts" Grid.Column="2"/>
+                    <TextBlock Text="Total" Grid.Column="3"/>
+                </Grid>
+
+                <ScrollViewer Grid.Row="1" Background="#F5D5C2">
+                    <ItemsControl Name="item" ItemsSource="{Binding EmployeeTmp.SalaryBills}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border 
+                                    Background="#FFEDDB"
+                                    Height="48"
+                                    Margin="10 12 10 0"
+                                    CornerRadius="18"
+                                    >
+                                    <Grid>
+                                        <Grid.Resources>
+                                            <ResourceDictionary>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="FontSize" Value="24"/>
+                                                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    <Setter Property="Foreground" Value="#42150D"/>
+                                                </Style>
+                                            </ResourceDictionary>
+                                        </Grid.Resources>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="9*"/>
+                                            <ColumnDefinition Width="46*"/>
+                                            <ColumnDefinition Width="28*"/>
+                                            <ColumnDefinition Width="48*"/>
+                                            <ColumnDefinition Width="38*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Id}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Time}" Grid.Column="1"/>
+                                        <TextBlock Text="{Binding TotalShifts}" Grid.Column="2"/>
+                                        <TextBlock Grid.Column="3">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource MultiplyConverter}">
+                                                    <Binding Path="TotalShifts"/>
+                                                    <Binding Path="Employee.Salary"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <Button Grid.Column="4" 
+                                                Margin="8"
+                                                Content="{Binding Status, Converter={StaticResource PaymentStatusConverter}, ConverterParameter=Content}"
+                                                IsEnabled="{Binding Status, Converter={StaticResource PaymentStatusConverter}, ConverterParameter=Enabled}"
+                                                Background="#F5D5C2"
+                                                Foreground="#42150D"
+                                                Command="{Binding DataContext.PayBillCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}"
+                                                >
+                                            <Button.Resources>
+                                                <Style TargetType="{x:Type Border}">
+                                                    <Setter Property="CornerRadius" Value="10"/>
+
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </Grid>
+
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Grid>
-
-            <ScrollViewer Grid.Row="1" Margin="20 0 20 0" Background="LightGray">
-                <ItemsControl Name="item" ItemsSource="{Binding EmployeeTmp.SalaryBills}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border 
-                                Background="White"
-                                Height="40"
-                                Margin="20 12 10 0"
-                                >
-                                <Grid>
-                                    <Grid.Resources>
-                                        <ResourceDictionary>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize" Value="24"/>
-                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                            </Style>
-                                        </ResourceDictionary>
-                                    </Grid.Resources>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="9*"/>
-                                        <ColumnDefinition Width="67*"/>
-                                        <ColumnDefinition Width="38*"/>
-                                        <ColumnDefinition Width="38*"/>
-                                        <ColumnDefinition Width="38*"/>
-                                        <ColumnDefinition Width="38*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Id}" Grid.Column="0"/>
-                                    <TextBlock Text="{Binding Time}" Grid.Column="1"/>
-                                    <TextBlock Text="{Binding TotalShifts}" Grid.Column="2"/>
-                                    <TextBlock Text="{Binding Status}" Grid.Column="3"/>
-                                    <TextBlock Text="Total" Grid.Column="4"/>
-                                    <Button Grid.Column="5" Margin="8"/>
-                                </Grid>
-
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Grid>
+        </Border>
+        
 
 
         <Grid Grid.Row="7">
             <Grid.Resources>
                 <Style TargetType="Button">
-                    <Setter Property="Background" Value="#BC4C33"/>
+                    <Setter Property="Background" Value="#B03A25"/>
                     <Setter Property="Margin" Value="10 24 20 24"/>
                     <Setter Property="Foreground" Value="#F5EFDF"/>
                     <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
                     <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                                     Background="{TemplateBinding Background}"
+                                     BorderThickness="0"
+                                     CornerRadius="14">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
 
                     <Style.Triggers>
                         <Trigger Property="IsPressed" Value="True">

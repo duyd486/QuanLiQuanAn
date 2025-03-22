@@ -182,14 +182,19 @@ namespace QuanLiQuanAn.ViewModels
             EmployeeTmp = new();
             EmployeeTmp = employee;
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            SalaryBillOb.Clear();
-            SalaryBillOb = (List<SalaryBill>)EmployeeTmp.SalaryBills;
-            foreach (SalaryBill salaryBill in SalaryBillOb)
-            {
-                Console.WriteLine(salaryBill.EmployeeId);
-            }
-            Console.WriteLine("Delete" + EmployeeTmp.Id);
-
+            EmployeeTmp.Status = 1;
+            db.Update(EmployeeTmp);
+            db.SaveChanges();
+            MessageBox.Show("Dừng hoạt động nhân viên thành công");
+        }
+        [RelayCommand]
+        private void PayBill(SalaryBill salaryBill)
+        {
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            salaryBill.Status = 2;
+            db.SalaryBills.Update(salaryBill);
+            db.SaveChanges();
+            
         }
 
         [RelayCommand]
