@@ -17,66 +17,8 @@
                 <Setter Property="Foreground" Value="#42150D"/>
                 <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
             </Style>
-            <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="20 48 20 0"/>
-                <Setter Property="FontSize" Value="28"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Background" Value="#F5D5C2"/>
-                <Setter Property="Foreground" Value="#42150D"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="TextBox">
-                            <Border x:Name="Border" BorderThickness="0" CornerRadius="18" 
-                                    Background="#F5D5C2" 
-                                    Padding="5">
-                                <Grid>
-                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                </Grid>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style TargetType="ComboBox">
-                <Setter Property="Background" Value="#F5D5C2"/>
-                <Setter Property="Foreground" Value="#42150D"/>
-                <Setter Property="Margin" Value="20 48 20 0"/>
-                <Setter Property="FontSize" Value="24"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ComboBox">
-                            <Grid>
-                                <Border BorderThickness="0" CornerRadius="18" Background="#F5D5C2">
-                                    <Grid>
-                                        <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" 
-                                                          VerticalAlignment="Center" 
-                                                          Margin="10,0,30,0"/>
-                                        <ToggleButton x:Name="ToggleButton" Grid.Column="1"
-                                                      Width="68" Height="80" 
-                                                      HorizontalAlignment="Right"
-                                                      HorizontalContentAlignment="Center"
-                                                      VerticalContentAlignment="Center"
-                                                      Background="#B03A25"
-                                                      IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-                                            <TextBlock FontFamily="{StaticResource FontAwesome}" Text="&#xf0d7;" Foreground="#FFEDDB" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="28"/>
-                                        </ToggleButton>
-                                    </Grid>
-                                </Border>
-                                <Popup x:Name="Popup" Placement="Bottom" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                        StaysOpen="False" AllowsTransparency="True">
-                                    <Border BorderThickness="1" Background="#F5D5C2"
-                                            MinWidth="{TemplateBinding ActualWidth}">
-                                        <ScrollViewer>
-                                            <ItemsPresenter/>
-                                        </ScrollViewer>
-                                    </Border>
-                                </Popup>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource ModalTextBox}"/>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ModalCombobox}"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="#FFEDDB">
@@ -251,47 +193,17 @@
                 </ScrollViewer>
             </Grid>
         </Border>
-        
+
 
 
         <Grid Grid.Row="7">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#B03A25"/>
-                    <Setter Property="Margin" Value="10 24 20 24"/>
-                    <Setter Property="Foreground" Value="#F5EFDF"/>
-                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                    <Setter Property="FontSize" Value="24"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border
-                                     Background="{TemplateBinding Background}"
-                                     BorderThickness="0"
-                                     CornerRadius="14">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-
-                    <Style.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Cancel"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Apply"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyEmployeeCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>

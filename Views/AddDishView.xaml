@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:QuanLiQuanAn.Views"
         mc:Ignorable="d"
         Title="AddDishView" Height="800" Width="600">
-    <Grid>
+    <Grid Background="#FFEDDB">
+        <Grid.Resources>
+            <Style TargetType="TextBox" BasedOn="{StaticResource ModalTextBox}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -14,7 +17,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
-
         </Grid.RowDefinitions>
 
         <Border Background="#BC4C33" Grid.Row="0" >
@@ -28,36 +30,20 @@
              Foreground="#F5EFDF"/>
         </Border>
 
-        <TextBox Grid.Row="1" Text="{Binding DishTmp.Name, Mode=TwoWay}" Margin="20" FontSize="32" VerticalContentAlignment="Center"/>
-        <TextBox Grid.Row="2" Text="{Binding DishTmp.Price, Mode=TwoWay}" Margin="20" FontSize="32" VerticalContentAlignment="Center"/>
-        <ComboBox Grid.Row="3" Margin="20" FontSize="28" ItemsSource="{Binding SortItems}" SelectedItem="{Binding SelectedDishlist}"/>
+        <TextBox Grid.Row="1" Text="{Binding DishTmp.Name, Mode=TwoWay}" Margin="20" FontSize="32"/>
+        <TextBox Grid.Row="2" Text="{Binding DishTmp.Price, Mode=TwoWay}" Margin="20" FontSize="32"/>
+        <ComboBox Grid.Row="3" Margin="20" FontSize="28" ItemsSource="{Binding SortItems}" SelectedItem="{Binding SelectedDishlist}" Style="{StaticResource ModalCombobox}"/>
         <TextBox Grid.Row="4" Text="{Binding DishTmp.Description, Mode=TwoWay}" Margin="20" FontSize="32" TextWrapping="Wrap"/>
 
         <Grid Grid.Row="5">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#BC4C33"/>
-                    <Setter Property="Margin" Value="10 24 20 24"/>
-                    <Setter Property="Foreground" Value="#F5EFDF"/>
-                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                    <Setter Property="FontSize" Value="24"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Resources>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyDishCommand}" CommandParameter="Cancel"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyDishCommand}" CommandParameter="Apply"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyDishCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyDishCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>

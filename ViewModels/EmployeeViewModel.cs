@@ -7,6 +7,7 @@ using OfficeOpenXml;
 using System.IO;
 using QuanLiQuanAn.DBContext;
 using QuanLiQuanAn.Models;
+using QuanLiQuanAn.Views;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,13 @@ namespace QuanLiQuanAn.ViewModels
 
         [ObservableProperty]
         private List<SalaryBill> salaryBillOb;
+
+        [ObservableProperty]
+        private bool isActive = true;
+        partial void OnIsActiveChanged(bool value)
+        {
+            _ = GetAll();
+        }
 
         public ObservableCollection<string> SortItems { get; } =
         [
@@ -61,11 +69,11 @@ namespace QuanLiQuanAn.ViewModels
             SearchByName(value);
         }
 
-
         public EmployeeViewModel()
         {
             EmployeeOb = new ObservableCollection<Employee>();
             SalaryBillOb = new List<SalaryBill>();
+            IsActive = true;
             _ = Loading();
             selectedSortItem = "All";
         }
@@ -90,9 +98,22 @@ namespace QuanLiQuanAn.ViewModels
             EmployeeOb.Clear();
             foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).Include(e => e.SalaryBills).ToList())
             {
-                EmployeeOb.Add(employee);
+                if (IsActive)
+                {
+                    if(employee.Status == 2)
+                    {
+                        EmployeeOb.Add(employee);
+                    }
+                }
+                else
+                {
+                    if(employee.Status == 1)
+                    {
+                        EmployeeOb.Add(employee);
+                    }
+                }
             }
-
+            SelectedSortItem = "All";
         }
         [RelayCommand]
         private void SortRole(string roleStr)
@@ -120,7 +141,20 @@ namespace QuanLiQuanAn.ViewModels
             {
                 if (employee.Role == role)
                 {
-                    EmployeeOb.Add(employee);
+                    if (IsActive)
+                    {
+                        if (employee.Status == 2)
+                        {
+                            EmployeeOb.Add(employee);
+                        }
+                    }
+                    else
+                    {
+                        if (employee.Status == 1)
+                        {
+                            EmployeeOb.Add(employee);
+                        }
+                    }
                 }
             }
         }
@@ -132,7 +166,7 @@ namespace QuanLiQuanAn.ViewModels
         Information informationTmp;
         [ObservableProperty]
         private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
-        private Views.AddEmployee addEmployeeView;
+        private AddEmployee addEmployeeView;
         private bool isEdit;
         [RelayCommand]
         private void InteractEmployee(Employee employee)
@@ -179,12 +213,12 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void DeleteEmployee(Employee employee)
         {
-            EmployeeTmp = new();
-            EmployeeTmp = employee;
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            EmployeeTmp.Status = 1;
-            db.Update(EmployeeTmp);
+            employee.Status = 1;
+            db.Update(employee);
             db.SaveChanges();
+            _ = GetAll();
+            
             MessageBox.Show("Dừng hoạt động nhân viên thành công");
         }
         [RelayCommand]
@@ -194,7 +228,8 @@ namespace QuanLiQuanAn.ViewModels
             salaryBill.Status = 2;
             db.SalaryBills.Update(salaryBill);
             db.SaveChanges();
-            
+            db.Entry(salaryBill).State = EntityState.Detached;
+            MessageBox.Show("Thanh toan thanh cong");
         }
 
         [RelayCommand]
@@ -273,6 +308,7 @@ namespace QuanLiQuanAn.ViewModels
                 db.Employees.Update(EmployeeTmp);
                 db.SaveChanges();
                 db.Entry(InformationTmp).State = EntityState.Detached;
+                db.Entry(EmployeeTmp).State = EntityState.Detached;
 
                 MessageBox.Show("Sua thanh cong");
 
@@ -313,6 +349,8 @@ namespace QuanLiQuanAn.ViewModels
                 db.Informations.Add(InformationTmp);
                 db.Employees.Add(EmployeeTmp);
                 db.SaveChanges();
+                db.Entry(InformationTmp).State = EntityState.Detached;
+                db.Entry(EmployeeTmp).State = EntityState.Detached;
                 MessageBox.Show("Them thanh cong");
             }
             catch (Exception ex)

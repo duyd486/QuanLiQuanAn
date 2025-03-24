@@ -154,12 +154,13 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void AddDish()
         {
-            //isEdit = false;
-            //InformationTmp = new();
-            //EmployeeTmp = new();
-            //addEmployeeView = new();
-            //addEmployeeView.DataContext = this;
-            //addEmployeeView.ShowDialog();
+            isEdit = false;
+            DishTmp = new();
+
+
+            addDishView = new();
+            addDishView.DataContext = this;
+            addDishView.ShowDialog();
         }
         [RelayCommand]
         private void ApplyDish(string sender)

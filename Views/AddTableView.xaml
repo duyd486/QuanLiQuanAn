@@ -8,7 +8,7 @@
         
         WindowStyle="None"
         Title="AddTableView" Height="300" Width="450">
-    <Grid>
+    <Grid Background="#FFEDDB">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -26,33 +26,16 @@
                  Foreground="#F5EFDF"/>
         </Border>
         
-        <TextBox Grid.Row="1" Text="{Binding TableTmp.Contain, Mode=TwoWay}" Margin="20" FontSize="32" VerticalContentAlignment="Center"/>
+        <TextBox Grid.Row="1" Text="{Binding TableTmp.Contain, Mode=TwoWay}" Margin="20" FontSize="32" VerticalContentAlignment="Center" Style="{StaticResource ModalTextBox}"/>
 
         <Grid Grid.Row="2">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#BC4C33"/>
-                    <Setter Property="Margin" Value="10 24 20 24"/>
-                    <Setter Property="Foreground" Value="#F5EFDF"/>
-                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                    <Setter Property="FontSize" Value="24"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#E55F41"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyTableCommand}" CommandParameter="Cancel"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyTableCommand}" CommandParameter="Apply"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyTableCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyTableCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>
