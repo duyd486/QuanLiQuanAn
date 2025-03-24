@@ -188,6 +188,8 @@ namespace QuanLiQuanAn.ViewModels
             isEdit = false;
             InformationTmp = new();
             EmployeeTmp = new();
+
+
             addEmployeeView = new();
             addEmployeeView.DataContext = this;
             addEmployeeView.ShowDialog();
