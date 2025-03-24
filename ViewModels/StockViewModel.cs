@@ -12,31 +12,27 @@ using System.Windows;
 using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using QuanLiQuanAn.Views;
 
 namespace QuanLiQuanAn.ViewModels
 {
     public partial class StockViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<Dish> dishOb;
+        [ObservableProperty] private ObservableCollection<Ingredient> ingredientOb;
+        [ObservableProperty] private Visibility isLoading;
+        [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private string? nameSearch = "";
+        [ObservableProperty] Ingredient? ingredientTmp;
 
-        [ObservableProperty]
-        private ObservableCollection<Dishlist> dishlistOb;
 
         public ObservableCollection<string> SortItems { get; } =
         [
-        "All", "Waitress", "Cashier", "Chef"
+        "All"
         ];
 
-        [ObservableProperty]
-        private Visibility isLoading;
 
 
-        [ObservableProperty]
-        private string? selectedSortItem;
 
-        [ObservableProperty]
-        private string? nameSearch = "";
         partial void OnNameSearchChanged(string? value)
         {
             SearchByName(value);
@@ -45,8 +41,7 @@ namespace QuanLiQuanAn.ViewModels
 
         public StockViewModel()
         {
-            DishOb = new ObservableCollection<Dish>();
-            dishlistOb = new ObservableCollection<Dishlist>();
+            IngredientOb = new ObservableCollection<Ingredient>();
             _ = Loading();
             selectedSortItem = "All";
         }
@@ -68,17 +63,11 @@ namespace QuanLiQuanAn.ViewModels
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
-            DishOb.Clear();
-            foreach (Dish dish in db.Dishes.OrderByDescending(e => e.Id))
+            IngredientOb.Clear();
+            foreach (Ingredient ingredient in db.Ingredients.OrderByDescending(e => e.Id))
             {
-                DishOb.Add(dish);
+                IngredientOb.Add(ingredient);
             }
-            DishlistOb.Clear();
-            foreach (Dishlist dishlist in db.Dishlists.OrderByDescending(e => e.Id))
-            {
-                DishlistOb.Add(dishlist);
-            }
-
         }
         [RelayCommand]
         private void SortDish(string dishStr)
@@ -100,18 +89,14 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-        [ObservableProperty]
-        Dish? dishTmp;
-        [ObservableProperty]
-        Dishlist dishlistTmp;
-        [ObservableProperty]
+        //[ObservableProperty]
         //private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
-        //private Views.AddEmployee addEmployeeView;
+        private AddIngredientView addIngredientView;
         private bool isEdit;
         [RelayCommand]
-        private void InteractDish(Dish dish)
+        private void InteractIngredient(Ingredient ingredient)
         {
-            //isEdit = true;
+            isEdit = true;
             //EmployeeTmp = new();
             //EmployeeTmp = employee;
             //InformationTmp = new();
@@ -123,7 +108,7 @@ namespace QuanLiQuanAn.ViewModels
         }
 
         [RelayCommand]
-        private void AddDish()
+        private void AddIngredient()
         {
             //isEdit = false;
             //InformationTmp = new();
@@ -133,7 +118,7 @@ namespace QuanLiQuanAn.ViewModels
             //addEmployeeView.ShowDialog();
         }
         [RelayCommand]
-        private void ApplyDish(string sender)
+        private void ApplyIngredient(string sender)
         {
             //if (sender == "Apply")
             //{
@@ -151,7 +136,7 @@ namespace QuanLiQuanAn.ViewModels
         }
 
         [RelayCommand]
-        private void DeleteDish(Dish dish)
+        private void DeleteIngredient(Ingredient ingredient)
         {
             //EmployeeTmp = new();
             //EmployeeTmp = employee;
@@ -218,7 +203,7 @@ namespace QuanLiQuanAn.ViewModels
 
 
 
-        private void UpdateDish()
+        private void UpdateIngredient()
         {
             //try
             //{
@@ -254,7 +239,7 @@ namespace QuanLiQuanAn.ViewModels
 
         }
 
-        private void SaveNewDish()
+        private void SaveNewIngredient()
         {
             //try
             //{
@@ -295,12 +280,12 @@ namespace QuanLiQuanAn.ViewModels
         private void SearchByName(string name)
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            DishOb.Clear();
-            foreach (Dish dish in db.Dishes)
+            IngredientOb.Clear();
+            foreach (Ingredient ingredient in db.Ingredients)
             {
-                if (dish.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (ingredient.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DishOb.Add(dish);
+                    IngredientOb.Add(ingredient);
                 }
             }
         }

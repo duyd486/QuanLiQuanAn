@@ -18,26 +18,22 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class TableViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<Table> tableOb;
+        private AddTableView addTableView;
+        private bool isEdit;
+
+        [ObservableProperty] private ObservableCollection<Table> tableOb;
+        [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private Visibility isLoading;
+        [ObservableProperty] Table? tableTmp;
 
         public ObservableCollection<string> SortItems { get; } =
         [
         "All", "Table For 2", "Table For 3", "Table For 4", "Above 4"
         ];
-
-        [ObservableProperty]
-        private Visibility isLoading;
-
         public IEnumerable<string> Gender { get; } =
         [
             "Male" , "Female"
         ];
-
-        [ObservableProperty]
-        private string? selectedSortItem;
-
-
 
         public TableViewModel()
         {
@@ -56,7 +52,6 @@ namespace QuanLiQuanAn.ViewModels
             IsLoading = Visibility.Hidden;
 
         }
-
 
         [RelayCommand]
         private async Task GetAll()
@@ -115,11 +110,6 @@ namespace QuanLiQuanAn.ViewModels
             }
         }
 
-
-        [ObservableProperty]
-        Table? tableTmp;
-        private AddTableView addTableView;
-        private bool isEdit;
         [RelayCommand]
         private void InteractTable(Table table)
         {
@@ -141,6 +131,7 @@ namespace QuanLiQuanAn.ViewModels
             addTableView.DataContext = this;
             addTableView.ShowDialog();
         }
+
         [RelayCommand]
         private void ApplyTable(string sender)
         {

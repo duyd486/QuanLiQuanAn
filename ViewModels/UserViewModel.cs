@@ -18,17 +18,18 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class UserViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<User> userOb;
 
+        [ObservableProperty] private ObservableCollection<User> userOb;
+        [ObservableProperty] private Visibility isLoading;
+        [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private string? nameSearch = "";
+        [ObservableProperty] User? userTmp;
+        [ObservableProperty] Information informationTmp;
+        [ObservableProperty] private CustomerInfoView customerInfoView;
         public ObservableCollection<string> SortItems { get; } =
         [
         "All", "Male", "Female"
         ];
-
-        [ObservableProperty]
-        private Visibility isLoading;
-
         public IEnumerable<string> Gender { get; } =
         [
             "Male" , "Female"
@@ -48,11 +49,6 @@ namespace QuanLiQuanAn.ViewModels
             "Vinh Phuc", "Yen Bai"
         ];
 
-        [ObservableProperty]
-        private string? selectedSortItem;
-
-        [ObservableProperty]
-        private string? nameSearch = "";
         partial void OnNameSearchChanged(string? value)
         {
             SearchByName(value);
@@ -64,6 +60,7 @@ namespace QuanLiQuanAn.ViewModels
             _ = Loading();
             selectedSortItem = "All";
         }
+
         private async Task Loading()
         {
             IsLoading = Visibility.Visible;
@@ -86,6 +83,7 @@ namespace QuanLiQuanAn.ViewModels
                 UserOb.Add(user);
             }
         }
+
         [RelayCommand]
         private void SortGender(string gender)
         {
@@ -113,12 +111,6 @@ namespace QuanLiQuanAn.ViewModels
             }
         }
 
-        [ObservableProperty]
-        User? userTmp;
-        [ObservableProperty]
-        Information informationTmp;
-        [ObservableProperty]
-        private CustomerInfoView customerInfoView;
         [RelayCommand]
         private void InteractEmployee(User user)
         {

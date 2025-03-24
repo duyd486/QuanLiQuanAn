@@ -6,6 +6,13 @@
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/GenericTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.Background>
@@ -171,42 +178,7 @@
 
                                         <Grid.Resources>
                                             <ResourceDictionary>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Background" Value="#F8E8D9"/>
-                                                    <Setter Property="Foreground" Value="#521C10"/>
-                                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                                    <Setter Property="FontSize" Value="18"/>
-                                                    <Setter Property="Margin" Value="4"/>
-                                                    <Setter Property="Cursor" Value="Hand"/>
-                                                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                                                    <Setter Property="Effect">
-                                                        <Setter.Value>
-                                                            <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border
-                                                               Background="{TemplateBinding Background}"
-                                                               BorderThickness="0"
-                                                               CornerRadius="10">
-                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Effect">
-                                                                <Setter.Value>
-                                                                    <DropShadowEffect Opacity="0"/>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-
+                                                <Style TargetType="Button" BasedOn="{StaticResource InteractButton}"/>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
                                                     <Setter Property="Foreground" Value="#F5EFDF"/>

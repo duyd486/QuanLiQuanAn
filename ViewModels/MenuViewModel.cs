@@ -18,26 +18,22 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class MenuViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<Dish> dishOb;
+        private bool isEdit;
 
-        [ObservableProperty]
-        private ObservableCollection<Dishlist> dishlistOb;
+        [ObservableProperty] private ObservableCollection<Dish> dishOb;
+        [ObservableProperty] private ObservableCollection<Dishlist> dishlistOb;
+        [ObservableProperty] private Visibility isLoading;
+        [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private string? nameSearch = "";
+        [ObservableProperty] Dish? dishTmp;
+        [ObservableProperty] Dishlist dishlistTmp;
+        [ObservableProperty] private AddDishView addDishView;
 
         public ObservableCollection<string> SortItems { get; } =
         [
         "All"
         ];
 
-        [ObservableProperty]
-        private Visibility isLoading;
-
-
-        [ObservableProperty]
-        private string? selectedSortItem;
-
-        [ObservableProperty]
-        private string? nameSearch = "";
         partial void OnNameSearchChanged(string? value)
         {
             SearchByName(value);
@@ -118,13 +114,8 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-        [ObservableProperty]
-        Dish? dishTmp;
-        [ObservableProperty]
-        Dishlist dishlistTmp;
-        [ObservableProperty]
-        private AddDishView addDishView;
-        private bool isEdit;
+
+
         [RelayCommand]
         private void InteractDish(Dish dish)
         {

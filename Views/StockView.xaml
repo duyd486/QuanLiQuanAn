@@ -6,6 +6,13 @@
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/GenericTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>
@@ -128,7 +135,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Button Content="{Binding}" 
-                                 Command="{Binding DataContext.SortDishCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                 Command="{Binding DataContext.SortIngredientCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                  CommandParameter="{Binding}"
                                  />
                             </DataTemplate>
@@ -148,17 +155,17 @@
                 <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
             </StackPanel>
             <ScrollViewer Margin="30 10 0 0" Grid.Column="0" VerticalScrollBarVisibility="Hidden">
-                <ItemsControl Name="item" ItemsSource="{Binding DishOb}">
+                <ItemsControl Name="item" ItemsSource="{Binding IngredientOb}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border 
-                         Width="300"
-                         Height="300"
-                         Margin="0 0 20 32"
-                         BorderBrush="LightGray"
-                         Background="#BC4C33"
-                         CornerRadius="16"
-                         BorderThickness="0">
+                                 Width="300"
+                                 Height="300"
+                                 Margin="0 0 20 32"
+                                 BorderBrush="LightGray"
+                                 Background="#BC4C33"
+                                 CornerRadius="16"
+                                 BorderThickness="0">
                                 <Border.Effect>
                                     <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
                                 </Border.Effect>
@@ -171,43 +178,7 @@
 
                                     <Grid.Resources>
                                         <ResourceDictionary>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Background" Value="#F8E8D9"/>
-                                                <Setter Property="Foreground" Value="#521C10"/>
-                                                <Setter Property="FontWeight" Value="SemiBold"/>
-                                                <Setter Property="FontSize" Value="18"/>
-                                                <Setter Property="Margin" Value="4"/>
-                                                <Setter Property="Cursor" Value="Hand"/>
-                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                                                <Setter Property="Effect">
-                                                    <Setter.Value>
-                                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border
-                                                         Background="{TemplateBinding Background}"
-                                                         BorderThickness="0"
-                                                         CornerRadius="10">
-                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsPressed" Value="True">
-                                                        <Setter Property="Effect">
-                                                            <Setter.Value>
-                                                                <DropShadowEffect Opacity="0"/>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                        <Setter Property="Margin" Value="4 6 4 2"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-
+                                            <Style TargetType="Button" BasedOn="{StaticResource InteractButton}"/>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
                                                 <Setter Property="Foreground" Value="#F5EFDF"/>
@@ -215,7 +186,6 @@
                                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                                                 <Setter Property="FontSize" Value="14"/>
                                             </Style>
-
                                             <Style TargetType="Image">
                                                 <Setter Property="Margin" Value="4"/>
                                                 <Setter Property="Stretch" Value="UniformToFill"/>
@@ -223,7 +193,7 @@
                                             </Style>
                                         </ResourceDictionary>
                                     </Grid.Resources>
-                                    <Image Grid.Row="0" Source="/Assets/Images/Employee.png" Stretch="Fill"/>
+                                    <Image Grid.Row="0" Source="/Assets/Images/Galic.png" Stretch="Fill"/>
 
                                     <Grid Grid.Row="1">
                                         <Grid.RowDefinitions>
@@ -232,15 +202,15 @@
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0"  FontSize="18" FontWeight="Bold" Text="{Binding Name, StringFormat='Name: {0}'}"/>
-                                        <TextBlock Grid.Row="2"  Text="{Binding Price, StringFormat='Price: {0}'}"/>
+                                        <TextBlock Grid.Row="2"  Text="{Binding Quantity, StringFormat='Quantity: {0}'}"/>
                                     </Grid>
                                     <Grid Grid.Row="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Content="Edit/Info" Command="{Binding ElementName=item, Path=DataContext.InteractDishCommand}" CommandParameter="{Binding}"/>
-                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.DeleteDishCommand}" CommandParameter="{Binding}" />
+                                        <Button Grid.Column="0" Content="Edit/Info" Command="{Binding ElementName=item, Path=DataContext.InteractIngredientCommand}" CommandParameter="{Binding}"/>
+                                        <Button Grid.Column="1" Content="Delete" Command="{Binding ElementName=item, Path=DataContext.DeleteIngredientCommand}" CommandParameter="{Binding}" />
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -261,54 +231,18 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="#BC4C33"/>
-                            <Setter Property="Foreground" Value="#FFFFFF"/>
-                            <Setter Property="FontWeight" Value="Medium"/>
-                            <Setter Property="FontSize" Value="24"/>
-                            <Setter Property="Margin" Value="0 0 20 12"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border
-                                     Background="{TemplateBinding Background}"
-                                     BorderThickness="0"
-                                     CornerRadius="14">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Effect">
-                                        <Setter.Value>
-                                            <DropShadowEffect Opacity="0"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Margin" Value="0 2 20 10"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource AddButton}"/>
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Add Dish" Command="{Binding AddDishCommand}" Grid.Row="0"/>
+                    <Button Content="Add Ingredient" Command="{Binding AddIngredientCommand}" Grid.Row="0"/>
                     <Button Content="Import Excel" Command="{Binding ImportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
                     <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
                 </Grid>
             </Grid>
-
         </Grid>
     </Grid>
 </UserControl>

@@ -7,31 +7,35 @@
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Title="CustomerInfoView" Height="900" Width="800">
+        Title="CustomerInfoView" Height="740" Width="800">
     <Window.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ModalTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <Style TargetType="TextBlock">
                 <Setter Property="FontSize" Value="24"/>
                 <Setter Property="Margin" Value="20 12 0 0"/>
             </Style>
-            <Style TargetType="TextBox">
+            <Style TargetType="TextBox" BasedOn="{StaticResource ModalTextBox}">
                 <Setter Property="Margin" Value="20 48 20 0"/>
                 <Setter Property="FontSize" Value="28"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-
+            </Style>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ModalCombobox}">
+                
             </Style>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#FFEDDB">
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.6*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2.2*"/>
             <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" FontSize="40" Text="Customer Information"/>
@@ -62,11 +66,11 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Address"/>
-                <ComboBox Grid.Column="0" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding City, Mode=OneTime}" SelectedItem="{Binding InformationTmp.Address, Mode=OneTime}"/>
+                <ComboBox Grid.Column="0" FontSize="24" ItemsSource="{Binding City, Mode=OneTime}" SelectedItem="{Binding InformationTmp.Address, Mode=OneTime}"/>
                 <TextBlock Grid.Column="1" Text="Gender"/>
-                <ComboBox Grid.Column="1" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" ItemsSource="{Binding Gender, Mode=OneTime}" SelectedItem="{Binding InformationTmp.Gender, Mode=OneTime}" SelectedValue="{Binding InformationTmp.Gender, Mode=OneTime}"/>
+                <ComboBox Grid.Column="1" FontSize="24" ItemsSource="{Binding Gender, Mode=OneTime}" SelectedItem="{Binding InformationTmp.Gender, Mode=OneTime}" SelectedValue="{Binding InformationTmp.Gender, Mode=OneTime}"/>
                 <TextBlock Grid.Column="2" Text="Status"/>
-                <ComboBox Grid.Column="2" Margin="20 48 20 0" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding UserTmp.Status, Mode=OneTime}">
+                <ComboBox Grid.Column="2" FontSize="24" SelectedIndex="{Binding UserTmp.Status, Mode=OneTime}">
                     <ComboBoxItem Height="0"></ComboBoxItem>
                     <ComboBoxItem>Chưa xác thực</ComboBoxItem>
                     <ComboBoxItem>Đã xác thực</ComboBoxItem>
@@ -80,29 +84,12 @@
         </Grid>
 
         <Grid Grid.Row="5">
-            
-        </Grid>
-
-        <ScrollViewer Grid.Row="6" Margin="20">
-
-        </ScrollViewer>
-
-        <Grid Grid.Row="7">
-            <Grid.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#BC4C33"/>
-                    <Setter Property="Margin" Value="10 24 20 24"/>
-                    <Setter Property="Foreground" Value="#F5EFDF"/>
-                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
-                    <Setter Property="FontSize" Value="24"/>
-                </Style>
-            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Content="Apply" IsCancel="True"/>
+            <Button Grid.Column="2" Content="Apply" IsCancel="True" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>

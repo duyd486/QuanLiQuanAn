@@ -18,27 +18,22 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class EmployeeViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private ObservableCollection<Employee> employeeOb;
+        private AddEmployeeView addEmployeeView;
+        private bool isEdit;
 
-        [ObservableProperty]
-        private List<SalaryBill> salaryBillOb;
-
-        [ObservableProperty]
-        private bool isActive = true;
-        partial void OnIsActiveChanged(bool value)
-        {
-            _ = GetAll();
-        }
-
+        [ObservableProperty] private ObservableCollection<Employee> employeeOb;
+        [ObservableProperty] private List<SalaryBill> salaryBillOb;
+        [ObservableProperty] Employee? employeeTmp;
+        [ObservableProperty] Information informationTmp;
+        [ObservableProperty] private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+        [ObservableProperty] private Visibility isLoading;
+        [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private string? nameSearch = "";
+        [ObservableProperty] private bool isActive = true;
         public ObservableCollection<string> SortItems { get; } =
         [
         "All", "Waitress", "Cashier", "Chef"
         ];
-
-        [ObservableProperty]
-        private Visibility isLoading;
-
         public IEnumerable<string> Gender { get; } =
         [
             "Male" , "Female"
@@ -58,12 +53,10 @@ namespace QuanLiQuanAn.ViewModels
             "Vinh Phuc", "Yen Bai"
         ];
 
-
-        [ObservableProperty]
-        private string? selectedSortItem;
-
-        [ObservableProperty]
-        private string? nameSearch = "";
+        partial void OnIsActiveChanged(bool value)
+        {
+            _ = GetAll();
+        }
         partial void OnNameSearchChanged(string? value)
         {
             SearchByName(value);
@@ -71,6 +64,7 @@ namespace QuanLiQuanAn.ViewModels
 
         public EmployeeViewModel()
         {
+            Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             EmployeeOb = new ObservableCollection<Employee>();
             SalaryBillOb = new List<SalaryBill>();
             IsActive = true;
@@ -88,7 +82,6 @@ namespace QuanLiQuanAn.ViewModels
             IsLoading = Visibility.Hidden;
 
         }
-
 
         [RelayCommand]
         private async Task GetAll()
@@ -115,6 +108,7 @@ namespace QuanLiQuanAn.ViewModels
             }
             SelectedSortItem = "All";
         }
+
         [RelayCommand]
         private void SortRole(string roleStr)
         {
@@ -159,15 +153,6 @@ namespace QuanLiQuanAn.ViewModels
             }
         }
 
-
-        [ObservableProperty]
-        Employee? employeeTmp;
-        [ObservableProperty]
-        Information informationTmp;
-        [ObservableProperty]
-        private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
-        private AddEmployee addEmployeeView;
-        private bool isEdit;
         [RelayCommand]
         private void InteractEmployee(Employee employee)
         {
@@ -194,6 +179,7 @@ namespace QuanLiQuanAn.ViewModels
             addEmployeeView.DataContext = this;
             addEmployeeView.ShowDialog();
         }
+
         [RelayCommand] 
         private void ApplyEmployee(string sender)
         {
@@ -223,6 +209,7 @@ namespace QuanLiQuanAn.ViewModels
             
             MessageBox.Show("Dừng hoạt động nhân viên thành công");
         }
+
         [RelayCommand]
         private void PayBill(SalaryBill salaryBill)
         {
