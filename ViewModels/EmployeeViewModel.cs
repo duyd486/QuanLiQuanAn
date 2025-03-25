@@ -351,13 +351,12 @@ namespace QuanLiQuanAn.ViewModels
 
         private void SearchByName(string name)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
+            SortRole(SelectedSortItem);
+            for(int i = 0; i < EmployeeOb.Count; i++)
             {
-                if (employee.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (!EmployeeOb[i].Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    EmployeeOb.Add(employee);
+                    EmployeeOb.Remove(EmployeeOb[i]);
                 }
             }
         }

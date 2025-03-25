@@ -31,8 +31,6 @@ namespace QuanLiQuanAn.ViewModels
         ];
 
 
-
-
         partial void OnNameSearchChanged(string? value)
         {
             SearchByName(value);
@@ -70,10 +68,10 @@ namespace QuanLiQuanAn.ViewModels
             }
         }
         [RelayCommand]
-        private void SortDish(string dishStr)
+        private void SortIngredient(string ingredientStr)
         {
-            SelectedSortItem = dishStr;
-            switch (dishStr)
+            SelectedSortItem = ingredientStr;
+            switch (ingredientStr)
             {
                 case "All":
                     _ = GetAll();
@@ -279,13 +277,12 @@ namespace QuanLiQuanAn.ViewModels
 
         private void SearchByName(string name)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            IngredientOb.Clear();
-            foreach (Ingredient ingredient in db.Ingredients)
+            SortIngredient(SelectedSortItem);
+            for (int i = 0; i < IngredientOb.Count; i++)
             {
-                if (ingredient.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (!IngredientOb[i].Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    IngredientOb.Add(ingredient);
+                    IngredientOb.Remove(IngredientOb[i]);
                 }
             }
         }

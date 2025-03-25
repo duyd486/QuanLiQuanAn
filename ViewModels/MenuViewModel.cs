@@ -24,11 +24,13 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private ObservableCollection<Dishlist> dishlistOb;
         [ObservableProperty] private Visibility isLoading;
         [ObservableProperty] private string? selectedSortItem;
+        [ObservableProperty] private string selectedDishlist;
         [ObservableProperty] private string? nameSearch = "";
         [ObservableProperty] Dish? dishTmp;
         [ObservableProperty] Dishlist dishlistTmp;
         [ObservableProperty] private AddDishView addDishView;
 
+        public ObservableCollection<string> DishlistsStr { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> SortItems { get; } =
         [
         "All"
@@ -79,12 +81,14 @@ namespace QuanLiQuanAn.ViewModels
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
             await Task.Delay(100);
             DishlistOb.Clear();
+            DishlistsStr.Clear();
             SortItems.Clear();
             SortItems.Add("All");
             foreach (Dishlist dishlist in db.Dishlists.OrderByDescending(e => e.Id))
             {
                 DishlistOb.Add(dishlist);
                 SortItems.Add(dishlist.Name);
+                DishlistsStr.Add(dishlist.Name);
             }
             SelectedSortItem = "All";
         }
@@ -185,7 +189,6 @@ namespace QuanLiQuanAn.ViewModels
             //    Console.WriteLine(salaryBill.EmployeeId);
             //}
             //Console.WriteLine("Delete" + EmployeeTmp.Id);
-
         }
 
         [RelayCommand]
@@ -239,8 +242,6 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-        [ObservableProperty]
-        private string selectedDishlist;
         private void UpdateDish()
         {
             try
@@ -308,13 +309,12 @@ namespace QuanLiQuanAn.ViewModels
 
         private void SearchByName(string name)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            DishOb.Clear();
-            foreach (Dish dish in db.Dishes)
+            SortDish(SelectedSortItem);
+            for (int i = 0; i < DishOb.Count; i++)
             {
-                if (dish.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (!DishOb[i].Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DishOb.Add(dish);
+                    DishOb.Remove(DishOb[i]);
                 }
             }
         }

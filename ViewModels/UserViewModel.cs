@@ -125,13 +125,12 @@ namespace QuanLiQuanAn.ViewModels
         }
         private void SearchByName(string name)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            UserOb.Clear();
-            foreach (User user in db.Users.Include(e => e.Information).ToList())
+            SortGender(SelectedSortItem);
+            for (int i = 0; i < UserOb.Count; i++)
             {
-                if (user.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (!UserOb[i].Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    UserOb.Add(user);
+                    UserOb.Remove(UserOb[i]);
                 }
             }
         }
