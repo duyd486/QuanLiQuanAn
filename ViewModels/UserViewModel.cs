@@ -10,6 +10,7 @@ using QuanLiQuanAn.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 using QuanLiQuanAn.Views;
+using QuanLiQuanAn.Views.Modals;
 using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -25,7 +26,7 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private string? nameSearch = "";
         [ObservableProperty] User? userTmp;
         [ObservableProperty] Information informationTmp;
-        [ObservableProperty] private CustomerInfoView customerInfoView;
+        [ObservableProperty] private ModalCustomerView modalCustomerView;
         public ObservableCollection<string> SortItems { get; } =
         [
         "All", "Male", "Female"
@@ -119,9 +120,9 @@ namespace QuanLiQuanAn.ViewModels
             InformationTmp = new();
             InformationTmp = user.Information;
 
-            customerInfoView = new();
-            customerInfoView.DataContext = this;
-            customerInfoView.ShowDialog();
+            modalCustomerView = new();
+            modalCustomerView.DataContext = this;
+            modalCustomerView.ShowDialog();
         }
         private void SearchByName(string name)
         {

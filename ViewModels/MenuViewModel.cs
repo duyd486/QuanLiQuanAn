@@ -8,17 +8,21 @@ using System.IO;
 using QuanLiQuanAn.DBContext;
 using QuanLiQuanAn.Models;
 using QuanLiQuanAn.Views;
+using QuanLiQuanAn.Views.Modals;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.Windows.Input;
 
 namespace QuanLiQuanAn.ViewModels
 {
     public partial class MenuViewModel : ObservableObject
     {
         private bool isEdit;
+        private ModalDishView modalDishView;
+        private ModalDishlistView modalDishlistView;
 
         [ObservableProperty] private ObservableCollection<Dish> dishOb;
         [ObservableProperty] private ObservableCollection<Dishlist> dishlistOb;
@@ -28,7 +32,6 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private string? nameSearch = "";
         [ObservableProperty] Dish? dishTmp;
         [ObservableProperty] Dishlist dishlistTmp;
-        [ObservableProperty] private AddDishView addDishView;
 
         public ObservableCollection<string> DishlistsStr { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> SortItems { get; } =
@@ -63,8 +66,6 @@ namespace QuanLiQuanAn.ViewModels
             IsLoading = Visibility.Hidden;
 
         }
-
-
 
         private async Task GetAllDish()
         {
@@ -118,44 +119,104 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
+        [RelayCommand]
+        private void InteractDishlist(string name)
+        {
+            isEdit = true;
+            if (name == "All")
+            {
+                MessageBox.Show("Cant Interact With All!!!");
+                return;
+            }
+            DishlistTmp = new();
+            foreach(Dishlist dishlist in Singleton.DatabaseSingleton.GetInstance().db.Dishlists.Where(e => e.Name == name))
+            {
+                DishlistTmp = dishlist;
+            }
+            modalDishlistView = new();
+            modalDishlistView.DataContext = this;
+            modalDishlistView.ShowDialog();
+        }
+        [RelayCommand]
+        private void AddDishlist()
+        {
+            isEdit = false;
+            DishlistTmp = new();
 
+            modalDishlistView = new();
+            modalDishlistView.DataContext = this;
+            modalDishlistView.ShowDialog();
+        }
+        [RelayCommand]
+        private void ApplyDishlist(string sender)
+        {
+            if (sender == "Apply")
+            {
+                if (!isEdit)
+                {
+                    SaveNew(DishlistTmp);
+                    MessageBox.Show("Add completed!!!");
+                    _ = GetAllDishlist();
+                }
+                else
+                {
+                    Update(DishlistTmp);
+                    MessageBox.Show("Edit completed!!!");
+                    _ = GetAllDishlist();
+                }
+            }
+            modalDishlistView.Close();
+        }
+        [RelayCommand]
+        private void DeleteDishlist(string name)
+        {
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            if (name == "All")
+            {
+                MessageBox.Show("Cant Interact With All!!!");
+                return;
+            }
+            DishlistTmp = new();
+            foreach (Dishlist dishlist in db.Dishlists.Where(e => e.Name == name))
+            {
+                DishlistTmp = dishlist;
+            }
+            foreach(Dish dish in db.Dishes.Where(e => e.Dishlist == DishlistTmp))
+            {
+                dish.Dishlist = null;
+            }
+            db.Dishlists.Remove(DishlistTmp);
+            db.SaveChanges();
+            db.Entry(DishlistTmp).State = EntityState.Detached;
+            MessageBox.Show("Delete Completed");
+            _ = GetAllDishlist();
+            _ = GetAllDish();
+        }
 
         [RelayCommand]
         private void InteractDish(Dish dish)
         {
             isEdit = true;
-            SelectedDishlist = dish.Dishlist.Name;
+            SelectedDishlist = dish.Dishlist?.Name;
             DishTmp = new();
             DishTmp = dish;
 
             DishlistTmp = new();
             DishlistTmp = dish.Dishlist;
 
-            addDishView = new();
-            addDishView.DataContext = this;
-            addDishView.ShowDialog();
+            modalDishView = new();
+            modalDishView.DataContext = this;
+            modalDishView.ShowDialog();
         }
-        [RelayCommand]
-        private void InteractDishlist(string name)
-        {
-            //Console.WriteLine("Edit " + name);
-        }
-        [RelayCommand]
-        private void DeleteDishlist(string name)
-        {
-            //Console.WriteLine("Delete " + name);
-        }
-
         [RelayCommand]
         private void AddDish()
         {
             isEdit = false;
             DishTmp = new();
 
-
-            addDishView = new();
-            addDishView.DataContext = this;
-            addDishView.ShowDialog();
+            modalDishView = new();
+            modalDishView.DataContext = this;
+            modalDishView.ShowDialog();
         }
         [RelayCommand]
         private void ApplyDish(string sender)
@@ -164,104 +225,67 @@ namespace QuanLiQuanAn.ViewModels
             {
                 if (!isEdit)
                 {
-                    SaveNewDish();
+                    SaveNew(DishTmp);
+                    SortDish(SelectedSortItem);
+                    MessageBox.Show("Them thanh cong");
                 }
                 else
                 {
-                    UpdateDish();
-                    string selectedSortTmp = SelectedSortItem;
-                    SortDish(selectedSortTmp);
+                    Update(DishTmp);
+                    SortDish(SelectedSortItem);
+                    MessageBox.Show("Sua thanh cong");
                 }
             }
-            addDishView.Close();
+            modalDishView.Close();
         }
 
         [RelayCommand]
         private void DeleteDish(Dish dish)
         {
-            //EmployeeTmp = new();
-            //EmployeeTmp = employee;
-            //QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            //SalaryBillOb.Clear();
-            //SalaryBillOb = (List<SalaryBill>)EmployeeTmp.SalaryBills;
-            //foreach (SalaryBill salaryBill in SalaryBillOb)
-            //{
-            //    Console.WriteLine(salaryBill.EmployeeId);
-            //}
-            //Console.WriteLine("Delete" + EmployeeTmp.Id);
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            db.Dishes.Remove(dish);
+            db.SaveChanges();
+            db.Entry(dish).State = EntityState.Detached;
+            SortDish(SelectedSortItem);
+            MessageBox.Show("Delete Completed");
         }
 
-        [RelayCommand]
-        private void ImportExcel()
-        {
-            //string filePath = "";
-            //OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //if (openFileDialog.ShowDialog() == true)
-            //{
-            //    filePath = openFileDialog.FileName;
-            //}
-            //if (filePath == "")
-            //{
-            //    return;
-            //}
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-
-            //    var package = new ExcelPackage(new FileInfo(filePath));
-            //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            //    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
-            //    for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
-            //    {
-            //        SalaryBill salaryBill = new SalaryBill();
-            //        salaryBill.Id = db.SalaryBills.IsNullOrEmpty() ? 1 : db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
-
-            //        int employeeIdCollum = 1;
-            //        salaryBill.EmployeeId = Convert.ToInt32(worksheet.Cells[i, employeeIdCollum].Value);
-
-            //        int totalShiftCollum = 3;
-            //        salaryBill.TotalShifts = Convert.ToInt32(worksheet.Cells[i, totalShiftCollum].Value);
-
-            //        salaryBill.Status = 1;
-
-            //        int timeCollum = 7;
-            //        string? timeStr = worksheet.Cells[i, timeCollum].Value.ToString();
-            //        salaryBill.Time = DateOnly.Parse(timeStr.Substring(0, timeStr.IndexOf(" ")));
-
-            //        db.SalaryBills.Add(salaryBill);
-            //        db.SaveChanges();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
-        }
-
-
-        private void UpdateDish()
+        private void Update(Dish dish)
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-                //if (EmployeeTmp.Salary.ToString() == "")
-                //{
-                //    Exception exception = new Exception("Salary was write in wrong condiction");
-                //    throw exception;
-                //}
-                foreach(Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                if (DishTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is emty");
+                    throw exception;
+                }
+                foreach (Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
                 {
                     DishTmp.Dishlist = dishlist;
                 }
                 db.Dishes.Update(DishTmp);
                 db.SaveChanges();
                 db.Entry(DishTmp).State = EntityState.Detached;
-
-                MessageBox.Show("Sua thanh cong");
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void Update(Dishlist dishlist)
+        {
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                if (DishlistTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is emty");
+                    throw exception;
+                }
+                db.Dishlists.Update(DishlistTmp);
+                db.SaveChanges();
+                db.Entry(DishlistTmp).State = EntityState.Detached;
             }
             catch (Exception ex)
             {
@@ -269,42 +293,50 @@ namespace QuanLiQuanAn.ViewModels
             }
         }
 
-        private void SaveNewDish()
+
+        private void SaveNew(Dish dish)
         {
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            //    InformationTmp.Id = db.Informations.IsNullOrEmpty() ? 1 : db.Informations.OrderBy(e => e.Id).Last().Id + 1;
-            //    EmployeeTmp.Id = db.Employees.IsNullOrEmpty() ? 1 : db.Employees.OrderBy(e => e.Id).Last().Id + 1;
-            //    EmployeeTmp.InformationId = InformationTmp.Id;
-            //    InformationTmp.Birth = Date;
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                DishTmp.Id = db.Dishes.IsNullOrEmpty() ? 1 : db.Dishes.OrderBy(e => e.Id).Last().Id + 1;
 
-            //    if (EmployeeTmp.Salary.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Salary was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.CitizenId.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.Name == "")
-            //    {
-            //        Exception exception = new Exception("Name is emty");
-            //        throw exception;
-            //    }
+                if (DishTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is emty");
+                    throw exception;
+                }
+                foreach (Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
+                {
+                    DishTmp.Dishlist = dishlist;
+                }
+                db.Dishes.Add(DishTmp);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void SaveNew(Dishlist dishlist)
+        {
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                DishlistTmp.Id = db.Dishlists.IsNullOrEmpty() ? 1 : db.Dishlists.OrderBy(e => e.Id).Last().Id + 1;
 
-            //    db.Informations.Add(InformationTmp);
-            //    db.Employees.Add(EmployeeTmp);
-            //    db.SaveChanges();
-            //    MessageBox.Show("Them thanh cong");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
+                if (DishlistTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is emty");
+                    throw exception;
+                }
+                db.Dishlists.Add(DishlistTmp);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SearchByName(string name)

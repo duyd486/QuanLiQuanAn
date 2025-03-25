@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace QuanLiQuanAn.Views
+namespace QuanLiQuanAn.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for CustomerInfoView.xaml
+    /// Interaction logic for ModalCustomerView.xaml
     /// </summary>
-    public partial class CustomerInfoView : Window
+    public partial class ModalCustomerView : Window
     {
-        public CustomerInfoView()
+        public ModalCustomerView()
         {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
     }

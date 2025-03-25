@@ -1,0 +1,58 @@
+﻿<Window x:Class="QuanLiQuanAn.Views.Modals.ModalIngredientView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuanLiQuanAn.Views.Modals"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Title="ModalIngredientView" Height="560" Width="450">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/ModalTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="#FFEDDB">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource ModalTextBlock}"/>
+            <Style TargetType="TextBox" BasedOn="{StaticResource ModalTextBox}"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#BC4C33" Grid.Row="0" >
+            <TextBlock 
+             Text="{Binding IngredientTmp.Id, StringFormat='Ingredient Id: {0}'}" 
+             FontSize="36"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+             TextAlignment="Center"
+             Background="#BC4C33" 
+             Foreground="#F5EFDF"/>
+        </Border>
+
+        <TextBlock Grid.Row="1" Text="Name"/>
+        <TextBox Grid.Row="1" Text="{Binding IngredientTmp.Name, Mode=TwoWay}" Margin="20 40 20 6"/>
+
+        <TextBlock Grid.Row="2" Text="Quantity"/>
+        <TextBox Grid.Row="2" Text="{Binding IngredientTmp.Quantity, Mode=TwoWay}" Margin="20 40 20 6"/>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyIngredientCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyIngredientCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
+        </Grid>
+    </Grid>
+</Window>

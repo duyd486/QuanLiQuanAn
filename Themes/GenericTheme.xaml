@@ -39,6 +39,32 @@
         </Setter>
     </Style>
 
+    <Style x:Key="IconButton" TargetType="Button">
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontAwesome}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#F5EFDF"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                 Background="{TemplateBinding Background}"
+                 BorderThickness="0"
+                 CornerRadius="14">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="FontSize" Value="24"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+
     <Style x:Key="AddButton" TargetType="Button">
         <Setter Property="Background" Value="#BC4C33"/>
         <Setter Property="Foreground" Value="#FFFFFF"/>
@@ -76,7 +102,6 @@
         </Style.Triggers>
     </Style>
 
-
     <Style x:Key="InteractButton" TargetType="Button">
         <Setter Property="Background" Value="#F8E8D9"/>
         <Setter Property="Foreground" Value="#521C10"/>
@@ -94,9 +119,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border
-                    Background="{TemplateBinding Background}"
-                    BorderThickness="0"
-                    CornerRadius="10">
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0"
+                        CornerRadius="10">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
@@ -113,4 +138,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
 </ResourceDictionary>

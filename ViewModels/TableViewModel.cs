@@ -13,12 +13,13 @@ using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using QuanLiQuanAn.Views;
 using System.Windows.Input;
+using QuanLiQuanAn.Views.Modals;
 
 namespace QuanLiQuanAn.ViewModels
 {
     public partial class TableViewModel : ObservableObject
     {
-        private AddTableView addTableView;
+        private ModalTableView modalTableView;
         private bool isEdit;
 
         [ObservableProperty] private ObservableCollection<Table> tableOb;
@@ -117,9 +118,9 @@ namespace QuanLiQuanAn.ViewModels
             TableTmp = new();
             TableTmp = table;
 
-            addTableView = new();
-            addTableView.DataContext = this;
-            addTableView.ShowDialog();
+            modalTableView = new();
+            modalTableView.DataContext = this;
+            modalTableView.ShowDialog();
         }
 
         [RelayCommand]
@@ -127,9 +128,9 @@ namespace QuanLiQuanAn.ViewModels
         {
             isEdit = false;
             TableTmp = new();
-            addTableView = new();
-            addTableView.DataContext = this;
-            addTableView.ShowDialog();
+            modalTableView = new();
+            modalTableView.DataContext = this;
+            modalTableView.ShowDialog();
         }
 
         [RelayCommand]
@@ -150,7 +151,7 @@ namespace QuanLiQuanAn.ViewModels
                     MessageBox.Show("Sua thanh cong");
                 }
             }
-            addTableView.Close();
+            modalTableView.Close();
         }
 
         [RelayCommand]

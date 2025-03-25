@@ -176,19 +176,15 @@
                                          Command="{Binding DataContext.SortDishCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                          CommandParameter="{Binding}"/>
                                     <Button Grid.Column="1" 
-                                            Width="40" 
-                                            FontFamily="{StaticResource FontAwesome}" 
                                             Content="&#xf044;" 
-                                            Background="Transparent" 
                                             Command="{Binding DataContext.InteractDishlistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource IconButton}"/>
                                     <Button Grid.Column="2" 
-                                            Width="40" 
-                                            FontFamily="{StaticResource FontAwesome}" 
                                             Content="&#xf1f8;" 
-                                            Background="Transparent" 
                                             Command="{Binding DataContext.DeleteDishlistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource IconButton}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -196,10 +192,10 @@
 
                     <Button Grid.Column="1" 
                             Content="&#x2b;"
-                            FontFamily="{StaticResource FontAwesome}"
                             Width="60"
                             HorizontalAlignment="Center"
-                            />
+                            Style="{StaticResource IconButton}"
+                            Command="{Binding AddDishlistCommand}"/>
 
                 </Grid>
             </Border>

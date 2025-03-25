@@ -13,12 +13,13 @@ using System.Windows;
 using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using QuanLiQuanAn.Views.Modals;
 
 namespace QuanLiQuanAn.ViewModels
 {
     public partial class EmployeeViewModel : ObservableObject
     {
-        private AddEmployeeView addEmployeeView;
+        private ModalEmployeeView modalEmployeeView;
         private bool isEdit;
 
         [ObservableProperty] private ObservableCollection<Employee> employeeOb;
@@ -162,9 +163,9 @@ namespace QuanLiQuanAn.ViewModels
             InformationTmp = new();
             InformationTmp = employee.Information;
 
-            addEmployeeView = new();
-            addEmployeeView.DataContext = this;
-            addEmployeeView.ShowDialog();
+            modalEmployeeView = new();
+            modalEmployeeView.DataContext = this;
+            modalEmployeeView.ShowDialog();
         }
 
         [RelayCommand]
@@ -174,10 +175,9 @@ namespace QuanLiQuanAn.ViewModels
             InformationTmp = new();
             EmployeeTmp = new();
 
-
-            addEmployeeView = new();
-            addEmployeeView.DataContext = this;
-            addEmployeeView.ShowDialog();
+            modalEmployeeView = new();
+            modalEmployeeView.DataContext = this;
+            modalEmployeeView.ShowDialog();
         }
 
         [RelayCommand] 
@@ -195,7 +195,7 @@ namespace QuanLiQuanAn.ViewModels
                 }
             }
             _ = GetAll();
-            addEmployeeView.Close();
+            modalEmployeeView.Close();
         }
 
         [RelayCommand]
@@ -213,7 +213,7 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void PayBill(SalaryBill salaryBill)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             salaryBill.Status = 2;
             db.SalaryBills.Update(salaryBill);
             db.SaveChanges();

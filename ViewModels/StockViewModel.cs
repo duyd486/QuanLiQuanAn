@@ -13,11 +13,16 @@ using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using QuanLiQuanAn.Views;
+using QuanLiQuanAn.Views.Modals;
+using System.Windows.Input;
 
 namespace QuanLiQuanAn.ViewModels
 {
     public partial class StockViewModel : ObservableObject
     {
+        private ModalIngredientView modalIngredientView;
+        private bool isEdit;
+
         [ObservableProperty] private ObservableCollection<Ingredient> ingredientOb;
         [ObservableProperty] private Visibility isLoading;
         [ObservableProperty] private string? selectedSortItem;
@@ -77,75 +82,59 @@ namespace QuanLiQuanAn.ViewModels
                     _ = GetAll();
                     return;
             }
-            //QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            //DishOb.Clear();
-            
-            //foreach (Dish dish in DishlistOb)
-            //{
-                
-            //}
         }
 
 
-        //[ObservableProperty]
-        //private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
-        private AddIngredientView addIngredientView;
-        private bool isEdit;
         [RelayCommand]
         private void InteractIngredient(Ingredient ingredient)
         {
             isEdit = true;
-            //EmployeeTmp = new();
-            //EmployeeTmp = employee;
-            //InformationTmp = new();
-            //InformationTmp = employee.Information;
+            IngredientTmp = new();
+            IngredientTmp = ingredient;
 
-            //addEmployeeView = new();
-            //addEmployeeView.DataContext = this;
-            //addEmployeeView.ShowDialog();
+            modalIngredientView = new();
+            modalIngredientView.DataContext = this;
+            modalIngredientView.ShowDialog();
         }
 
         [RelayCommand]
         private void AddIngredient()
         {
-            //isEdit = false;
-            //InformationTmp = new();
-            //EmployeeTmp = new();
-            //addEmployeeView = new();
-            //addEmployeeView.DataContext = this;
-            //addEmployeeView.ShowDialog();
+            isEdit = false;
+
+            IngredientTmp = new();
+
+            modalIngredientView = new();
+            modalIngredientView.DataContext = this;
+            modalIngredientView.ShowDialog();
         }
         [RelayCommand]
         private void ApplyIngredient(string sender)
         {
-            //if (sender == "Apply")
-            //{
-            //    if (!isEdit)
-            //    {
-            //        SaveNewEmployee();
-            //    }
-            //    else
-            //    {
-            //        UpdateEmployee();
-            //    }
-            //}
-            //_ = GetAll();
-            //addEmployeeView.Close();
+            if (sender == "Apply")
+            {
+                if (!isEdit)
+                {
+                    SaveNewIngredient();
+                }
+                else
+                {
+                    UpdateIngredient();
+                }
+            }
+            _ = GetAll();
+            modalIngredientView.Close();
         }
 
         [RelayCommand]
         private void DeleteIngredient(Ingredient ingredient)
         {
-            //EmployeeTmp = new();
-            //EmployeeTmp = employee;
-            //QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            //SalaryBillOb.Clear();
-            //SalaryBillOb = (List<SalaryBill>)EmployeeTmp.SalaryBills;
-            //foreach (SalaryBill salaryBill in SalaryBillOb)
-            //{
-            //    Console.WriteLine(salaryBill.EmployeeId);
-            //}
-            //Console.WriteLine("Delete" + EmployeeTmp.Id);
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            db.Ingredients.Remove(ingredient);
+            db.SaveChanges();
+            db.Entry(ingredient).State = EntityState.Detached;
+            _ = GetAll();
+            MessageBox.Show("Delete Completed");
 
         }
 
@@ -203,75 +192,46 @@ namespace QuanLiQuanAn.ViewModels
 
         private void UpdateIngredient()
         {
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            //    if (EmployeeTmp.Salary.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Salary was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.CitizenId.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.Name == "")
-            //    {
-            //        Exception exception = new Exception("Name is emty");
-            //        throw exception;
-            //    }
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                if (IngredientTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is Null!!");
+                    throw exception;
+                }
+                db.Ingredients.Update(IngredientTmp);
+                db.SaveChanges();
+                db.Entry(IngredientTmp).State = EntityState.Detached;
 
-            //    db.Informations.Update(InformationTmp);
-            //    db.Employees.Update(EmployeeTmp);
-            //    db.SaveChanges();
-            //    db.Entry(InformationTmp).State = EntityState.Detached;
-
-            //    MessageBox.Show("Sua thanh cong");
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+                MessageBox.Show("Sua thanh cong");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
         private void SaveNewIngredient()
         {
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            //    InformationTmp.Id = db.Informations.IsNullOrEmpty() ? 1 : db.Informations.OrderBy(e => e.Id).Last().Id + 1;
-            //    EmployeeTmp.Id = db.Employees.IsNullOrEmpty() ? 1 : db.Employees.OrderBy(e => e.Id).Last().Id + 1;
-            //    EmployeeTmp.InformationId = InformationTmp.Id;
-            //    InformationTmp.Birth = Date;
+            try
+            {
+                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                IngredientTmp.Id = db.Ingredients.IsNullOrEmpty() ? 1 : db.Ingredients.OrderBy(e => e.Id).Last().Id + 1;
 
-            //    if (EmployeeTmp.Salary.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Salary was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.CitizenId.ToString() == "")
-            //    {
-            //        Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-            //        throw exception;
-            //    }
-            //    else if (InformationTmp.Name == "")
-            //    {
-            //        Exception exception = new Exception("Name is emty");
-            //        throw exception;
-            //    }
-
-            //    db.Informations.Add(InformationTmp);
-            //    db.Employees.Add(EmployeeTmp);
-            //    db.SaveChanges();
-            //    MessageBox.Show("Them thanh cong");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+                if (IngredientTmp.Name.ToString() == "")
+                {
+                    Exception exception = new Exception("Name is emty");
+                    throw exception;
+                }
+                db.Ingredients.Add(IngredientTmp);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 

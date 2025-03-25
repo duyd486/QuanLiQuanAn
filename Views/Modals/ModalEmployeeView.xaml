@@ -1,4 +1,4 @@
-﻿<Window x:Class="QuanLiQuanAn.Views.AddEmployeeView"
+﻿<Window x:Class="QuanLiQuanAn.Views.Modals.ModalEmployeeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
             <cv:TotalSalaryConverter x:Key="TotalSalaryConverter"/>
             <cv:PaymentStatusConverter x:Key="PaymentStatusConverter"/>
-            
+
             <Style TargetType="TextBlock">
                 <Setter Property="FontSize" Value="24"/>
                 <Setter Property="Margin" Value="20 12 0 0"/>

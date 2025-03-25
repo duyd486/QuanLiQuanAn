@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace QuanLiQuanAn.Views
+namespace QuanLiQuanAn.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for AddEmployeeView.xaml
+    /// Interaction logic for ModalTableView.xaml
     /// </summary>
-    public partial class AddEmployeeView : Window
+    public partial class ModalTableView : Window
     {
-        public AddEmployeeView()
+        public ModalTableView()
         {
             InitializeComponent();
         }

@@ -1,12 +1,13 @@
-﻿<Window x:Class="QuanLiQuanAn.Views.AddTableView"
+﻿<Window x:Class="QuanLiQuanAn.Views.Modals.ModalDishlistView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLiQuanAn.Views"
-        mc:Ignorable="d" 
+        xmlns:local="clr-namespace:QuanLiQuanAn.Views.Modals"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        Title="AddTableView" Height="300" Width="450">
+        Title="ModalDishlistView" Height="300" Width="450">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,6 +16,9 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="#FFEDDB">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource ModalTextBlock}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -23,7 +27,7 @@
 
         <Border Background="#BC4C33" Grid.Row="0" >
             <TextBlock 
-                 Text="{Binding TableTmp.Id, StringFormat='Table Id: {0}'}" 
+                 Text="{Binding DishlistTmp.Id, StringFormat='Dishlist Id: {0}'}" 
                  FontSize="36"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -31,8 +35,9 @@
                  Background="#BC4C33" 
                  Foreground="#F5EFDF"/>
         </Border>
-        
-        <TextBox Grid.Row="1" Text="{Binding TableTmp.Contain, Mode=TwoWay}" Margin="20" FontSize="32" VerticalContentAlignment="Center" Style="{StaticResource ModalTextBox}"/>
+
+        <TextBlock Grid.Row="1" Text="Name"/>
+        <TextBox Grid.Row="1" Text="{Binding DishlistTmp.Name, Mode=TwoWay}" Margin="20 40 20 6" FontSize="32" VerticalContentAlignment="Center" Style="{StaticResource ModalTextBox}"/>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -40,8 +45,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyTableCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
-            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyTableCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="1" Content="Cancel" Command="{Binding ApplyDishlistCommand}" CommandParameter="Cancel" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyDishlistCommand}" CommandParameter="Apply" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>

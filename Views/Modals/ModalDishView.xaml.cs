@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace QuanLiQuanAn.Views
+namespace QuanLiQuanAn.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for AddTableView.xaml
+    /// Interaction logic for ModalDishView.xaml
     /// </summary>
-    public partial class AddTableView : Window
+    public partial class ModalDishView : Window
     {
-        public AddTableView()
+        public ModalDishView()
         {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
         }
     }
