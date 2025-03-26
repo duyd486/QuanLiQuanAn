@@ -78,7 +78,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Salary Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding SalaryOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
                     <Border Grid.Column="1" Margin="10 44 10 20">
@@ -89,7 +89,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Ingredient Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding IngredientOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
                     <Border Grid.Column="2" Margin="20 44 10 20">
@@ -100,7 +100,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Total Employee: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding TotalEmployee}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
                     <Border Grid.Column="3" Margin="20 44 10 20">
@@ -111,7 +111,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Random Number: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="9543940" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -169,13 +169,9 @@
                     <Border Grid.Column="0">
                         <lvc:PieChart Grid.Column="0" LegendLocation="Bottom" Margin="30" DataTooltip="{x:Null}">
                             <lvc:PieChart.Series>
-                                <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
+                                <lvc:PieSeries Title="Salary" Values="3" DataLabels="True"
                                                 LabelPoint="{Binding PointLabel}"/>
-                                <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
-                                                LabelPoint="{Binding PointLabel}"/>
-                                <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" Fill="White"
-                                                LabelPoint="{Binding PointLabel}"/>
-                                <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
+                                <lvc:PieSeries Title="Ingredient" Values="4" DataLabels="True" 
                                                 LabelPoint="{Binding PointLabel}"/>
                             </lvc:PieChart.Series>
                         </lvc:PieChart>

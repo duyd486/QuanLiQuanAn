@@ -23,7 +23,7 @@
                 <Setter Property="FontSize" Value="28"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-            <Style TargetType="ComboBox" BasedOn="{StaticResource ModalCombobox}">
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxFlatStyle}">
 
             </Style>
         </ResourceDictionary>

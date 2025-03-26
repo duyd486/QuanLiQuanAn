@@ -24,7 +24,7 @@
                 <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
             </Style>
             <Style TargetType="TextBox" BasedOn="{StaticResource ModalTextBox}"/>
-            <Style TargetType="ComboBox" BasedOn="{StaticResource ModalCombobox}"/>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ComboBoxFlatStyle}"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="#FFEDDB">
@@ -73,8 +73,8 @@
                 <TextBlock Grid.Column="2" Text="Status"/>
                 <ComboBox Grid.Column="2" FontSize="24" VerticalContentAlignment="Center" SelectedIndex="{Binding EmployeeTmp.Status}">
                     <ComboBoxItem Height="0"></ComboBoxItem>
-                    <ComboBoxItem>Dừng hoạt động</ComboBoxItem>
-                    <ComboBoxItem>Đang hoạt động</ComboBoxItem>
+                    <ComboBoxItem>Inactive</ComboBoxItem>
+                    <ComboBoxItem>Active</ComboBoxItem>
                 </ComboBox>
             </Grid>
         </Grid>

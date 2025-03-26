@@ -47,7 +47,7 @@
         <TextBlock Grid.Row="2" Text="Price"/>
         <TextBox Grid.Row="2" Text="{Binding DishTmp.Price, Mode=TwoWay}" FontSize="32"/>
         <TextBlock Grid.Row="3" Text="Dishlist"/>
-        <ComboBox Grid.Row="3" Margin="20 40 20 20" FontSize="28" ItemsSource="{Binding DishlistsStr}" SelectedItem="{Binding SelectedDishlist}" Style="{StaticResource ModalCombobox}"/>
+        <ComboBox Grid.Row="3" Margin="20 40 20 20" FontSize="28" ItemsSource="{Binding DishlistsStr}" SelectedItem="{Binding SelectedDishlist}" Style="{StaticResource ComboBoxFlatStyle}"/>
         <TextBlock Grid.Row="4" Text="Description"/>
         <TextBox Grid.Row="4" Text="{Binding DishTmp.Description, Mode=TwoWay}" Margin="20 40 20 20" FontSize="32" TextWrapping="Wrap"/>
 

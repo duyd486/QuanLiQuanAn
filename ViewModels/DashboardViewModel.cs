@@ -21,8 +21,19 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class DashboardViewModel : ObservableObject
     {
+
+        private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+        [ObservableProperty] double salaryOut = 0;
+        [ObservableProperty] double ingredientOut = 0;
+        double totalEmploy = 0;
+        QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+        [ObservableProperty] private string salaryOutcome;
+        [ObservableProperty] private string ingredientOutcome;
+        [ObservableProperty] private string totalEmployee;
+        
         public DashboardViewModel()
         {
+            InitLastMonthData();
             //Line
             Values1 = new ChartValues<double> { 3, 4, 6, 3, 2, 6 };
 
@@ -50,7 +61,35 @@ namespace QuanLiQuanAn.ViewModels
 
             //Pie
             PointLabel = chartPoint =>
-                string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+        }
+
+        private void InitLastMonthData()
+        {
+            salaryOut = 0;
+            ingredientOut = 0;
+            totalEmploy = 0;
+            foreach(SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
+            {
+                if(salaryBill.Time.Value.Month == date.Month)
+                {
+                    salaryOut += (double)(salaryBill.TotalShifts * salaryBill.Employee.Salary);
+                }
+            }
+            SalaryOutcome = salaryOut.ToString();
+            foreach(IngredientBill ingredientBill in db.IngredientBills)
+            {
+                if(ingredientBill.Time.Value.Month == date.Month)
+                {
+                    ingredientOut += (int)ingredientBill.TotalPrice;
+                }
+            }
+            IngredientOutcome = ingredientOut.ToString();
+            foreach(Employee employee in db.Employees.Where(e => e.Status == 2))
+            {
+                totalEmploy++;
+            }
+            TotalEmployee = totalEmploy.ToString();
         }
 
 

@@ -57,9 +57,7 @@ namespace QuanLiQuanAn.ViewModels
             await GetAll();
 
             IsLoading = Visibility.Hidden;
-
         }
-
 
         [RelayCommand]
         private async Task GetAll()
