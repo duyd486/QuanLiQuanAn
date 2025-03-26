@@ -9,7 +9,8 @@ namespace QuanLiQuanAn.ViewModels
     {
         public MainViewModel()
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            ChangeView("Dashboard");
         }
 
 

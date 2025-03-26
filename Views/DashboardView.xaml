@@ -8,7 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
     <ScrollViewer>
-        <Grid Background="#F5D3B3" Height="2700" Margin="0 -0 0 0">
+        <Grid Height="2700" Margin="0 -00 0 0">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/Images/Background.png" Stretch="UniformToFill"/>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -16,65 +19,168 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="20 20 20 0">
+                <Border CornerRadius="20" Grid.Row="0" Background="#BC4C33" Margin="30 30 30 -10" Padding="10">
+                    <Border.Effect>
+                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                    </Border.Effect>
+                    <Grid Background="#BC4C33">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="198,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Welcome Manager!" Width="544" Grid.ColumnSpan="2"/>
+                            <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="1" Margin="20 20 20 0">
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="CornerRadius" Value="16"/>
+                            <Setter Property="Background" Value="#BC4C33"/>
+                            <Setter Property="Margin" Value="20 20 20 20"/>
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#F5EFDF"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" Background="White" Margin="20">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Salary Outcome: " TextWrapping="Wrap" FontSize="56" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Text="000000" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
+                    <TextBlock Grid.Column="0" Text="Last Month" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="28" Foreground="#42150D" FontWeight="Bold" Margin="20 4 20 0"/>
+                    <Border Grid.Column="0" Margin="10 44 20 20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.5*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Salary Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Margin="10 44 10 20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.5*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Ingredient Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="2" Margin="20 44 10 20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.5*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Total Employee: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="3" Margin="20 44 10 20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.5*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Random Number: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="000000" FontSize="52" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </Border>
                 </Grid>
-                
-                
-                <lvc:CartesianChart Background="White" Grid.Row="1" Margin="20">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries Values="{Binding Values1}" 
-                                       StrokeThickness="4" 
-                                       StrokeDashArray="2" 
-                                       Stroke="#6BBA45" 
-                                       Fill="Transparent" 
-                                       LineSmoothness="0" 
-                                       PointGeometry="{x:Null}" />
-                        <lvc:LineSeries Values="{Binding Values2}" 
-                                       StrokeThickness="2" 
-                                       Stroke="#1C8FC5" 
-                                       Fill="Transparent" 
-                                       LineSmoothness="1" 
-                                       PointGeometrySize="15" />
-                    </lvc:CartesianChart.Series>
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis IsMerged="True">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator StrokeThickness="1" StrokeDashArray="2">
-                                    <lvc:Separator.Stroke>
-                                        <SolidColorBrush Color="#404F56" />
-                                    </lvc:Separator.Stroke>
-                                </lvc:Separator>
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis IsMerged="True">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator StrokeThickness="1.5" StrokeDashArray="4">
-                                    <lvc:Separator.Stroke>
-                                        <SolidColorBrush Color="#404F56" />
-                                    </lvc:Separator.Stroke>
-                                </lvc:Separator>
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisY>
-                </lvc:CartesianChart>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="1" Background="#FFEDDB" Margin="30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                        <Border.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                        </Border.Effect>
+                        <lvc:CartesianChart>
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries Values="{Binding Values1}" 
+                                               StrokeThickness="4" 
+                                               StrokeDashArray="2" 
+                                               Stroke="#B03A25" 
+                                               Fill="Transparent" 
+                                               LineSmoothness="0" 
+                                               PointGeometry="{x:Null}" />
+                                <lvc:LineSeries Values="{Binding Values2}" 
+                                               StrokeThickness="2" 
+                                               Stroke="#B03A25" 
+                                               Fill="Transparent" 
+                                               LineSmoothness="1" 
+                                               PointGeometrySize="15" />
+                            </lvc:CartesianChart.Series>
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis IsMerged="True">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="1" StrokeDashArray="2">
+                                            <lvc:Separator.Stroke>
+                                                <SolidColorBrush Color="#404F56" />
+                                            </lvc:Separator.Stroke>
+                                        </lvc:Separator>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis IsMerged="True">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="1.5" StrokeDashArray="4">
+                                            <lvc:Separator.Stroke>
+                                                <SolidColorBrush Color="#404F56" />
+                                            </lvc:Separator.Stroke>
+                                        </lvc:Separator>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+                    </Border>
+
+                    <Border Grid.Column="0">
+                        <lvc:PieChart Grid.Column="0" LegendLocation="Bottom" Margin="30" DataTooltip="{x:Null}">
+                            <lvc:PieChart.Series>
+                                <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
+                                                LabelPoint="{Binding PointLabel}"/>
+                                <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
+                                                LabelPoint="{Binding PointLabel}"/>
+                                <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" Fill="White"
+                                                LabelPoint="{Binding PointLabel}"/>
+                                <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
+                                                LabelPoint="{Binding PointLabel}"/>
+                            </lvc:PieChart.Series>
+                        </lvc:PieChart>
+                    </Border>
+                </Grid>
             </Grid>
 
             <Grid Grid.Row="1" Margin="20">
@@ -88,18 +194,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <lvc:PieChart Grid.Row="0" LegendLocation="Bottom" DataTooltip="{x:Null}">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Maria" Values="3" DataLabels="True"
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Charles" Values="4" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frida" Values="6" DataLabels="True" Fill="White"
-                               LabelPoint="{Binding PointLabel}"/>
-                            <lvc:PieSeries Title="Frederic" Values="2" DataLabels="True" 
-                               LabelPoint="{Binding PointLabel}"/>
-                        </lvc:PieChart.Series>
-                    </lvc:PieChart>
+                    
                 </Grid>
 
                 <Grid Grid.Column="1">
@@ -107,19 +202,19 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    
-                    
-                    
+
+
+
                     <lvc:CartesianChart Grid.Row="1" Series="{Binding SeriesCollection}" LegendLocation="Left">
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
                     </lvc:CartesianChart>
                 </Grid>
-                
+
             </Grid>
-            
-            
+
+
             <TextBlock Grid.Row="2" Text="Dashboard Page 3" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </ScrollViewer>
