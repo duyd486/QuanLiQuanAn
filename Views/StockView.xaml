@@ -236,7 +236,7 @@
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Button Content="Add Ingredient" Command="{Binding AddIngredientCommand}" Grid.Row="0"/>
-                    <Button Content="Import Excel" Command="{Binding ImportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
+                    <Button Content="Export Excel" Command="{Binding ExportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
                     <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
                 </Grid>
             </Grid>

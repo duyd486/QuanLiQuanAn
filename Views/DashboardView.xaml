@@ -118,7 +118,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                    <Border Grid.Column="1" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="0" BorderBrush="Gray">
                         <Border.Effect>
                             <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
                         </Border.Effect>
@@ -210,10 +210,81 @@
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                
-                <TextBlock Text="Dashboard Page 3" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                        <Border.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                        </Border.Effect>
 
+                    </Border>
+                    <Border Grid.Row="0" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
+                        <TextBlock Text="Bad Rates" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                    </Border>
+
+
+                    <Border Grid.Row="1" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                        <Border.Effect>
+                            <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                        </Border.Effect>
+                        <ScrollViewer Grid.Row="1" Background="#F5D5C2">
+                            <ItemsControl Name="item" ItemsSource="{Binding EmployeeTmp.SalaryBills}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border 
+                                            Background="#FFEDDB"
+                                            Height="48"
+                                            Margin="10 12 10 0"
+                                            CornerRadius="18"
+                                            >
+                                            <Grid>
+                                                <Grid.Resources>
+                                                    <ResourceDictionary>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="FontSize" Value="24"/>
+                                                            <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                                            <Setter Property="Foreground" Value="#42150D"/>
+                                                        </Style>
+                                                    </ResourceDictionary>
+                                                </Grid.Resources>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="9*"/>
+                                                    <ColumnDefinition Width="46*"/>
+                                                    <ColumnDefinition Width="28*"/>
+                                                    <ColumnDefinition Width="48*"/>
+                                                    <ColumnDefinition Width="38*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding Id}" Grid.Column="0"/>
+                                                <TextBlock Text="{Binding Time}" Grid.Column="1"/>
+                                                <TextBlock Text="{Binding TotalShifts}" Grid.Column="2"/>
+                                                <TextBlock Grid.Column="3">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource TotalSalaryConverter}">
+                                                            <Binding Path="TotalShifts"/>
+                                                            <Binding Path="Employee.Salary"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                    <Border Grid.Row="1" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
+                        <TextBlock Text="Good Rates" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                    </Border>
+                </Grid>
+                
+                
             </Grid>
             
         </Grid>

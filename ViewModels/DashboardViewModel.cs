@@ -57,7 +57,7 @@ namespace QuanLiQuanAn.ViewModels
         private void InitLastMonthData()
         {
             SalaryOut = 0;
-            IngredientOut = 0;
+            IngredientOut = 1;
             totalEmploy = 0;
             foreach(SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
             {
@@ -136,7 +136,6 @@ namespace QuanLiQuanAn.ViewModels
                 }
                 IngredientLineChartValue.Add(ingredientOutByMonth);
             }
-
         }
         private void InitColChartData()
         {

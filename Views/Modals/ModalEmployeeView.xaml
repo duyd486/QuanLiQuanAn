@@ -190,7 +190,6 @@
                                             </Button.Resources>
                                         </Button>
                                     </Grid>
-
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

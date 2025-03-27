@@ -15,6 +15,9 @@ using System.Data;
 using QuanLiQuanAn.Views;
 using QuanLiQuanAn.Views.Modals;
 using System.Windows.Input;
+using OfficeOpenXml.Style;
+using System.Drawing;
+using QuanLiQuanAn.Singleton;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -137,53 +140,70 @@ namespace QuanLiQuanAn.ViewModels
         }
 
         [RelayCommand]
-        private void ImportExcel()
+        [STAThread]
+        private void ExportExcel()
         {
-            //string filePath = "";
-            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            //if (openFileDialog.ShowDialog() == true)
-            //{
-            //    filePath = openFileDialog.FileName;
-            //}
-            //if (filePath == "")
-            //{
-            //    return;
-            //}
-            //try
-            //{
-            //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Ingredient");
 
-            //    var package = new ExcelPackage(new FileInfo(filePath));
-            //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            //    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                worksheet.Cells["A1:C1"].Merge = true;
+                worksheet.Cells["A1"].Value = "Stock Information";
+                worksheet.Cells["A1"].Style.Font.Size = 16;
+                worksheet.Cells["A1"].Style.Font.Bold = true;
+                worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Column(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            //    for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
-            //    {
-            //        SalaryBill salaryBill = new SalaryBill();
-            //        salaryBill.Id = db.SalaryBills.IsNullOrEmpty() ? 1 : db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
+                string[] headers = { "ID", "Name", "Quantity" };
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    int colIndex = (i * 2) + 1; // Tính vị trí cột
+                    worksheet.Cells[2, colIndex, 2, colIndex + 1].Merge = true; // Gộp 2 cột
+                    worksheet.Cells[2, colIndex].Value = headers[i];
+                    worksheet.Cells[2, colIndex].Style.Font.Bold = true;
+                    worksheet.Cells[2, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Cells[2, colIndex].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+                    worksheet.Cells[2, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[2, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                }
 
-            //        int employeeIdCollum = 1;
-            //        salaryBill.EmployeeId = Convert.ToInt32(worksheet.Cells[i, employeeIdCollum].Value);
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
 
-            //        int totalShiftCollum = 3;
-            //        salaryBill.TotalShifts = Convert.ToInt32(worksheet.Cells[i, totalShiftCollum].Value);
+                int row = 3;
+                foreach (Ingredient ingredient in db.Ingredients)
+                {
+                    var cell1 = worksheet.Cells[row, 1];
+                    var cell2 = worksheet.Cells[row, 2];
+                    var cell3 = worksheet.Cells[row, 3];
+                    row++;
+                    cell1.Value = ingredient.Id;
+                    cell2.Value = ingredient.Name;
+                    cell3.Value = ingredient.Quantity;
+                    cell1.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    cell2.Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    cell3.Style.Border.BorderAround(ExcelBorderStyle.Thin);
 
-            //        salaryBill.Status = 1;
+                }
+                worksheet.Cells.AutoFitColumns();
 
-            //        int timeCollum = 7;
-            //        string? timeStr = worksheet.Cells[i, timeCollum].Value.ToString();
-            //        salaryBill.Time = DateOnly.Parse(timeStr.Substring(0, timeStr.IndexOf(" ")));
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Chọn nơi lưu file Excel";
+                saveFileDialog.FileName = "Report.xlsx";
 
-            //        db.SalaryBills.Add(salaryBill);
-            //        db.SaveChanges();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    File.WriteAllBytes(filePath, package.GetAsByteArray());
+                    Console.WriteLine($"File đã lưu: {filePath}");
+                }
+                else
+                {
+                    Console.WriteLine("Hủy lưu file.");
+                }
+            }
         }
 
 
