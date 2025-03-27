@@ -149,18 +149,20 @@ namespace QuanLiQuanAn.ViewModels
             {
                 var worksheet = package.Workbook.Worksheets.Add("Ingredient");
 
-                worksheet.Cells["A1:C1"].Merge = true;
+                worksheet.Cells["A1:F1"].Merge = true;
                 worksheet.Cells["A1"].Value = "Stock Information";
                 worksheet.Cells["A1"].Style.Font.Size = 16;
                 worksheet.Cells["A1"].Style.Font.Bold = true;
                 worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Column(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells["A1:F1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+                
 
                 string[] headers = { "ID", "Name", "Quantity" };
                 for (int i = 0; i < headers.Length; i++)
                 {
-                    int colIndex = (i * 2) + 1; // Tính vị trí cột
-                    worksheet.Cells[2, colIndex, 2, colIndex + 1].Merge = true; // Gộp 2 cột
+                    int colIndex = (i * 2) + 1; 
+                    worksheet.Cells[2, colIndex, 2, colIndex + 1].Merge = true; 
                     worksheet.Cells[2, colIndex].Value = headers[i];
                     worksheet.Cells[2, colIndex].Style.Font.Bold = true;
                     worksheet.Cells[2, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -170,20 +172,16 @@ namespace QuanLiQuanAn.ViewModels
                 }
 
                 QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-
                 int row = 3;
                 foreach (Ingredient ingredient in db.Ingredients)
                 {
                     var cell1 = worksheet.Cells[row, 1];
-                    var cell2 = worksheet.Cells[row, 2];
-                    var cell3 = worksheet.Cells[row, 3];
+                    var cell2 = worksheet.Cells[row, 3];
+                    var cell3 = worksheet.Cells[row, 5];
                     row++;
                     cell1.Value = ingredient.Id;
                     cell2.Value = ingredient.Name;
                     cell3.Value = ingredient.Quantity;
-                    cell1.Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    cell2.Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    cell3.Style.Border.BorderAround(ExcelBorderStyle.Thin);
 
                 }
                 worksheet.Cells.AutoFitColumns();
@@ -191,7 +189,7 @@ namespace QuanLiQuanAn.ViewModels
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Excel Files|*.xlsx";
                 saveFileDialog.Title = "Chọn nơi lưu file Excel";
-                saveFileDialog.FileName = "Report.xlsx";
+                saveFileDialog.FileName = "CurrentStock.xlsx";
 
                 if (saveFileDialog.ShowDialog() == true)
                 {

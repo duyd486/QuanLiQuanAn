@@ -27,6 +27,8 @@ namespace QuanLiQuanAn.ViewModels
         private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
         [ObservableProperty] double salaryOut = 0;
         [ObservableProperty] double ingredientOut = 0;
+        [ObservableProperty] private ObservableCollection<Rate> goodRateOb;
+        [ObservableProperty] private ObservableCollection<Rate> badRateOb;
         double totalEmploy = 0;
         QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
         [ObservableProperty] private string salaryOutcome;
@@ -52,8 +54,26 @@ namespace QuanLiQuanAn.ViewModels
             InitPieChartData();
             InitLineChartData();
             InitColChartData();
+            InitRateData();
         }
 
+
+        private void InitRateData()
+        {
+            GoodRateOb = new ObservableCollection<Rate>();
+            BadRateOb = new ObservableCollection<Rate>();
+            foreach (Rate rate in db.Rates.Include(e => e.User).ThenInclude(e => e.Information))
+            {
+                if(rate.Type == 3)
+                {
+                    GoodRateOb.Add(rate);
+                }
+                else
+                {
+                    BadRateOb.Add(rate);
+                }
+            }
+        }
         private void InitLastMonthData()
         {
             SalaryOut = 0;
@@ -157,7 +177,7 @@ namespace QuanLiQuanAn.ViewModels
                     Values = new ChartValues<double> { totalSale }
                 });
             }
-            Labels = [date.ToString()];
+            Labels = [date.Year.ToString()];
             Formatter = value => value.ToString("N");
         }
     }

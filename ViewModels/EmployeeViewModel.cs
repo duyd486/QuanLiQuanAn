@@ -227,8 +227,9 @@ namespace QuanLiQuanAn.ViewModels
         {
             string filePath = "";
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files|*.xlsx";
 
-            if(openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true)
             {
                 filePath = openFileDialog.FileName;
             }
