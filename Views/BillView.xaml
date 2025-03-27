@@ -4,9 +4,497 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
+             
+             xmlns:conv="clr-namespace:QuanLiQuanAn.Converters"
+             
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
-    <Grid Background="LightBlue">
-        <TextBlock Text="Bill Page" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/GenericTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:PaymentStatusConverter x:Key="PaymentStatusConverter"/>
+            <conv:TotalSalaryConverter x:Key="TotalSalaryConverter"/>
+            <conv:OrderStatusConverter x:Key="OrderStatusConverter"/>
+            <conv:IngredientStatusConverter x:Key="IngredientStatusConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#FFEDDB">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8.3*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0" Margin="10 10 10 0">
+            <Border CornerRadius="20" Background="#BC4C33" Margin="20 20 20 20" Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                </Border.Effect>
+                <Grid Background="#BC4C33">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Background="#F8E8D9" Grid.Column="0" Margin="24" FontSize="28" VerticalContentAlignment="Center" Text="{Binding NameSearch, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="288,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Bills Page!" Width="454" Grid.ColumnSpan="2"/>
+                        <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1" >
+            <Grid.Resources>
+                <!--Start : Styles-->
+                <!--Start : TabItem Style-->
+                <Style x:Key="TabItemStyle" TargetType="TabItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="#633624"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="FontWeight" Value="Light"/>
+                    <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid SnapsToDevicePixels="True">
+                                    <Border x:Name="TabBorder"
+                                            CornerRadius="12"
+                                            Background="Transparent"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Margin="{TemplateBinding Margin}"/>
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"
+                                              RecognizesAccessKey="True"
+                                            
+                                              Margin="{TemplateBinding Margin}"
+                                              ContentSource="Header"
+                                              Focusable="False"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="TabBorder" Property="Background" Value="#BC4C33"/>
+
+                                        <Setter Property="Foreground" Value="#F5EFDF"/>
+
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="TabBorder" Property="Background" Value="#BC4C33"/>
+
+                                        <Setter Property="Foreground" Value="#F5EFDF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <!--END : TabItem Style-->
+
+                <!--Start : TabControl Style-->
+                <Style x:Key="TabControlStyle" TargetType="TabControl">
+                    <Setter Property="Background" Value="#F5EFDF"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabControl">
+                                <Grid SnapsToDevicePixels="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="8*"/>
+                                    </Grid.RowDefinitions>
+                                    <TabPanel Grid.Row="0"
+                                                Background="Transparent"
+                                                IsItemsHost="True"
+                                                HorizontalAlignment="Stretch"
+                                                Margin="0,0,0,0"/>
+                                    <Border Grid.Row="1"
+                                            CornerRadius="20"
+                                          
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter ContentSource="SelectedContent"
+                                                            SnapsToDevicePixels="True"
+                                                            Margin="{TemplateBinding Padding}"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <!--END : TabControl Style-->
+                <!--END : Styles-->
+            </Grid.Resources>
+
+            <Grid Background="Transparent">
+                <TabControl Height="Auto" Style="{DynamicResource TabControlStyle}" VerticalAlignment="Stretch" 
+                            Margin="30,10,35,40"
+                            SelectedIndex="{Binding CurrentTabIndex, Mode=TwoWay}">
+
+
+                    <TabItem Header="Salary Bill" Style="{DynamicResource TabItemStyle}">
+                        <Grid>
+                            <StackPanel Visibility="{Binding IsLoading}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Panel.ZIndex="100">
+                                <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
+                            </StackPanel>
+                            <Border CornerRadius="20" BorderThickness="0" Background="#fbead9" Grid.RowSpan="2">
+                                <Border CornerRadius="20,20,0,0" BorderThickness="0" Background="#b03a25" VerticalAlignment="Top">
+                                    <Grid Margin="10,25,10,20">
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="FontSize" Value="24"/>
+                                                <Setter Property="Foreground" Value="#fbead9"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="0.7*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="Name" Grid.Column="0" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Date" Grid.Column="1" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Gender" Grid.Column="2" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Phone" Grid.Column="3" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Address" Grid.Column="4" HorizontalAlignment="Center" />
+
+                                    </Grid>
+                                </Border>
+                            </Border>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10,96,10,0" FontFamily="{StaticResource Montserrat}" FontSize="16" Height="Auto" VerticalAlignment="Stretch">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding EmployeeOb}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="White" Padding="20" Margin="5" CornerRadius="12">
+                                                    <Grid>
+                                                        <Grid.Resources>
+                                                            <Style TargetType="Button">
+                                                                <Setter Property="Background" Value="#BC4C33"/>
+                                                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                                <Setter Property="FontSize" Value="20"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                                <Setter Property="Effect">
+                                                                    <Setter.Value>
+                                                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="Button">
+                                                                            <Border
+                                                                                    Background="{TemplateBinding Background}"
+                                                                                    BorderThickness="0"
+
+                                                                                    CornerRadius="14">
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Effect">
+                                                                            <Setter.Value>
+                                                                                <DropShadowEffect Opacity="0"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Grid.Resources>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*" />
+                                                            <ColumnDefinition Width="0.7*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Text="{Binding Information.Name}" Grid.Column="0" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Information.Birth}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Information.Gender}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Information.Phone}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Information.Address}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <Button Content="Xem thông tin" Grid.Column="5"
+                                                                Command="{Binding DataContext.InvoiceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                CommandParameter="{Binding}"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Order Bill" Style="{DynamicResource TabItemStyle}">
+                        <Grid>
+                            <StackPanel Visibility="{Binding IsLoading}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Panel.ZIndex="100">
+                                <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
+                            </StackPanel>
+                            <Border CornerRadius="20" BorderThickness="0" Background="#fbead9" Grid.RowSpan="2">
+                                <Border CornerRadius="20,20,0,0" BorderThickness="0" Background="#b03a25" VerticalAlignment="Top">
+                                    <Grid Margin="10,25,10,20">
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="FontSize" Value="24"/>
+                                                <Setter Property="Foreground" Value="#fbead9"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="0.7*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="ID" Grid.Column="0" HorizontalAlignment="Left" Margin="20,0,0,0" />
+                                        <TextBlock Text="Discount ID" Grid.Column="1" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Order Status" Grid.Column="2" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Bill Status" Grid.Column="3" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Total Price" Grid.Column="4" HorizontalAlignment="Center" />
+
+                                    </Grid>
+                                </Border>
+                            </Border>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10,96,10,0" FontFamily="{StaticResource Montserrat}" FontSize="16" Height="Auto" VerticalAlignment="Stretch">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding OrderBillOb}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="White" Padding="20" Margin="5" CornerRadius="12">
+                                                    <Grid>
+                                                        <Grid.Resources>
+                                                            <Style TargetType="Button">
+                                                                <Setter Property="Background" Value="#BC4C33"/>
+                                                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                                <Setter Property="FontSize" Value="20"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                                <Setter Property="Effect">
+                                                                    <Setter.Value>
+                                                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="Button">
+                                                                            <Border
+                                                                                    Background="{TemplateBinding Background}"
+                                                                                    BorderThickness="0"
+                                                                                    CornerRadius="14">
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Effect">
+                                                                            <Setter.Value>
+                                                                                <DropShadowEffect Opacity="0"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Grid.Resources>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.5*" />
+                                                            <ColumnDefinition Width="0.7*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding DiscountId}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding OrderStatus, Converter={StaticResource OrderStatusConverter}, ConverterParameter='Content'}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding BillStatus, Converter={StaticResource PaymentStatusConverter}, ConverterParameter='Content'}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding TotalPrice}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <Button Content="Xem thông tin" Grid.Column="5"
+                                                                Command="{Binding DataContext.InvoiceOrderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                CommandParameter="{Binding}">
+                                                            
+                                                        </Button>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Ingredient Bill" Style="{DynamicResource TabItemStyle}">
+                        <Grid>
+                            <StackPanel Visibility="{Binding IsLoading}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Panel.ZIndex="100">
+                                <ProgressBar Height="100" Width="100" Style="{StaticResource CircularProgressBar}"/>
+                            </StackPanel>
+                            <Border CornerRadius="20" BorderThickness="0" Background="#fbead9" Grid.RowSpan="2">
+                                <Border CornerRadius="20,20,0,0" BorderThickness="0" Background="#b03a25" VerticalAlignment="Top">
+                                    <Grid Margin="10,25,10,20">
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                <Setter Property="FontSize" Value="24"/>
+                                                <Setter Property="Foreground" Value="#fbead9"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="ID" Grid.Column="0" HorizontalAlignment="Left" Margin="20,0,0,0" />
+                                        <TextBlock Text="Name" Grid.Column="1" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Quantity" Grid.Column="2" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Status" Grid.Column="3" HorizontalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </Border>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10,96,10,0" FontFamily="{StaticResource Montserrat}" FontSize="16" Height="Auto" VerticalAlignment="Stretch">
+                                <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding IngredientOb}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="White" Padding="20" Margin="5" CornerRadius="12">
+                                                    <Grid>
+                                                        <Grid.Resources>
+                                                            <Style TargetType="Button">
+                                                                <Setter Property="Background" Value="#BC4C33"/>
+                                                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                                <Setter Property="FontSize" Value="20"/>
+                                                                <Setter Property="Cursor" Value="Hand"/>
+                                                                <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
+                                                                <Setter Property="Effect">
+                                                                    <Setter.Value>
+                                                                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="Button">
+                                                                            <Border
+                                                                                 Background="{TemplateBinding Background}"
+                                                                                 BorderThickness="0"
+                                                                                 CornerRadius="14">
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                        <Setter Property="Effect">
+                                                                            <Setter.Value>
+                                                                                <DropShadowEffect Opacity="0"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Grid.Resources>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Name}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Quantity}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Status, Converter={StaticResource IngredientStatusConverter}, ConverterParameter='Content'}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                       
+                                                        <Button Content="Xem thông tin" Grid.Column="5"
+                                                                Command="{Binding DataContext.InvoiceIngredientCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                CommandParameter="{Binding Id}">
+                                                        </Button>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

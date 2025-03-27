@@ -158,6 +158,7 @@ namespace QuanLiQuanAn.ViewModels
         private void InteractEmployee(Employee employee)
         {
             isEdit = true;
+
             EmployeeTmp = new();
             EmployeeTmp = employee;
             InformationTmp = new();
@@ -263,6 +264,7 @@ namespace QuanLiQuanAn.ViewModels
                     db.SalaryBills.Add(salaryBill);
                     db.SaveChanges();
                 }
+                MessageBox.Show("Import Excel Completed");
             }catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);

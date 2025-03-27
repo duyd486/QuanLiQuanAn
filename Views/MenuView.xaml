@@ -13,10 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/Images/Background.png" Opacity="1"/>
-        </Grid.Background>
+    <Grid Background="#FFEDDB">
         <Grid.RowDefinitions>
             <RowDefinition Height="2.5*"/>
             <RowDefinition Height="5*"/>

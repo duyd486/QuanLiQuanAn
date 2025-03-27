@@ -8,10 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
     <ScrollViewer>
-        <Grid Height="2700" Margin="0 -00 0 0">
-            <Grid.Background>
-                <ImageBrush ImageSource="/Assets/Images/Background.png" Stretch="UniformToFill"/>
-            </Grid.Background>
+        <Grid Height="2700" Margin="0 -1800 0 0" Background="#FFEDDB">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -87,7 +84,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="1.5*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Ingredient Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding IngredientOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
@@ -109,9 +106,9 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="1.5*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Random Number: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="9543940" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Total Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding TotalOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
                 </Grid>
@@ -121,22 +118,24 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" Background="#FFEDDB" Margin="30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                    <Border Grid.Column="1" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
                         <Border.Effect>
                             <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
                         </Border.Effect>
-                        <lvc:CartesianChart>
+                        <lvc:CartesianChart Margin="30 90 30 30">
                             <lvc:CartesianChart.Series>
-                                <lvc:LineSeries Values="{Binding Values1}" 
+                                <lvc:LineSeries Values="{Binding SalaryLineChartValue}" 
+                                               Title="Salary"
                                                StrokeThickness="4" 
                                                StrokeDashArray="2" 
-                                               Stroke="#B03A25" 
+                                               Stroke="#B22C23" 
                                                Fill="Transparent" 
                                                LineSmoothness="0" 
                                                PointGeometry="{x:Null}" />
-                                <lvc:LineSeries Values="{Binding Values2}" 
+                                <lvc:LineSeries Values="{Binding IngredientLineChartValue}" 
+                                               Title="Ingredient"
                                                StrokeThickness="2" 
-                                               Stroke="#B03A25" 
+                                               Stroke="#B22C23" 
                                                Fill="Transparent" 
                                                LineSmoothness="1" 
                                                PointGeometrySize="15" />
@@ -146,7 +145,7 @@
                                     <lvc:Axis.Separator>
                                         <lvc:Separator StrokeThickness="1" StrokeDashArray="2">
                                             <lvc:Separator.Stroke>
-                                                <SolidColorBrush Color="#404F56" />
+                                                <SolidColorBrush Color="Transparent" />
                                             </lvc:Separator.Stroke>
                                         </lvc:Separator>
                                     </lvc:Axis.Separator>
@@ -165,15 +164,15 @@
                             </lvc:CartesianChart.AxisY>
                         </lvc:CartesianChart>
                     </Border>
+                    <Border Grid.Column="1" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
+                        <TextBlock Text="Last Year Outcome Dashboard" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                    </Border>
 
                     <Border Grid.Column="0">
-                        <lvc:PieChart Grid.Column="0" LegendLocation="Bottom" Margin="30" DataTooltip="{x:Null}">
-                            <lvc:PieChart.Series>
-                                <lvc:PieSeries Title="Salary" Values="3" DataLabels="True"
-                                                LabelPoint="{Binding PointLabel}"/>
-                                <lvc:PieSeries Title="Ingredient" Values="4" DataLabels="True" 
-                                                LabelPoint="{Binding PointLabel}"/>
-                            </lvc:PieChart.Series>
+                        <lvc:PieChart Grid.Column="0" 
+                                      LegendLocation="Bottom" 
+                                      Margin="30 30 20 30" DataTooltip="{x:Null}" 
+                                      InnerRadius="90" Series="{Binding PieSeriesCollection}">
                         </lvc:PieChart>
                     </Border>
                 </Grid>
@@ -181,37 +180,42 @@
 
             <Grid Grid.Row="1" Margin="20">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                </Grid>
-
+                <Border Grid.Column="0" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="1" BorderBrush="Gray">
+                    <Border.Effect>
+                        <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                    </Border.Effect>
+                    <lvc:CartesianChart Series="{Binding ColSeriesCollection}" LegendLocation="Bottom" Margin="30 90 30 30">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Sold Apps" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
+                        </lvc:CartesianChart.DataTooltip>
+                    </lvc:CartesianChart>
+                </Border>
+                <Border Grid.Column="0" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
+                    <TextBlock Text="This Year Income Food" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                </Border>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-
-
-
-                    <lvc:CartesianChart Grid.Row="1" Series="{Binding SeriesCollection}" LegendLocation="Left">
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-                    </lvc:CartesianChart>
                 </Grid>
-
             </Grid>
 
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="Dashboard Page 3" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <TextBlock Grid.Row="2" Text="Dashboard Page 3" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+            
         </Grid>
     </ScrollViewer>
 </UserControl>

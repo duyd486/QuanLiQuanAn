@@ -16,6 +16,8 @@ using System.Data;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using System.Windows.Media;
+using System.Windows.Xps.Packaging;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -30,80 +32,134 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private string salaryOutcome;
         [ObservableProperty] private string ingredientOutcome;
         [ObservableProperty] private string totalEmployee;
-        
+        [ObservableProperty] private string totalOutcome;
+
+        //Col
+        public SeriesCollection ColSeriesCollection { get; set; }
+        public List<string> Labels { get; set; }
+        public Func<double, string> Formatter { get; set; }
+        //Pie
+        public Func<ChartPoint, string> PiePointLabel { get; set; }
+        public SeriesCollection PieSeriesCollection { get; set; }
+        //Line
+        public ChartValues<double> SalaryLineChartValue { get; set; }
+        public ChartValues<double> IngredientLineChartValue { get; set; }
+
+
         public DashboardViewModel()
         {
             InitLastMonthData();
-            //Line
-            Values1 = new ChartValues<double> { 3, 4, 6, 3, 2, 6 };
-
-            double test = 12;
-
-            Values1.Add(test);
-
-            Values2 = new ChartValues<double> { 5, 3, 5, 7, 3, 9 };
-
-            //Col
-            SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "2015",
-                    Values = new ChartValues<double> { 10, 50, 39, 50 }
-                }
-            };
-            SeriesCollection.Add(new ColumnSeries
-            {
-                Title = "2016",
-                Values = new ChartValues<double> { 11, 56, 42 }
-            });
-            Labels = new[] { "Maria", "Susan", "Charles", "Frida" };
-
-            //Pie
-            PointLabel = chartPoint =>
-            string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            InitPieChartData();
+            InitLineChartData();
+            InitColChartData();
         }
 
         private void InitLastMonthData()
         {
-            salaryOut = 0;
-            ingredientOut = 0;
+            SalaryOut = 0;
+            IngredientOut = 0;
             totalEmploy = 0;
             foreach(SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
             {
-                if(salaryBill.Time.Value.Month == date.Month)
+                if(salaryBill.Time.Value.Month == date.Month && salaryBill.Time.Value.Year == date.Year)
                 {
-                    salaryOut += (double)(salaryBill.TotalShifts * salaryBill.Employee.Salary);
+                    SalaryOut += (double)(salaryBill.TotalShifts * salaryBill.Employee.Salary);
                 }
             }
-            SalaryOutcome = salaryOut.ToString();
+            SalaryOutcome = SalaryOut.ToString();
             foreach(IngredientBill ingredientBill in db.IngredientBills)
             {
-                if(ingredientBill.Time.Value.Month == date.Month)
+                if(ingredientBill.Time.Value.Month == date.Month && ingredientBill.Time.Value.Year == date.Year)
                 {
-                    ingredientOut += (int)ingredientBill.TotalPrice;
+                    IngredientOut += (int)ingredientBill.TotalPrice;
                 }
             }
-            IngredientOutcome = ingredientOut.ToString();
+            IngredientOutcome = IngredientOut.ToString();
             foreach(Employee employee in db.Employees.Where(e => e.Status == 2))
             {
                 totalEmploy++;
             }
             TotalEmployee = totalEmploy.ToString();
+            TotalOutcome = (SalaryOut + IngredientOut).ToString();
         }
 
+        private void InitPieChartData()
+        {
+            PiePointLabel = chartPoint =>
+            string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            PieSeriesCollection = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Salary",
+                    Values = new ChartValues<double> { SalaryOut },
+                    DataLabels = true,
+                    Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B23D23"))
+                },
+                new PieSeries
+                {
+                    Title = "Ingredient",
+                    Values = new ChartValues<double> { IngredientOut },
+                    DataLabels = true,
+                    Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C0BEEE"))
+                },
+            };
+        }
+        private void InitLineChartData()
+        {
+            SalaryLineChartValue = new ChartValues<double> { 10 };
+            IngredientLineChartValue = new ChartValues<double> { 10 };
+            double salaryOutByMonth = 0;
+            double ingredientOutByMonth = 0;
 
-        //Pie
-        public Func<ChartPoint, string> PointLabel { get; set; }
+            for(int i = 1; i <= 12; i++)
+            {
+                salaryOutByMonth = 0;
+                foreach (SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
+                {
+                    if (salaryBill.Time.Value.Month == i && salaryBill.Time.Value.Year == date.Year - 1)
+                    {
+                        salaryOutByMonth += (double)(salaryBill.TotalShifts * salaryBill.Employee.Salary);
+                    }
+                }
+                SalaryLineChartValue.Add(salaryOutByMonth);
+            }
+            for (int i = 1; i <= 12; i++)
+            {
+                ingredientOutByMonth = 0;
+                foreach (IngredientBill ingredientBill in db.IngredientBills)
+                {
+                    if (ingredientBill.Time.Value.Month == i && ingredientBill.Time.Value.Year == date.Year - 1)
+                    {
+                        ingredientOutByMonth += (int)ingredientBill.TotalPrice;
+                    }
+                }
+                IngredientLineChartValue.Add(ingredientOutByMonth);
+            }
 
+        }
+        private void InitColChartData()
+        {
+            ColSeriesCollection = new SeriesCollection();
 
-        //Column
-        ColumnSeries columnSeries = new ColumnSeries();
-        public string[] Labels { get; set; }
-        public SeriesCollection SeriesCollection { get; set; }
-
-        //Line
-        public ChartValues<double> Values1 { get; set; }
-        public ChartValues<double> Values2 { get; set; }
+            foreach (Dish dish in db.Dishes.Include(e => e.Orders).ThenInclude(e => e.Orderbill).ToList())
+            {
+                double totalSale = 0;
+                foreach (Order order in dish.Orders)
+                {
+                    if(order.Orderbill.Time.Month == date.Month && order.Orderbill.Time.Year == date.Year && order.Orderbill.BillStatus == 3)
+                    {
+                        totalSale += (double)order.TotalPrice;
+                    }
+                }
+                ColSeriesCollection.Add(new RowSeries
+                {
+                    Title = dish.Name,
+                    Values = new ChartValues<double> { totalSale }
+                });
+            }
+            Labels = [date.ToString()];
+            Formatter = value => value.ToString("N");
+        }
     }
 }

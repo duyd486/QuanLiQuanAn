@@ -7,6 +7,7 @@ using OfficeOpenXml;
 using System.IO;
 using QuanLiQuanAn.DBContext;
 using QuanLiQuanAn.Models;
+using QuanLiQuanAn.Singleton;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Runtime.CompilerServices;
@@ -57,7 +58,7 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private async Task GetAll()
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
             TableOb.Clear();
             foreach (Table table in db.Tables.OrderByDescending(e => e.Id))
@@ -89,7 +90,7 @@ namespace QuanLiQuanAn.ViewModels
                     contain = 0;
                     break;
             }
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db;
             TableOb.Clear();
             foreach (Table table in db.Tables)
             {
@@ -115,6 +116,7 @@ namespace QuanLiQuanAn.ViewModels
         private void InteractTable(Table table)
         {
             isEdit = true;
+
             TableTmp = new();
             TableTmp = table;
 
@@ -127,7 +129,9 @@ namespace QuanLiQuanAn.ViewModels
         private void AddTable()
         {
             isEdit = false;
+
             TableTmp = new();
+
             modalTableView = new();
             modalTableView.DataContext = this;
             modalTableView.ShowDialog();
@@ -157,21 +161,21 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void DeleteTable(Table table)
         {
-            Console.WriteLine("Delete Table");
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db;
+
             db.Tables.Remove(table);
             db.SaveChanges();
             db.Entry(table).State = EntityState.Detached;
+
             _ = GetAll();
             MessageBox.Show("Delete Completed");
-
         }
 
         private void UpdateTable()
-        {
+        { 
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
                 if (TableTmp.Contain == null)
                 {
                     Exception exception = new Exception("Contain is emty");
@@ -191,7 +195,7 @@ namespace QuanLiQuanAn.ViewModels
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db;
                 TableTmp.Id = db.Tables.IsNullOrEmpty() ? 1 : db.Tables.OrderBy(e => e.Id).Last().Id + 1;
 
                 if (TableTmp.Contain.ToString() == "")
