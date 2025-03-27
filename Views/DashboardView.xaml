@@ -5,10 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
+             xmlns:cv="clr-namespace:QuanLiQuanAn.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
     <ScrollViewer>
-        <Grid Height="2700" Margin="0 -00 0 0" Background="#FFEDDB">
+        <ScrollViewer.Resources>
+            <ResourceDictionary>
+                <cv:ImagePathConverter x:Key="ImagePathConverter"/>
+            </ResourceDictionary>
+        </ScrollViewer.Resources>
+        <Grid Height="2700" Margin="0 -1800 0 0" Background="#FFEDDB">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -53,7 +59,7 @@
                             </Setter>
                         </Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="#F5EFDF"/>
+                            <Setter Property="Foreground" Value="#42150D"/>
                             <Setter Property="TextWrapping" Value="Wrap"/>
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -67,46 +73,50 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Last Month" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="28" Foreground="#42150D" FontWeight="Bold" Margin="20 4 20 0"/>
-                    <Border Grid.Column="0" Margin="10 44 20 20">
+                    <Border Grid.Column="0" Margin="10 44 20 20" Background="#F4D4C1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="1.5*"/>
+                                <RowDefinition Height="1.2*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Salary Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Ellipse Height="66" Fill="#B23D23" Width="66" HorizontalAlignment="Left" Margin="16 12 0 0"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Left" Margin="28 12 0 0" Foreground="#FFEDDB"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Salary Expenses: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding SalaryOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
-                    <Border Grid.Column="1" Margin="10 44 10 20">
+                    <Border Grid.Column="1" Margin="10 44 10 20" Background="#FFF585">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="1.5*"/>
+                                <RowDefinition Height="1.2*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
-                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Ingredient Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Ellipse Height="66" Fill="#C0BEEE" Width="66" HorizontalAlignment="Left" Margin="16 12 0 0"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Left" Margin="32 12 0 0" Foreground="#FFEDDB"/>
+                            <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Ingredient Expenses: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding IngredientOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
-                    <Border Grid.Column="2" Margin="20 44 10 20">
+                    <Border Grid.Column="2" Margin="20 44 10 20" Background="#C0BEEE">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="1.5*"/>
+                                <RowDefinition Height="1.2*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <Ellipse Height="66" Fill="#FFF585" Width="66" HorizontalAlignment="Left" Margin="16 12 0 0"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Left" Margin="26 12 0 0" Foreground="#B23D23"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Total Employee: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding TotalEmployee}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
                     </Border>
-                    <Border Grid.Column="3" Margin="20 44 10 20">
+                    <Border Grid.Column="3" Margin="20 44 10 20" Background="#D5F4C1">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="1.5*"/>
+                                <RowDefinition Height="1.2*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="52" HorizontalAlignment="Left" Margin="30 12 0 0"/>
+                            <Ellipse Height="66" Fill="#C0BEEE" Width="66" HorizontalAlignment="Left" Margin="16 12 0 0"/>
+                            <TextBlock Grid.Row="0" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Left" Margin="32 12 0 0" Foreground="#FFEDDB"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="Total Outcome: " FontSize="24" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <TextBlock Grid.Row="1" Margin="16 10 10 10" Text="{Binding TotalOutcome}" FontSize="40" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                         </Grid>
@@ -127,21 +137,20 @@
                                 <lvc:LineSeries Values="{Binding SalaryLineChartValue}" 
                                                Title="Salary"
                                                StrokeThickness="4" 
-                                               StrokeDashArray="2" 
-                                               Stroke="#B22C23" 
+                                               Stroke="#C0BEEE" 
                                                Fill="Transparent" 
                                                LineSmoothness="0" 
                                                PointGeometry="{x:Null}" />
                                 <lvc:LineSeries Values="{Binding IngredientLineChartValue}" 
                                                Title="Ingredient"
                                                StrokeThickness="2" 
-                                               Stroke="#B22C23" 
+                                               Stroke="#FFF585" 
                                                Fill="Transparent" 
                                                LineSmoothness="1" 
                                                PointGeometrySize="15" />
                             </lvc:CartesianChart.Series>
                             <lvc:CartesianChart.AxisX>
-                                <lvc:Axis IsMerged="True">
+                                <lvc:Axis IsMerged="True" MinValue="1">
                                     <lvc:Axis.Separator>
                                         <lvc:Separator StrokeThickness="1" StrokeDashArray="2">
                                             <lvc:Separator.Stroke>
@@ -156,7 +165,7 @@
                                     <lvc:Axis.Separator>
                                         <lvc:Separator StrokeThickness="1.5" StrokeDashArray="4">
                                             <lvc:Separator.Stroke>
-                                                <SolidColorBrush Color="#404F56" />
+                                                <SolidColorBrush Color="Transparent" />
                                             </lvc:Separator.Stroke>
                                         </lvc:Separator>
                                     </lvc:Axis.Separator>
@@ -165,7 +174,7 @@
                         </lvc:CartesianChart>
                     </Border>
                     <Border Grid.Column="1" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
-                        <TextBlock Text="Last Year Outcome Dashboard" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                        <TextBlock Text="Current Year Monthly Expenses" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
                     </Border>
 
                     <Border Grid.Column="0">
@@ -197,7 +206,7 @@
                     </lvc:CartesianChart>
                 </Border>
                 <Border Grid.Column="0" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
-                    <TextBlock Text="This Year Income Food" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                    <TextBlock Text="Current Year Dish Sale" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
                 </Border>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -212,6 +221,64 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Margin="30 20 20 0" Background="#F4D4C1" BorderThickness="0" CornerRadius="16">
+                            <Border.Effect>
+                                <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Margin="24 24 10 10" Text="{Binding TotalUser}" FontSize="40" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="{StaticResource Montserrat}" Foreground="#42150D"/>
+                                <TextBlock Grid.Column="0" Margin="24 12 10 32" Text="Total User " FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="{StaticResource Montserrat}"  Foreground="#42150D"/>
+                                <Ellipse Grid.Column="1" Height="80" Fill="#B23D23" Width="80" HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                                <TextBlock Grid.Column="1" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0" Foreground="#FFEDDB"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="1" Margin="30 20 20 0" Background="#F4D4C1" BorderThickness="0" CornerRadius="16">
+                            <Border.Effect>
+                                <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Margin="24 24 10 10" Text="{Binding TotalBadRate}" FontSize="40" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="{StaticResource Montserrat}" Foreground="#42150D"/>
+                                <TextBlock Grid.Column="0" Margin="24 12 10 32" Text="Bad Rates " FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontFamily="{StaticResource Montserrat}"  Foreground="#42150D"/>
+                                <Ellipse Grid.Column="1" Height="80" Fill="#B23D23" Width="80" HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                                <TextBlock Grid.Column="1" Text="" FontFamily="{StaticResource FontAwesome}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 0" Foreground="#FFEDDB"/>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+                    
+                    <TextBlock Text="Customer Age" Grid.Row="1" 
+                               HorizontalAlignment="Center" 
+                               FontSize="40" VerticalAlignment="Bottom"
+                               Margin="0 0 0 30" FontFamily="{StaticResource Montserrat}"
+                               Foreground="#42150D"/>
+                    <lvc:PieChart Grid.Row="1"
+                                      LegendLocation="Bottom" 
+                                      Margin="30 30 20 100" DataTooltip="{x:Null}" 
+                                      Series="{Binding AgePieSeriesCollection}">
+                    </lvc:PieChart>
+                </Grid>
+                
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -257,11 +324,11 @@
                         </ScrollViewer>
                     </Border>
                     <Border Grid.Row="0" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
-                        <TextBlock Text="Bad Rates" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                        <TextBlock Text="Bad Reviews" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
                     </Border>
 
 
-                    <Border Grid.Row="1" Background="#F4D4C1" Margin="30 20 30 30" CornerRadius="16" BorderThickness="0" BorderBrush="Gray">
+                    <Border Grid.Row="1" Background="#F4D4C1" Margin="30 10 30 30" CornerRadius="16" BorderThickness="0" BorderBrush="Gray">
                         <Border.Effect>
                             <DropShadowEffect Direction="270" Opacity="0.25" BlurRadius="4"/>
                         </Border.Effect>
@@ -281,13 +348,13 @@
                                                         <Ellipse Width="40" Height="40" Fill="Gray" />
                                                         <StackPanel Margin="10,0,0,0">
                                                             <TextBlock Text="{Binding User.Information.Name}" FontWeight="DemiBold" FontSize="14" />
-
                                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                                 <TextBlock Text="★★★★★" Foreground="Red" FontSize="12" />
                                                                 <TextBlock Text="{Binding Time}" Foreground="Gray" FontSize="12" Margin="20 0 0 0"/>
                                                             </StackPanel>
                                                         </StackPanel>
                                                     </StackPanel>
+                                                    <Image Source="{Binding Id, Converter={StaticResource ImagePathConverter}, ConverterParameter=Rate}" Width="80" Height="80" HorizontalAlignment="Left" Margin="0 10 10 0"/>
                                                     <TextBlock Text="{Binding Comment}" 
                                                                TextWrapping="Wrap"
                                                                FontSize="12"
@@ -300,8 +367,8 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </Border>
-                    <Border Grid.Row="1" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 20 30 30" CornerRadius="16 16 1 1">
-                        <TextBlock Text="Good Rates" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
+                    <Border Grid.Row="1" Background="#B23D23" Height="78" VerticalAlignment="Top" Margin="30 10 30 30" CornerRadius="16 16 1 1">
+                        <TextBlock Text="Good Reviews" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="28" FontFamily="{StaticResource Montserrat}" Foreground="#FFEDDB"/>
                     </Border>
                 </Grid>
                 

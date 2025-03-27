@@ -51,7 +51,6 @@ namespace QuanLiQuanAn.ViewModels
             DishlistOb = new ObservableCollection<Dishlist>();
             _ = Loading();
             SelectedSortItem = "All";
-            
         }
 
 
@@ -191,6 +190,7 @@ namespace QuanLiQuanAn.ViewModels
             MessageBox.Show("Delete Completed");
             _ = GetAllDishlist();
             _ = GetAllDish();
+            SelectedDishlist = "All";
         }
 
         [RelayCommand]
@@ -226,16 +226,16 @@ namespace QuanLiQuanAn.ViewModels
                 if (!isEdit)
                 {
                     SaveNew(DishTmp);
-                    SortDish(SelectedSortItem);
                     MessageBox.Show("Them thanh cong");
                 }
                 else
                 {
                     Update(DishTmp);
-                    SortDish(SelectedSortItem);
                     MessageBox.Show("Sua thanh cong");
                 }
             }
+            _ = Loading();
+            SortDish(SelectedSortItem);
             modalDishView.Close();
         }
 

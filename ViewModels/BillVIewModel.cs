@@ -15,16 +15,16 @@ namespace QuanLiQuanAn.ViewModels
     {
 
 
-        [ObservableProperty] private ObservableCollection<Employee> employeeOb;
+        //[ObservableProperty] private ObservableCollection<Employee> employeeOb;
         [ObservableProperty] private ObservableCollection<OrderBill> orderBillOb;
-        [ObservableProperty] private ObservableCollection<Ingredient> ingredientOb;
-
+        //[ObservableProperty] private ObservableCollection<Ingredient> ingredientOb;
+        [ObservableProperty] private ObservableCollection<SalaryBill> salaryBillOb;
+        [ObservableProperty] private ObservableCollection<IngredientBill> ingredientBillOb;
 
 
         [ObservableProperty] private int currentTabIndex;
 
 
-        //[ObservableProperty] private List<SalaryBill> salaryBillOb;
         [ObservableProperty] private Visibility isLoading;
        
 
@@ -33,7 +33,7 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private string? nameSearch = "";
 
 
-        [ObservableProperty] private Employee? selectedEmployee;
+        //[ObservableProperty] private Employee? selectedEmployee;
         [ObservableProperty] private SalaryBill? selectedSalary;
         [ObservableProperty] private OrderBill? selectedOrderBill;
         [ObservableProperty] private IngredientBill? selectedIngredientBill;
@@ -43,9 +43,15 @@ namespace QuanLiQuanAn.ViewModels
 
         [ObservableProperty] private string? fullName;
         [ObservableProperty] private string? employeeId;
-        [ObservableProperty] private string? hours;
-        [ObservableProperty] private string? total;
+        [ObservableProperty] private int? totalShifts;
+        [ObservableProperty] private string? totalOne;
         [ObservableProperty] private string? role;
+        [ObservableProperty] private int? salaryPerShift;
+        [ObservableProperty] private int? totalShiftsCount;
+        //[ObservableProperty] private string? totalPriceee;
+
+
+
         private SalaryBillView invoiceView;
         private bool IsEnabled;
 
@@ -57,7 +63,7 @@ namespace QuanLiQuanAn.ViewModels
         [ObservableProperty] private int? order;
         [ObservableProperty] private int? bill;
         [ObservableProperty] private string? time;
-        [ObservableProperty] private string? totalprice;    
+        [ObservableProperty] private string? totalprice;
         private OrderBillView OrderBillView;
 
 
@@ -71,22 +77,37 @@ namespace QuanLiQuanAn.ViewModels
         private IngredientBillView IngredientBillView;
 
 
-        private void SearchByName(string name)
+        //private void SearchByName(string name)
+        //{
+        //    QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+        //    EmployeeOb.Clear();
+        //    foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
+        //    {
+        //        if (employee.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+        //        {
+        //            EmployeeOb.Add(employee);
+        //        }
+        //    }
+        //}
+
+
+        private void SearchByIdSalary(string id)
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
+            SalaryBillOb.Clear();
+            foreach (SalaryBill salaryBill in db.SalaryBills.OrderBy(o => o.Id).ToList())
             {
-                if (employee.Information.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (salaryBill.Id.ToString().Contains(id, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    EmployeeOb.Add(employee);
+                    SalaryBillOb.Add(salaryBill);  
                 }
             }
         }
 
 
-        // Tìm kiếm hóa đơn theo ID
-        private void SearchById(string id)
+
+      
+        private void SearchByIdOrder(string id)
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
             OrderBillOb.Clear();
@@ -103,13 +124,12 @@ namespace QuanLiQuanAn.ViewModels
         private void SearchByIngreName(string name)
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            IngredientOb.Clear();
-
-            foreach (Ingredient ingredient in db.Ingredients.ToList()) // Loại bỏ .Include() không cần thiết
+            IngredientBillOb.Clear();
+            foreach (IngredientBill ingredientBill in db.IngredientBills.ToList()) 
             {
-                if (ingredient.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (ingredientBill.Ingredient.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    IngredientOb.Add(ingredient);
+                    IngredientBillOb.Add(ingredientBill);
                 }
             }
         }
@@ -122,10 +142,10 @@ namespace QuanLiQuanAn.ViewModels
             switch (CurrentTabIndex)
             {
                 case 0: // Tab Nhân viên (Employee)
-                    SearchByName(value);
+                    SearchByIdSalary(value);
                     break;
                 case 1: // Tab Hóa đơn đặt hàng (Order Bill)
-                    SearchById(value);
+                    SearchByIdOrder(value);
                     break;
                 default:
                     SearchByIngreName(value);
@@ -134,39 +154,40 @@ namespace QuanLiQuanAn.ViewModels
         }
 
         public BillViewModel()
-        {
-            EmployeeOb = new ObservableCollection<Employee>();
+        {      
+            SalaryBillOb = new ObservableCollection<SalaryBill>();
             OrderBillOb = new ObservableCollection<OrderBill>();
-            IngredientOb = new ObservableCollection<Ingredient>();
-
-            //SalaryBillOb = new List<SalaryBill>();
+            IngredientBillOb = new ObservableCollection<IngredientBill>();    
             _ = Loading();
-           
-
         }
 
         private async Task Loading()
         {
             IsLoading = Visibility.Visible;
-
-            await GetAllEmployee();
+            await GetAllSalaryBill();
             await GetAllOrderBill();
-            await GetAllIngredient();
+            await GetAllIngredientBill();
             IsLoading = Visibility.Hidden;
         }
 
 
         [RelayCommand]
-        private async Task GetAllEmployee()
+        private async Task GetAllSalaryBill()
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
-            EmployeeOb.Clear();
-            foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).Include(e => e.SalaryBills).ToList())
+            SalaryBillOb.Clear();
+
+            foreach (SalaryBill salaryBill in db.SalaryBills
+                .Include(s => s.Employee)
+                .ThenInclude(e => e.Information)
+                .OrderByDescending(e => e.Id)
+                .ToList())
             {
-                EmployeeOb.Add(employee);
+                SalaryBillOb.Add(salaryBill);
             }
         }
+
 
         [RelayCommand]
         private async Task GetAllOrderBill()
@@ -178,18 +199,20 @@ namespace QuanLiQuanAn.ViewModels
             {
                OrderBillOb.Add(orderBill);
             }
-
         }
 
         [RelayCommand]
-        private async Task GetAllIngredient()
+        private async Task GetAllIngredientBill()
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
-            IngredientOb.Clear();
-            foreach (Ingredient ingredient in db.Ingredients.OrderByDescending(e => e.Id).ToList())
+            IngredientBillOb.Clear();
+            foreach (IngredientBill ingredientBill in db.IngredientBills
+                .Include(s => s.Ingredient)
+                .OrderByDescending(e => e.Id)
+                .ToList())
             {
-                IngredientOb.Add(ingredient);
+                IngredientBillOb.Add(ingredientBill);
             }
 
         }
@@ -197,31 +220,26 @@ namespace QuanLiQuanAn.ViewModels
 
 
         [RelayCommand]
-        private void Invoice(Employee selectedEmployee)
+        private void InvoiceSalaryBill(SalaryBill selectedSalaryBill)
         {
-            FullName = selectedEmployee.Information.Name;
-            EmployeeId = selectedEmployee.Id.ToString();
+            if (selectedSalaryBill == null || selectedSalaryBill.Employee == null) return;
 
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-            
-            SelectedSalary = db.SalaryBills
-                .Where(s => s.EmployeeId == selectedEmployee.Id)
-                .OrderByDescending(s => s.Time)
-                .FirstOrDefault();
+            // Gán thông tin từ SalaryBill được chọn
+            FullName = selectedSalaryBill.Employee.Information?.Name ?? "N/A";
+            EmployeeId = selectedSalaryBill.Employee.Id.ToString();
+            Role = selectedSalaryBill.Employee.Role.ToString();
+            SalaryPerShift = selectedSalaryBill.Employee.Salary;
+            TotalShifts = selectedSalaryBill.TotalShifts;
+            Time = selectedSalaryBill.Time?.ToString("dd/MM/yyyy");
 
-            Hours = SelectedSalary?.TotalShifts.ToString();
-            Role = selectedEmployee.Role.ToString();
-            total = selectedEmployee.Salary.ToString();
-
+            // Mở cửa sổ hóa đơn
             invoiceView = new SalaryBillView();
             invoiceView.DataContext = this;
             invoiceView.ShowDialog();
         }
 
-
-
         [RelayCommand]
-        private void InvoiceOrder(OrderBill selectedOrderBill)
+        private void InvoiceOrderBill(OrderBill selectedOrderBill)
         {
        
             User = selectedOrderBill.UserId.ToString();
@@ -239,29 +257,16 @@ namespace QuanLiQuanAn.ViewModels
 
 
         [RelayCommand]
-        private void InvoiceIngredient(int ingredientId)
+        private void InvoiceIngredientBill(IngredientBill selectedIngredientBill)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
-
-            // Tìm hóa đơn nguyên liệu dựa trên IngredientId
-            SelectedIngredientBill = db.IngredientBills
-                .Where(ib => ib.IngredientId == ingredientId)
-                .OrderByDescending(ib => ib.Time)
-                .FirstOrDefault();
-
-            if (SelectedIngredientBill == null)
-            {
-                MessageBox.Show("Không tìm thấy hóa đơn nguyên liệu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Gán dữ liệu cho các thuộc tính hiển thị
-            IngreID = SelectedIngredientBill.IngredientId.ToString();
-            NameIngre = db.Ingredients.FirstOrDefault(i => i.Id == ingredientId)?.Name ?? "N/A";
-            Quantity = SelectedIngredientBill.Quantity.ToString();
-            Price = SelectedIngredientBill.Price.ToString();
-            TimeIngre = SelectedIngredientBill.Time.ToString();
-            TotalIngre = SelectedIngredientBill.TotalPrice.ToString();
+          
+            //// Gán dữ liệu cho các thuộc tính hiển thị
+            IngreID = selectedIngredientBill.IngredientId.ToString();
+            NameIngre = selectedIngredientBill.Ingredient?.Name ?? "N/A";
+            Quantity = selectedIngredientBill.Quantity.ToString();
+            Price = selectedIngredientBill.Price.ToString();
+            TimeIngre = selectedIngredientBill.Time.ToString();
+            TotalIngre = selectedIngredientBill.TotalPrice.ToString();
 
 
             // Hiển thị cửa sổ chi tiết hóa đơn nguyên liệu
@@ -313,16 +318,5 @@ namespace QuanLiQuanAn.ViewModels
                 IsEnabled = true;
             }
         }
-
-
-        //[RelayCommand]
-        //private void Cancel()
-        //{
-        //    if (invoiceView != null && OrderBillView != null)
-        //    {
-        //        invoiceView.Close();
-        //        OrderBillView.Close();
-        //    }
-        //}
     }
 }

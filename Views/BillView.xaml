@@ -21,7 +21,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="#FFEDDB">
+    <Grid  Background="#FFEDDB">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="8.3*"/>
@@ -56,7 +56,7 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="288,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Bills Page!" Width="454" Grid.ColumnSpan="2"/>
+                        <TextBlock Margin="412,0,0,0" Grid.Column="0" FontFamily="{StaticResource Montserrat}" FontWeight="Bold" FontSize="40" Foreground="#F5EFDF" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Bills Page!" Width="454" Grid.ColumnSpan="2"/>
                         <Image Source="/Assets/Images/RoundAvatar.png" Margin="50,20,0,20" HorizontalAlignment="Left" Grid.Column="1" RenderTransformOrigin="0.879,0.556" />
                     </Grid>
                 </Grid>
@@ -80,6 +80,7 @@
                     <Setter Property="FontWeight" Value="Light"/>
                     <Setter Property="FontFamily" Value="{StaticResource Montserrat}"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0 0 10 0"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
@@ -191,14 +192,15 @@
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
+
+
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Text="Name" Grid.Column="0" HorizontalAlignment="Center" />
+                                        <TextBlock Text="ID" Grid.Column="0" HorizontalAlignment="Left" Margin="78,0,0,0" />
                                         <TextBlock Text="Date" Grid.Column="1" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Gender" Grid.Column="2" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Phone" Grid.Column="3" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Address" Grid.Column="4" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Total Shifts" Grid.Column="2" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Price " Grid.Column="3" HorizontalAlignment="Center" />
+
 
                                     </Grid>
                                 </Border>
@@ -206,7 +208,7 @@
 
                             <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10,96,10,0" FontFamily="{StaticResource Montserrat}" FontSize="16" Height="Auto" VerticalAlignment="Stretch">
                                 <StackPanel>
-                                    <ItemsControl ItemsSource="{Binding EmployeeOb}">
+                                    <ItemsControl ItemsSource="{Binding SalaryBillOb}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Background="White" Padding="20" Margin="5" CornerRadius="12">
@@ -230,7 +232,6 @@
                                                                             <Border
                                                                                     Background="{TemplateBinding Background}"
                                                                                     BorderThickness="0"
-
                                                                                     CornerRadius="14">
                                                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                                             </Border>
@@ -255,17 +256,25 @@
                                                             <ColumnDefinition Width="1*" />
                                                             <ColumnDefinition Width="1*" />
                                                             <ColumnDefinition Width="1*" />
-                                                            <ColumnDefinition Width="1*" />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Text="{Binding Information.Name}" Grid.Column="0" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Information.Birth}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Information.Gender}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Information.Phone}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Information.Address}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <Button Content="Xem thông tin" Grid.Column="5"
-                                                                Command="{Binding DataContext.InvoiceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding Time}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding TotalShifts}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <!-- Sử dụng MultiBinding để tính tổng lương -->
+                                                        <TextBlock Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624" FontSize="20">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding Converter="{StaticResource TotalSalaryConverter}" StringFormat="{}{0:N0}đ">
+                                                                    <Binding Path="TotalShifts"/>
+                                                                    <Binding Path="Employee.Salary"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <Button Content="Xem thông tin" Grid.Column="4"
+                                                                Command="{Binding DataContext.InvoiceSalaryBillCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                 CommandParameter="{Binding}"/>
+
+
                                                     </Grid>
                                                 </Border>
                                             </DataTemplate>
@@ -368,15 +377,15 @@
                                                             <ColumnDefinition Width="1*" />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding DiscountId}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding OrderStatus, Converter={StaticResource OrderStatusConverter}, ConverterParameter='Content'}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding BillStatus, Converter={StaticResource PaymentStatusConverter}, ConverterParameter='Content'}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding TotalPrice}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624"/>
+                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding DiscountId}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding OrderStatus, Converter={StaticResource OrderStatusConverter}, ConverterParameter='Content'}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding BillStatus, Converter={StaticResource PaymentStatusConverter}, ConverterParameter='Content'}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding TotalPrice, StringFormat={}{0:N0}đ}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
                                                         <Button Content="Xem thông tin" Grid.Column="5"
-                                                                Command="{Binding DataContext.InvoiceOrderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                Command="{Binding DataContext.InvoiceOrderBillCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                                 CommandParameter="{Binding}">
-                                                            
+
                                                         </Button>
                                                     </Grid>
                                                 </Border>
@@ -407,6 +416,8 @@
                                         </Grid.Resources>
 
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.3*" />
+                                            <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
@@ -415,16 +426,18 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock Text="ID" Grid.Column="0" HorizontalAlignment="Left" Margin="20,0,0,0" />
-                                        <TextBlock Text="Name" Grid.Column="1" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Quantity" Grid.Column="2" HorizontalAlignment="Center" />
-                                        <TextBlock Text="Status" Grid.Column="3" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Ingredient" Grid.Column="1" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Unit Price" Grid.Column="2" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Quantity" Grid.Column="3" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Total Amount" Grid.Column="4" HorizontalAlignment="Center" />
+                                        <TextBlock Text="Time" Grid.Column="5" HorizontalAlignment="Center" />
                                     </Grid>
                                 </Border>
                             </Border>
 
                             <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10,96,10,0" FontFamily="{StaticResource Montserrat}" FontSize="16" Height="Auto" VerticalAlignment="Stretch">
                                 <StackPanel>
-                                    <ItemsControl ItemsSource="{Binding IngredientOb}">
+                                    <ItemsControl ItemsSource="{Binding IngredientBillOb}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Background="White" Padding="20" Margin="5" CornerRadius="12">
@@ -467,6 +480,8 @@
                                                         </Grid.Resources>
 
                                                         <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0.3*" />
+                                                            <ColumnDefinition Width="1*" />
                                                             <ColumnDefinition Width="1*" />
                                                             <ColumnDefinition Width="1*" />
                                                             <ColumnDefinition Width="1*" />
@@ -474,14 +489,16 @@
                                                             <ColumnDefinition Width="1*" />
                                                         </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Name}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Quantity}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                        <TextBlock Text="{Binding Status, Converter={StaticResource IngredientStatusConverter}, ConverterParameter='Content'}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624"/>
-                                                       
-                                                        <Button Content="Xem thông tin" Grid.Column="5"
-                                                                Command="{Binding DataContext.InvoiceIngredientCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                                CommandParameter="{Binding Id}">
+                                                        <TextBlock Text="{Binding Id}" Grid.Column="0" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding Ingredient.Name}" Grid.Column="1" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding Price, StringFormat={}{0:N0}đ}" Grid.Column="2" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding Quantity}" Grid.Column="3" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding TotalPrice, StringFormat={}{0:N0}đ}" Grid.Column="4" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+                                                        <TextBlock Text="{Binding Time, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Grid.Column="5" HorizontalAlignment="Center" Foreground="#633624" FontSize="20"/>
+
+                                                        <Button Content="Xem thông tin" Grid.Column="6"
+                                                                Command="{Binding DataContext.InvoiceIngredientBillCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                CommandParameter="{Binding}">
                                                         </Button>
                                                     </Grid>
                                                 </Border>
@@ -490,7 +507,6 @@
                                     </ItemsControl>
                                 </StackPanel>
                             </ScrollViewer>
-
                         </Grid>
                     </TabItem>
                 </TabControl>

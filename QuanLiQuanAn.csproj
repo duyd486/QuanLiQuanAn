@@ -12,7 +12,9 @@
     <None Remove="Assets\Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Assets\Fonts\KaushanScript-Regular.ttf" />
     <None Remove="Assets\Fonts\MontserratAlternates-Medium.ttf" />
+    <None Remove="Assets\Icons\Cancel.png" />
     <None Remove="Assets\Icons\DashboardIcon.png" />
+    <None Remove="Assets\Icons\printer.png" />
     <None Remove="Assets\Icons\SearchIcon.png" />
     <None Remove="Assets\Images\Avatar.png" />
     <None Remove="Assets\Images\Background.png" />
@@ -48,15 +50,20 @@
     </Resource>
     <Resource Include="Assets\Fonts\KaushanScript-Regular.ttf" />
     <Resource Include="Assets\Fonts\MontserratAlternates-Medium.ttf" />
+    <Resource Include="Assets\Icons\Cancel.png" />
     <Resource Include="Assets\Icons\DashboardIcon.png" />
+    <Resource Include="Assets\Icons\printer.png" />
     <Resource Include="Assets\Icons\SearchIcon.png" />
     <Resource Include="Assets\Images\Avatar.png" />
     <Resource Include="Assets\Images\Background.png" />
     <Resource Include="Assets\Images\Employee.png" />
     <Resource Include="Assets\Images\EmployeePic.png" />
+    <Resource Include="Assets\Images\Employee\EmployeeDefault.png" />
     <Resource Include="Assets\Images\Food.png" />
     <Resource Include="Assets\Images\Galic.png" />
     <Resource Include="Assets\Images\Logo.png" />
+    <Resource Include="Assets\Images\Rate\11.png" />
+    <Resource Include="Assets\Images\Rate\RateDefault.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />
     <Resource Include="Assets\Images\Table.png" />
     <Resource Include="Assets\Images\User.png" />

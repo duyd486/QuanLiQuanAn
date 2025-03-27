@@ -149,26 +149,23 @@ namespace QuanLiQuanAn.ViewModels
             {
                 var worksheet = package.Workbook.Worksheets.Add("Ingredient");
 
-                worksheet.Cells["A1:F1"].Merge = true;
+                worksheet.Cells["A1:C1"].Merge = true;
                 worksheet.Cells["A1"].Value = "Stock Information";
                 worksheet.Cells["A1"].Style.Font.Size = 16;
                 worksheet.Cells["A1"].Style.Font.Bold = true;
                 worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Column(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells["A1:F1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-                
 
                 string[] headers = { "ID", "Name", "Quantity" };
                 for (int i = 0; i < headers.Length; i++)
                 {
-                    int colIndex = (i * 2) + 1; 
-                    worksheet.Cells[2, colIndex, 2, colIndex + 1].Merge = true; 
-                    worksheet.Cells[2, colIndex].Value = headers[i];
-                    worksheet.Cells[2, colIndex].Style.Font.Bold = true;
-                    worksheet.Cells[2, colIndex].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Cells[2, colIndex].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
-                    worksheet.Cells[2, colIndex].Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                    worksheet.Cells[2, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[2, i + 1].Value = headers[i];
+                    worksheet.Cells[2, i + 1].Style.Font.Bold = true;
+                    worksheet.Cells[2, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Cells[2, i + 1].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+                    worksheet.Cells[2, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[2, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Column(i + 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Column(i + 1).Width = 30;
                 }
 
                 QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
@@ -176,15 +173,15 @@ namespace QuanLiQuanAn.ViewModels
                 foreach (Ingredient ingredient in db.Ingredients)
                 {
                     var cell1 = worksheet.Cells[row, 1];
-                    var cell2 = worksheet.Cells[row, 3];
-                    var cell3 = worksheet.Cells[row, 5];
+                    var cell2 = worksheet.Cells[row, 2];
+                    var cell3 = worksheet.Cells[row, 3];
                     row++;
                     cell1.Value = ingredient.Id;
                     cell2.Value = ingredient.Name;
                     cell3.Value = ingredient.Quantity;
 
                 }
-                worksheet.Cells.AutoFitColumns();
+                //worksheet.Cells.AutoFitColumns();
 
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Excel Files|*.xlsx";
@@ -195,11 +192,11 @@ namespace QuanLiQuanAn.ViewModels
                 {
                     string filePath = saveFileDialog.FileName;
                     File.WriteAllBytes(filePath, package.GetAsByteArray());
-                    Console.WriteLine($"File đã lưu: {filePath}");
+                    MessageBox.Show($"File đã được lưu tại: {filePath}");
                 }
                 else
                 {
-                    Console.WriteLine("Hủy lưu file.");
+                    MessageBox.Show("Hủy lưu file.");
                 }
             }
         }

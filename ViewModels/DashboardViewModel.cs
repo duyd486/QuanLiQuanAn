@@ -27,6 +27,9 @@ namespace QuanLiQuanAn.ViewModels
         private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
         [ObservableProperty] double salaryOut = 0;
         [ObservableProperty] double ingredientOut = 0;
+        [ObservableProperty] double totalUser = 0;
+        [ObservableProperty] double totalBadRate = 0;
+
         [ObservableProperty] private ObservableCollection<Rate> goodRateOb;
         [ObservableProperty] private ObservableCollection<Rate> badRateOb;
         double totalEmploy = 0;
@@ -43,6 +46,9 @@ namespace QuanLiQuanAn.ViewModels
         //Pie
         public Func<ChartPoint, string> PiePointLabel { get; set; }
         public SeriesCollection PieSeriesCollection { get; set; }
+
+        public Func<ChartPoint, string> AgePiePointLabel { get; set; }
+        public SeriesCollection AgePieSeriesCollection { get; set; }
         //Line
         public ChartValues<double> SalaryLineChartValue { get; set; }
         public ChartValues<double> IngredientLineChartValue { get; set; }
@@ -79,6 +85,8 @@ namespace QuanLiQuanAn.ViewModels
             SalaryOut = 0;
             IngredientOut = 1;
             totalEmploy = 0;
+            totalUser = 0;
+            totalBadRate = 0;
             foreach(SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
             {
                 if(salaryBill.Time.Value.Month == date.Month && salaryBill.Time.Value.Year == date.Year)
@@ -101,6 +109,18 @@ namespace QuanLiQuanAn.ViewModels
             }
             TotalEmployee = totalEmploy.ToString();
             TotalOutcome = (SalaryOut + IngredientOut).ToString();
+            foreach(User user in db.Users)
+            {
+                totalUser++;
+            }
+            foreach(Rate rate in db.Rates)
+            {
+                if(rate.Type == 1)
+                {
+                    totalBadRate++;
+                }
+            }
+
         }
 
         private void InitPieChartData()
@@ -124,6 +144,40 @@ namespace QuanLiQuanAn.ViewModels
                     Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C0BEEE"))
                 },
             };
+
+            AgePiePointLabel = chartPoint =>
+            string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            List<int> ageList = new List<int>();
+            AgePieSeriesCollection = new SeriesCollection();
+            foreach (User user in db.Users.Include(e => e.Information))
+            {
+                int age = date.Year - user.Information.Birth.Value.Year;
+                if (!ageList.Contains(age))
+                {
+                    ageList.Add(age);
+                }
+            }
+            foreach(int i in ageList)
+            {
+                double count = 0;
+                foreach(User user in db.Users.Include(e => e.Information))
+                {
+                    if(date.Year - user.Information.Birth.Value.Year == i)
+                    {
+                        count++;
+                    }
+                }
+                // Create Pie Series with title = i; Value = count
+                AgePieSeriesCollection.Add(new PieSeries
+                {
+                    Title = i.ToString(),
+                    Values = new ChartValues<double> { count },
+                    DataLabels = true
+                });
+            }
+
+
+
         }
         private void InitLineChartData()
         {
@@ -132,24 +186,24 @@ namespace QuanLiQuanAn.ViewModels
             double salaryOutByMonth = 0;
             double ingredientOutByMonth = 0;
 
-            for(int i = 1; i <= 12; i++)
+            for(int i = 1; i <= date.Month; i++)
             {
                 salaryOutByMonth = 0;
                 foreach (SalaryBill salaryBill in db.SalaryBills.Include(e => e.Employee).ToList())
                 {
-                    if (salaryBill.Time.Value.Month == i && salaryBill.Time.Value.Year == date.Year - 1)
+                    if (salaryBill.Time.Value.Month == i && salaryBill.Time.Value.Year == date.Year)
                     {
                         salaryOutByMonth += (double)(salaryBill.TotalShifts * salaryBill.Employee.Salary);
                     }
                 }
                 SalaryLineChartValue.Add(salaryOutByMonth);
             }
-            for (int i = 1; i <= 12; i++)
+            for (int i = 1; i <= date.Month; i++)
             {
                 ingredientOutByMonth = 0;
                 foreach (IngredientBill ingredientBill in db.IngredientBills)
                 {
-                    if (ingredientBill.Time.Value.Month == i && ingredientBill.Time.Value.Year == date.Year - 1)
+                    if (ingredientBill.Time.Value.Month == i && ingredientBill.Time.Value.Year == date.Year)
                     {
                         ingredientOutByMonth += (int)ingredientBill.TotalPrice;
                     }

@@ -5,11 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuanLiQuanAn.Views.Modals"
         mc:Ignorable="d"
-        
          xmlns:conv="clr-namespace:QuanLiQuanAn.Converters"
-        
-        
-        Title="IngredientBillView" Height="600" Width="535.5"
+        WindowStartupLocation="CenterScreen"
+        Title="IngredientBillView" Height="600" Width="920"
         FontFamily="{StaticResource Montserrat}">
 
 
@@ -36,7 +34,7 @@
             </Button>
             <StackPanel Orientation="Horizontal" Margin="30,30,150,30" Grid.Row="0">
                 <Image Source="/Assets/Images/Logo.png" Width="100" Height="50" VerticalAlignment="Center"/>
-                <TextBlock Text="INVOICE" VerticalAlignment="Center" FontSize="50" Foreground="Orange" FontWeight="Bold"/>
+                <TextBlock Text="INGREDIENTS INVOICE" VerticalAlignment="Center" FontSize="50" Foreground="Orange" FontWeight="Bold"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="20">
@@ -96,14 +94,17 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="TOTAL PRICE: " FontSize="25" Margin="5,5,5,5" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                    <TextBlock Grid.Column="0" Text="TOTAL AMOUNT: " FontSize="25" Margin="5,5,5,5" FontWeight="Bold" Grid.ColumnSpan="2"/>
                     <TextBlock Grid.Column="1" Text="{Binding TotalIngre}" FontSize="25" Margin="5,5,5,5" HorizontalAlignment="Right" FontWeight="Bold"/>
                 </Grid>
                 <Rectangle Fill="Black" Height="1" Margin="5 2" Opacity="0.5"/>
 
                 <Grid  HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Thank you !" VerticalAlignment="Center" Margin="5" FontSize="20" FontWeight="Light"/>
+                        <TextBlock Text="Thank you !" VerticalAlignment="Center" 
+                                   Margin="5" FontSize="20" 
+                                    FontStyle="Italic"
+                                   FontWeight="Light"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

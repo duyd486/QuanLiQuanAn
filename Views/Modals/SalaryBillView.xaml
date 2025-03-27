@@ -3,102 +3,112 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
-         xmlns:conv="clr-namespace:QuanLiQuanAn.Converters"
-        
-        
-        xmlns:local="clr-namespace:QuanLiQuanAn.Views" xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:BillViewModel}"
+        xmlns:conv="clr-namespace:QuanLiQuanAn.Converters"
+        xmlns:local="clr-namespace:QuanLiQuanAn.Views" 
+        xmlns:viewmodels="clr-namespace:QuanLiQuanAn.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:BillViewModel}"
         mc:Ignorable="d"     
-        
-        
-       
-        
-        
-        
-        Title="Invoice" Height="550" Width="535.5"      
+        Title="Salary Invoice" Height="600" Width="600"      
+        WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource Montserrat}">
-
 
     <Window.Resources>
         <conv:RoleStatusConverter x:Key="RoleStatusConverter"/>
+        <conv:TotalSalaryConverter x:Key="TotalSalaryConverter"/>
     </Window.Resources>
+
     <Grid>
         <Grid x:Name="print">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <!-- Nút in -->
             <Button Background="Transparent" HorizontalAlignment="Right" BorderThickness="0"
                     VerticalAlignment="Top" Margin="20" Width="40" Height="40" 
                     Command="{Binding PrintedCommand}">
-                <StackPanel >
+                <StackPanel>
                     <Image Source="pack://application:,,,/Assets/Icons/printer.png" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            
-            
+
+            <!-- Header -->
             <StackPanel Orientation="Horizontal" Margin="30,30,150,30" Grid.Row="0">
                 <Image Source="/Assets/Images/Logo.png" Width="100" Height="50" VerticalAlignment="Center"/>
-                <TextBlock Text="INVOICE" VerticalAlignment="Center" FontSize="50" Foreground="Orange" FontWeight="Bold"/>
+                <TextBlock Text="SALARY INVOICE" VerticalAlignment="Center" FontSize="30" Foreground="Orange" FontWeight="Bold"/>
             </StackPanel>
 
+            <!-- Thông tin nhân viên -->
             <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="20">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="10,10,0,10">
-                        <TextBlock Text="Full Name:" FontSize="20" Margin="5" HorizontalAlignment="Left" FontWeight="Bold"/>
-                        <TextBlock Text="ID:" FontSize="20" Margin="5" HorizontalAlignment="Left" FontWeight="Bold"/>
+
+                    <StackPanel Grid.Column="0" Margin="10,10,20,10">
+                        <TextBlock Text="Employee ID:" FontSize="16" Margin="5" FontWeight="Bold"/>
+                        <TextBlock Text="Full Name:" FontSize="16" Margin="5" FontWeight="Bold"/>
+                        <TextBlock Text="Position:" FontSize="16" Margin="5" FontWeight="Bold"/>
+                        <TextBlock Text="Salary per Shift:" FontSize="16" Margin="5" FontWeight="Bold"/>
+                        <TextBlock Text="Total Shifts:" FontSize="16" Margin="5" FontWeight="Bold"/>
+                        <TextBlock Text="Payment Date:" FontSize="16" Margin="5" FontWeight="Bold"/>
                     </StackPanel>
+
                     <StackPanel Grid.Column="1" Margin="0,10,10,10">
-                        <TextBlock Text="{Binding FullName}" FontSize="20" Margin="5" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding EmployeeId}" FontSize="20" Margin="5" HorizontalAlignment="Left"/>
-                    </StackPanel>
-                </Grid>
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="10,10,0,10">
-                        <TextBlock Text="Total Shifts:" FontSize="20" Margin="5" HorizontalAlignment="Left" FontWeight="Bold"/>
-                        <TextBlock Text="Role:" FontSize="20" Margin="5" HorizontalAlignment="Left" FontWeight="Bold"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="0,10,10,10">
-                        <TextBlock Text="{Binding Hours}" FontSize="20" Margin="5" HorizontalAlignment="Left"/>
-                        <TextBlock Text="{Binding Role, Converter={StaticResource RoleStatusConverter}}" FontSize="20" Margin="5" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding EmployeeId}" FontSize="16" Margin="5"/>
+                        <TextBlock Text="{Binding FullName}" FontSize="16" Margin="5"/>
+                        <TextBlock Text="{Binding Role}" FontSize="16" Margin="5"/>
+                        <TextBlock Text="{Binding SalaryPerShift}" FontSize="16" Margin="5"/>
+                        <TextBlock Text="{Binding TotalShifts}" FontSize="16" Margin="5"/>
+                        <TextBlock Text="{Binding Time, StringFormat='dd/MM/yyyy'}" FontSize="16" Margin="5"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Margin="20,0,20,20">
-                <Grid Margin="10 20 10 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-                <Rectangle Fill="Black" Height="1" Margin="5 2" Opacity="0.5"/>
-                <Grid Margin="10 20 10 0">
+            <!-- Tổng tiền -->
+            <StackPanel Grid.Row="2" Margin="20,10,20,0">
+                <Rectangle Fill="Black" Height="1" Margin="10 5" Opacity="0.5"/>
+
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="TOTAL PRICE: " FontSize="25" Margin="5,5,5,5" FontWeight="Bold" Grid.ColumnSpan="2"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Total}" FontSize="25" Margin="5,5,5,5" HorizontalAlignment="Right" FontWeight="Bold"/>
-                </Grid>
-                <Rectangle Fill="Black" Height="1" Margin="5 2" Opacity="0.5"/>
+                    <TextBlock Text="TOTAL AMOUNT:" 
+                               FontSize="20" 
+                               Margin="5" 
+                               FontWeight="Bold"/>
 
-                <Grid  HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Thank you !" VerticalAlignment="Center" Margin="5" FontSize="20" FontWeight="Light"/>
-                    </StackPanel>
+                    <TextBlock Grid.Column="1" 
+                               FontSize="20" 
+                               Margin="5" 
+                               FontWeight="Bold">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource TotalSalaryConverter}">
+                                <Binding Path="TotalShifts"/>
+                                <Binding Path="SalaryPerShift"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </Grid>
+
+                <Rectangle Fill="Black" Height="1" Margin="10 5" Opacity="0.5"/>
+            </StackPanel>
+
+            <!-- Footer -->
+            <StackPanel Grid.Row="3" VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Center">
+                <TextBlock Text="Thank you for your hard work!" 
+                           FontSize="16" 
+                           Margin="5" 
+                           FontStyle="Italic"/>
+                <TextBlock Text="Signature: ________________" 
+                           FontSize="16" 
+                           Margin="5,20,5,5"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -18,7 +18,7 @@ namespace QuanLiQuanAn.Converters
                 string param = parameter as string;
 
                 if (param == "Content")
-                    return status == 2 ? "Đã thanh toán" : "Chưa thanh toán";
+                    return status == 2 ? "✔" : "❌";
 
                 if (param == "Enabled")
                     return status != 2; // 1: Nhấn được,  2: Không nhấn được
