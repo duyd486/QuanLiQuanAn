@@ -24,6 +24,7 @@ namespace QuanLiQuanAn.ViewModels
     {
         private ModalEmployeeView modalEmployeeView;
         private bool isEdit;
+        private int timeDelay = 800;
 
         [ObservableProperty] private ObservableCollection<Employee> employeeOb;
         [ObservableProperty] private List<SalaryBill> salaryBillOb;
@@ -90,7 +91,7 @@ namespace QuanLiQuanAn.ViewModels
         private async Task GetAll()
         {
             QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            await Task.Delay(1000);
+            await Task.Delay(timeDelay);
             EmployeeOb.Clear();
             foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).Include(e => e.SalaryBills).ToList())
             {
@@ -351,7 +352,6 @@ namespace QuanLiQuanAn.ViewModels
         }
 
 
-
         private void UpdateEmployee()
         {
             try
@@ -387,11 +387,6 @@ namespace QuanLiQuanAn.ViewModels
                 EmployeeTmp.InformationId = InformationTmp.Id;
                 InformationTmp.Birth = Date;
 
-                if (EmployeeTmp.Information.Name.IsNullOrEmpty() || EmployeeTmp.Salary == null || EmployeeTmp.Information.Birth == null || EmployeeTmp.Information.Phone.IsNullOrEmpty() || EmployeeTmp.Information.CitizenId == null)
-                {
-                    Exception exception = new Exception("Please fill all the blank");
-                    throw exception;
-                }
                 db.Informations.Add(InformationTmp);
                 db.Employees.Add(EmployeeTmp);
                 db.SaveChanges();
@@ -403,11 +398,11 @@ namespace QuanLiQuanAn.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
         private void SearchByName(string name)
         {
+            timeDelay = 0;
             SortRole(SelectedSortItem);
             for(int i = 0; i < EmployeeOb.Count; i++)
             {
@@ -416,6 +411,7 @@ namespace QuanLiQuanAn.ViewModels
                     EmployeeOb.Remove(EmployeeOb[i]);
                 }
             }
+            timeDelay = 800;
         }
 
     }

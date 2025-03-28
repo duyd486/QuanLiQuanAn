@@ -21,6 +21,7 @@ namespace QuanLiQuanAn.ViewModels
     public partial class MenuViewModel : ObservableObject
     {
         private bool isEdit;
+        private int timeDelay = 800;
         private ModalDishView modalDishView;
         private ModalDishlistView modalDishlistView;
 
@@ -69,7 +70,7 @@ namespace QuanLiQuanAn.ViewModels
         private async Task GetAllDish()
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            await Task.Delay(1000);
+            await Task.Delay(timeDelay);
             DishOb.Clear();
             foreach (Dish dish in db.Dishes.OrderByDescending(e => e.Id))
             {
@@ -340,6 +341,7 @@ namespace QuanLiQuanAn.ViewModels
 
         private void SearchByName(string name)
         {
+            timeDelay = 0;
             SortDish(SelectedSortItem);
             for (int i = 0; i < DishOb.Count; i++)
             {
@@ -348,6 +350,7 @@ namespace QuanLiQuanAn.ViewModels
                     DishOb.Remove(DishOb[i]);
                 }
             }
+            timeDelay = 800;
         }
 
     }

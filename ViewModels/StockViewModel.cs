@@ -261,12 +261,13 @@ namespace QuanLiQuanAn.ViewModels
 
         private void SearchByName(string name)
         {
-            SortIngredient(SelectedSortItem);
-            for (int i = 0; i < IngredientOb.Count; i++)
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db;
+            IngredientOb.Clear();
+            foreach (Ingredient ingredient in db.Ingredients.Include(e => e.IngredientBills).ToList())
             {
-                if (!IngredientOb[i].Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                if (ingredient.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    IngredientOb.Remove(IngredientOb[i]);
+                    IngredientOb.Add(ingredient);
                 }
             }
         }

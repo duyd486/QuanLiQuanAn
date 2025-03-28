@@ -19,6 +19,7 @@ namespace QuanLiQuanAn.ViewModels
 {
     public partial class CustomerViewModel : ObservableObject
     {
+        int timeDelay = 800;
 
         [ObservableProperty] private ObservableCollection<User> userOb;
         [ObservableProperty] private Visibility isLoading;
@@ -77,7 +78,7 @@ namespace QuanLiQuanAn.ViewModels
         private async Task GetAll()
         {
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            await Task.Delay(1000);
+            await Task.Delay(timeDelay);
             UserOb.Clear();
             foreach (User user in db.Users.OrderByDescending(e => e.Id).Include(e => e.Information).ToList())
             {
@@ -95,10 +96,8 @@ namespace QuanLiQuanAn.ViewModels
                     _ = GetAll();
                     return;
                 case "Male":
-
                     break;
                 case "Female":
-
                     break;
             }
             QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
@@ -126,6 +125,7 @@ namespace QuanLiQuanAn.ViewModels
         }
         private void SearchByName(string name)
         {
+            timeDelay = 0;
             SortGender(SelectedSortItem);
             for (int i = 0; i < UserOb.Count; i++)
             {
@@ -134,6 +134,7 @@ namespace QuanLiQuanAn.ViewModels
                     UserOb.Remove(UserOb[i]);
                 }
             }
+            timeDelay = 800;
         }
 
     }
