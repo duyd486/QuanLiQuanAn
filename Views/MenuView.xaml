@@ -287,13 +287,12 @@
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
                     <Button Content="Add Dish" Command="{Binding AddDishCommand}" Grid.Row="0"/>
+                    <Image Source="/Assets/Images/MenuPageImage.png" Grid.Row="1" Stretch="Fill" Margin="0 0 19 0"/>
                 </Grid>
             </Grid>
-
         </Grid>
     </Grid>
 </UserControl>

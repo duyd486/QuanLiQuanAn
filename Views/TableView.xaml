@@ -209,21 +209,15 @@
             </ScrollViewer>
 
             <Grid Grid.Column="1" Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.Resources>
+                <Grid.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource AddButton}"/>
-                    </Grid.Resources>
+                </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Add New Table" Command="{Binding AddTableCommand}" Grid.Row="0"/>
-                </Grid>
+                <Button Content="Add New Table" Command="{Binding AddTableCommand}" Grid.Row="0"/>
+                <Image Source="/Assets/Images/TablePageImgae.png" Grid.Row="1" Stretch="Uniform" Margin="0 0 20 300"/>
             </Grid>
 
         </Grid>

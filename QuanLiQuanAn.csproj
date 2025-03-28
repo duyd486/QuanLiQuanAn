@@ -18,13 +18,14 @@
     <None Remove="Assets\Icons\SearchIcon.png" />
     <None Remove="Assets\Images\Avatar.png" />
     <None Remove="Assets\Images\Background.png" />
-    <None Remove="Assets\Images\Employee.png" />
     <None Remove="Assets\Images\EmployeePic.png" />
     <None Remove="Assets\Images\Food.png" />
     <None Remove="Assets\Images\Galic.png" />
     <None Remove="Assets\Images\Logo.png" />
+    <None Remove="Assets\Images\MenuPageImage.png" />
     <None Remove="Assets\Images\RoundAvatar.png" />
     <None Remove="Assets\Images\Table.png" />
+    <None Remove="Assets\Images\TablePageImgae.png" />
     <None Remove="Assets\Images\User.png" />
   </ItemGroup>
 
@@ -56,16 +57,17 @@
     <Resource Include="Assets\Icons\SearchIcon.png" />
     <Resource Include="Assets\Images\Avatar.png" />
     <Resource Include="Assets\Images\Background.png" />
-    <Resource Include="Assets\Images\Employee.png" />
     <Resource Include="Assets\Images\EmployeePic.png" />
     <Resource Include="Assets\Images\Employee\EmployeeDefault.png" />
     <Resource Include="Assets\Images\Food.png" />
     <Resource Include="Assets\Images\Galic.png" />
     <Resource Include="Assets\Images\Logo.png" />
+    <Resource Include="Assets\Images\MenuPageImage.png" />
     <Resource Include="Assets\Images\Rate\11.png" />
     <Resource Include="Assets\Images\Rate\RateDefault.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />
     <Resource Include="Assets\Images\Table.png" />
+    <Resource Include="Assets\Images\TablePageImgae.png" />
     <Resource Include="Assets\Images\User.png" />
   </ItemGroup>
 
