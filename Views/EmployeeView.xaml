@@ -255,12 +255,21 @@
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Content="Add Employee" Command="{Binding AddEmployeeCommand}" Grid.Row="0"/>
+                    <Button Content="Import Salary Excel" Command="{Binding ImportExcelCommand}" Grid.Row="2" Margin="0,2,20,10"/>
+                    <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="1" Margin="-3,-20,17,-14"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Button Content="Add Employee" Command="{Binding AddEmployeeCommand}" Grid.Row="0"/>
-                    <Button Content="Import Excel" Command="{Binding ImportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
-                    <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
+                    <Button Content="Export Sample Excel" Command="{Binding AddEmployeeCommand}" Style="{StaticResource AddButton}" Grid.Row="0"/>
+
                 </Grid>
             </Grid>
 

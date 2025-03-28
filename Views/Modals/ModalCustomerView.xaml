@@ -72,8 +72,8 @@
                 <TextBlock Grid.Column="2" Text="Status"/>
                 <ComboBox Grid.Column="2" FontSize="24" SelectedIndex="{Binding UserTmp.Status, Mode=OneTime}">
                     <ComboBoxItem Height="0"></ComboBoxItem>
-                    <ComboBoxItem>Chưa xác thực</ComboBoxItem>
-                    <ComboBoxItem>Đã xác thực</ComboBoxItem>
+                    <ComboBoxItem>Unverified</ComboBoxItem>
+                    <ComboBoxItem>Verified</ComboBoxItem>
                 </ComboBox>
             </Grid>
         </Grid>

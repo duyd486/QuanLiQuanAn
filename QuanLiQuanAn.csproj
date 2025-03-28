@@ -63,12 +63,10 @@
     <Resource Include="Assets\Images\Galic.png" />
     <Resource Include="Assets\Images\Logo.png" />
     <Resource Include="Assets\Images\MenuPageImage.png" />
-    <Resource Include="Assets\Images\Rate\11.png" />
-    <Resource Include="Assets\Images\Rate\RateDefault.png" />
     <Resource Include="Assets\Images\RoundAvatar.png" />
     <Resource Include="Assets\Images\Table.png" />
     <Resource Include="Assets\Images\TablePageImgae.png" />
-    <Resource Include="Assets\Images\User.png" />
+    <Resource Include="Assets\Images\Customer\CustomerDefault.png" />
   </ItemGroup>
 
 </Project>

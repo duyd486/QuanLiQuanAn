@@ -14,6 +14,9 @@ using System.Runtime.CompilerServices;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using QuanLiQuanAn.Views.Modals;
+using OfficeOpenXml.Style;
+using QuanLiQuanAn.Singleton;
+using System.Drawing;
 
 namespace QuanLiQuanAn.ViewModels
 {
@@ -228,6 +231,7 @@ namespace QuanLiQuanAn.ViewModels
             string filePath = "";
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel Files|*.xlsx";
+            openFileDialog.Title = "Choose Your Salary Bills Excel File";
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -270,7 +274,68 @@ namespace QuanLiQuanAn.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-            
+        }
+
+        [RelayCommand]
+        [STAThread]
+        private void ExportExcel()
+        {
+            DateTime date = DateTime.Now;
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Salary");
+
+                string[] headers = { "ID", "Name", "Total Shifts", "Role", "Salary", "Total Salary", "Time" };
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = headers[i];
+                    worksheet.Cells[1, i + 1].Style.Font.Bold = true;
+                    worksheet.Cells[1, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+                    worksheet.Cells[1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                    worksheet.Cells[1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Column(i + 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Column(i + 1).Width = 30;
+                }
+
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                int row = 2;
+                foreach (Employee employee in db.Employees.Where(e => e.Status == 2).Include(e => e.Information).ToList())
+                {
+                    var cell1 = worksheet.Cells[row, 1];
+                    var cell2 = worksheet.Cells[row, 2];
+                    var cell3 = worksheet.Cells[row, 4];
+                    var cell4 = worksheet.Cells[row, 5];
+                    var cell5 = worksheet.Cells[row, 7];
+
+                    row++;
+                    cell1.Value = employee.Id;
+                    cell2.Value = employee.Information.Name;
+                    cell3.Value = employee.Role;
+                    cell4.Value = employee.Salary;
+                    cell5.Value = date.Date;
+                }
+                //worksheet.Cells.AutoFitColumns();
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Chọn nơi lưu file Excel";
+                saveFileDialog.FileName = "Salary.xlsx";
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string filePath = saveFileDialog.FileName;
+                    File.WriteAllBytes(filePath, package.GetAsByteArray());
+                    MessageBox.Show($"File đã được lưu tại: {filePath}");
+                }
+                else
+                {
+                    MessageBox.Show("Hủy lưu file.");
+                }
+            }
         }
 
 
