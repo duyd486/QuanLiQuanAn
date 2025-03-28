@@ -188,8 +188,7 @@ namespace QuanLiQuanAn.ViewModels
             db.SaveChanges();
             db.Entry(DishlistTmp).State = EntityState.Detached;
             MessageBox.Show("Delete Completed");
-            _ = GetAllDishlist();
-            _ = GetAllDish();
+            _ = Loading();
             SelectedDishlist = "All";
         }
 
@@ -226,7 +225,6 @@ namespace QuanLiQuanAn.ViewModels
                 if (!isEdit)
                 {
                     SaveNew(DishTmp);
-                    MessageBox.Show("Them thanh cong");
                 }
                 else
                 {
@@ -255,9 +253,9 @@ namespace QuanLiQuanAn.ViewModels
             try
             {
                 QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-                if (DishTmp.Name.ToString() == "")
+                if (DishTmp.Name.IsNullOrEmpty() || DishTmp.Price == null || DishTmp.Description.IsNullOrEmpty())
                 {
-                    Exception exception = new Exception("Name is emty");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 foreach (Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
@@ -278,9 +276,9 @@ namespace QuanLiQuanAn.ViewModels
             try
             {
                 QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-                if (DishlistTmp.Name.ToString() == "")
+                if (DishlistTmp.Name.IsNullOrEmpty())
                 {
-                    Exception exception = new Exception("Name is emty");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 db.Dishlists.Update(DishlistTmp);
@@ -301,9 +299,9 @@ namespace QuanLiQuanAn.ViewModels
                 QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
                 DishTmp.Id = db.Dishes.IsNullOrEmpty() ? 1 : db.Dishes.OrderBy(e => e.Id).Last().Id + 1;
 
-                if (DishTmp.Name.ToString() == "")
+                if (DishTmp.Name.IsNullOrEmpty() || DishTmp.Price == null || DishTmp.Description.IsNullOrEmpty())
                 {
-                    Exception exception = new Exception("Name is emty");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 foreach (Dishlist dishlist in db.Dishlists.Where(x => x.Name == SelectedDishlist))
@@ -312,6 +310,7 @@ namespace QuanLiQuanAn.ViewModels
                 }
                 db.Dishes.Add(DishTmp);
                 db.SaveChanges();
+                MessageBox.Show("Add Completed!");
             }
             catch (Exception ex)
             {
@@ -325,9 +324,9 @@ namespace QuanLiQuanAn.ViewModels
                 QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
                 DishlistTmp.Id = db.Dishlists.IsNullOrEmpty() ? 1 : db.Dishlists.OrderBy(e => e.Id).Last().Id + 1;
 
-                if (DishlistTmp.Name.ToString() == "")
+                if (DishlistTmp.Name.IsNullOrEmpty())
                 {
-                    Exception exception = new Exception("Name is emty");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 db.Dishlists.Add(DishlistTmp);

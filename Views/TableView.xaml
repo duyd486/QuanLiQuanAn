@@ -178,7 +178,7 @@
                                             </Style>
                                         </ResourceDictionary>
                                     </Grid.Resources>
-                                    <Image Grid.Row="0" Source="/Assets/Images/Table.png" Stretch="Fill"/>
+                                    <Image Grid.Row="0" Source="/Assets/Images/TableDefault.png" Stretch="Fill"/>
 
                                     <Grid Grid.Row="1">
                                         <Grid.RowDefinitions>
@@ -217,7 +217,7 @@
                         <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
                 <Button Content="Add New Table" Command="{Binding AddTableCommand}" Grid.Row="0"/>
-                <Image Source="/Assets/Images/TablePageImgae.png" Grid.Row="1" Stretch="Uniform" Margin="0 0 20 300"/>
+                <Image Source="/Assets/Images/TablePageImgae.png" Grid.Row="1" Stretch="Uniform" Margin="0 -30 20 243"/>
             </Grid>
 
         </Grid>

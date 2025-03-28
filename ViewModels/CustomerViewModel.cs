@@ -17,7 +17,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QuanLiQuanAn.ViewModels
 {
-    public partial class UserViewModel : ObservableObject
+    public partial class CustomerViewModel : ObservableObject
     {
 
         [ObservableProperty] private ObservableCollection<User> userOb;
@@ -55,7 +55,7 @@ namespace QuanLiQuanAn.ViewModels
             SearchByName(value);
         }
 
-        public UserViewModel()
+        public CustomerViewModel()
         {
             UserOb = new ObservableCollection<User>();
             _ = Loading();

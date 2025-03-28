@@ -14,7 +14,7 @@
                 <cv:ImagePathConverter x:Key="ImagePathConverter"/>
             </ResourceDictionary>
         </ScrollViewer.Resources>
-        <Grid Height="2700" Margin="0 -900 0 0" Background="#FFEDDB">
+        <Grid Height="2700" Margin="0 -00 0 0" Background="#FFEDDB">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

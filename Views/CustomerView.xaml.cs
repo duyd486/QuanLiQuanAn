@@ -6,11 +6,10 @@ namespace QuanLiQuanAn.Views
     /// <summary>
     /// Interaction logic for UserView.xaml
     /// </summary>
-    public partial class UserView : UserControl
+    public partial class CustomerView : UserControl
     {
-        public UserView()
+        public CustomerView()
         {
-            this.DataContext = new UserViewModel();
             InitializeComponent();
         }
     }

@@ -146,13 +146,11 @@ namespace QuanLiQuanAn.ViewModels
                 {
                     SaveNewTable();
                     _ = GetAll();
-                    MessageBox.Show("Them thanh cong");
                 }
                 else
                 {
                     UpdateTable();
                     _ = GetAll();
-                    MessageBox.Show("Sua thanh cong");
                 }
             }
             modalTableView.Close();
@@ -168,7 +166,7 @@ namespace QuanLiQuanAn.ViewModels
             db.Entry(table).State = EntityState.Detached;
 
             _ = GetAll();
-            MessageBox.Show("Delete Completed");
+            MessageBox.Show("Delete Completed!");
         }
 
         private void UpdateTable()
@@ -178,12 +176,13 @@ namespace QuanLiQuanAn.ViewModels
                 QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
                 if (TableTmp.Contain == null)
                 {
-                    Exception exception = new Exception("Contain is emty");
+                    Exception exception = new Exception("Contain is emty!");
                     throw exception;
                 }
                 db.Tables.Update(TableTmp);
                 db.SaveChanges();
                 db.Entry(TableTmp).State = EntityState.Detached;
+                MessageBox.Show("Edit Completed!");
             }
             catch (Exception ex)
             {
@@ -198,13 +197,15 @@ namespace QuanLiQuanAn.ViewModels
                 QuanannhatContext db = DatabaseSingleton.GetInstance().db;
                 TableTmp.Id = db.Tables.IsNullOrEmpty() ? 1 : db.Tables.OrderBy(e => e.Id).Last().Id + 1;
 
-                if (TableTmp.Contain.ToString() == "")
+                if (TableTmp.Contain == null)
                 {
                     Exception exception = new Exception("Contain is emty");
                     throw exception;
                 }
                 db.Tables.Add(TableTmp);
                 db.SaveChanges();
+                db.Entry(TableTmp).State = EntityState.Detached;
+                MessageBox.Show("Add Completed!");
             }
             catch (Exception ex)
             {

@@ -47,7 +47,7 @@ namespace QuanLiQuanAn.ViewModels
                     CurrentViewModel = new EmployeeViewModel();
                     break;
                 case "Customer":
-                    CurrentViewModel = new UserViewModel();
+                    CurrentViewModel = new CustomerViewModel();
                     break;
                 case "Stock":
                     CurrentViewModel = new StockViewModel();

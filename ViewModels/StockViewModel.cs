@@ -65,10 +65,10 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private async Task GetAll()
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
             IngredientOb.Clear();
-            foreach (Ingredient ingredient in db.Ingredients.OrderByDescending(e => e.Id))
+            foreach (Ingredient ingredient in db.Ingredients.OrderByDescending(e => e.Id).Include(e => e.IngredientBills).ToList())
             {
                 IngredientOb.Add(ingredient);
             }
@@ -130,13 +130,20 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void DeleteIngredient(Ingredient ingredient)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-            db.Ingredients.Remove(ingredient);
-            db.SaveChanges();
-            db.Entry(ingredient).State = EntityState.Detached;
-            _ = GetAll();
-            MessageBox.Show("Delete Completed");
-
+            MessageBoxResult message = MessageBox.Show("Delete this will delete all bill of this ingredient, are you sure you want to delete this?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if(message == MessageBoxResult.Yes)
+            {
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                foreach (IngredientBill ingredientBill in ingredient.IngredientBills)
+                {
+                    db.IngredientBills.Remove(ingredientBill);
+                }
+                db.Ingredients.Remove(ingredient);
+                db.SaveChanges();
+                db.Entry(ingredient).State = EntityState.Detached;
+                _ = GetAll();
+                MessageBox.Show("Delete Completed");
+            }
         }
 
         [RelayCommand]
@@ -161,7 +168,8 @@ namespace QuanLiQuanAn.ViewModels
                     worksheet.Cells[2, i + 1].Value = headers[i];
                     worksheet.Cells[2, i + 1].Style.Font.Bold = true;
                     worksheet.Cells[2, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Cells[2, i + 1].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+                    worksheet.Cells[2, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(178, 61, 35));
+                    worksheet.Cells[2, i + 1].Style.Font.Color.SetColor(Color.FromArgb(245, 213, 194));
                     worksheet.Cells[2, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[2, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Column(i + 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -207,17 +215,17 @@ namespace QuanLiQuanAn.ViewModels
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-                if (IngredientTmp.Name.ToString() == "")
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                if (IngredientTmp.Name.IsNullOrEmpty() || IngredientTmp.Quantity == null)
                 {
-                    Exception exception = new Exception("Name is Null!!");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 db.Ingredients.Update(IngredientTmp);
                 db.SaveChanges();
                 db.Entry(IngredientTmp).State = EntityState.Detached;
 
-                MessageBox.Show("Sua thanh cong");
+                MessageBox.Show("Edit Completed!");
             }
             catch (Exception ex)
             {
@@ -230,16 +238,19 @@ namespace QuanLiQuanAn.ViewModels
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db;
                 IngredientTmp.Id = db.Ingredients.IsNullOrEmpty() ? 1 : db.Ingredients.OrderBy(e => e.Id).Last().Id + 1;
 
-                if (IngredientTmp.Name.ToString() == "")
+                if (IngredientTmp.Name.IsNullOrEmpty() || IngredientTmp.Quantity == null)
                 {
-                    Exception exception = new Exception("Name is emty");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
                 db.Ingredients.Add(IngredientTmp);
                 db.SaveChanges();
+                db.Entry(IngredientTmp).State = EntityState.Detached;
+
+                MessageBox.Show("Add Completed!");
             }
             catch (Exception ex)
             {

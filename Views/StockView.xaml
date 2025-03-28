@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuanLiQuanAn.Views"
+             xmlns:cv="clr-namespace:QuanLiQuanAn.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1333">
     <UserControl.Resources>
         <ResourceDictionary>
+            <cv:ImagePathConverter x:Key="ImagePathConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/GenericTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -190,7 +192,7 @@
                                             </Style>
                                         </ResourceDictionary>
                                     </Grid.Resources>
-                                    <Image Grid.Row="0" Source="/Assets/Images/Galic.png" Stretch="Fill"/>
+                                    <Image Grid.Row="0" Source="{Binding Id, Converter={StaticResource ImagePathConverter}, ConverterParameter=Ingredient}" Stretch="Fill"/>
 
                                     <Grid Grid.Row="1">
                                         <Grid.RowDefinitions>
@@ -236,7 +238,7 @@
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Button Content="Add Ingredient" Command="{Binding AddIngredientCommand}" Grid.Row="0"/>
-                    <Button Content="Export Excel" Command="{Binding ExportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
+                    <Button Content="Export Current Stock" Command="{Binding ExportExcelCommand}" Grid.Row="1" Margin="0,2,20,10"/>
                     <Image Source="/Assets/Images/EmployeePic.png" Grid.Row="2" Margin="-3,0,17,-14"/>
                 </Grid>
             </Grid>

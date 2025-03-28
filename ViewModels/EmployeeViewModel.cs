@@ -68,14 +68,13 @@ namespace QuanLiQuanAn.ViewModels
 
         public EmployeeViewModel()
         {
-            Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             EmployeeOb = new ObservableCollection<Employee>();
             SalaryBillOb = new List<SalaryBill>();
             IsActive = true;
             _ = Loading();
             selectedSortItem = "All";
         }
-
 
         private async Task Loading()
         {
@@ -90,7 +89,7 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private async Task GetAll()
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             await Task.Delay(1000);
             EmployeeOb.Clear();
             foreach (Employee employee in db.Employees.OrderByDescending(e => e.Id).Include(e => e.Information).Include(e => e.SalaryBills).ToList())
@@ -133,7 +132,7 @@ namespace QuanLiQuanAn.ViewModels
                     role = 3;
                     break;
             }
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db;
             EmployeeOb.Clear();
             foreach (Employee employee in db.Employees.Include(e => e.Information).ToList())
             {
@@ -205,24 +204,24 @@ namespace QuanLiQuanAn.ViewModels
         [RelayCommand]
         private void DeleteEmployee(Employee employee)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db;
             employee.Status = 1;
             db.Update(employee);
             db.SaveChanges();
             _ = GetAll();
             
-            MessageBox.Show("Dừng hoạt động nhân viên thành công");
+            MessageBox.Show("Unactive Employee Completed!");
         }
 
         [RelayCommand]
         private void PayBill(SalaryBill salaryBill)
         {
-            QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+            QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
             salaryBill.Status = 2;
             db.SalaryBills.Update(salaryBill);
             db.SaveChanges();
             db.Entry(salaryBill).State = EntityState.Detached;
-            MessageBox.Show("Thanh toan thanh cong");
+            MessageBox.Show("Pay Bill Completed");
         }
 
         [RelayCommand]
@@ -243,16 +242,16 @@ namespace QuanLiQuanAn.ViewModels
             }
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
                 var package = new ExcelPackage(new FileInfo(filePath));
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
-                for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
+                for (int i = 2; i <= worksheet.Dimension.End.Row; i++)
                 {
+                    Console.WriteLine(i);
                     SalaryBill salaryBill = new SalaryBill();
-                    salaryBill.Id =db.SalaryBills.IsNullOrEmpty() ? 1 : db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
+                    salaryBill.Id = db.SalaryBills.IsNullOrEmpty() ? 1 : db.SalaryBills.OrderBy(e => e.Id).Last().Id + 1;
 
                     int employeeIdCollum = 1;
                     salaryBill.EmployeeId = Convert.ToInt32(worksheet.Cells[i, employeeIdCollum].Value);
@@ -264,29 +263,41 @@ namespace QuanLiQuanAn.ViewModels
 
                     int timeCollum = 7;
                     string? timeStr = worksheet.Cells[i, timeCollum].Value.ToString();
-                    salaryBill.Time = DateOnly.Parse(timeStr.Substring(0, timeStr.IndexOf(" ")));
+                    salaryBill.Time = DateOnly.Parse(timeStr);
 
                     db.SalaryBills.Add(salaryBill);
                     db.SaveChanges();
                 }
                 MessageBox.Show("Import Excel Completed");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            _ = Loading();
         }
 
         [RelayCommand]
         [STAThread]
         private void ExportExcel()
         {
-            DateTime date = DateTime.Now;
+            DateOnly date = DateOnly.FromDateTime(DateTime.Now);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using (ExcelPackage package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Salary");
+                worksheet.Row(1).Height = 20;
+                worksheet.Row(1).Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Column(1).Width = 10;
+                worksheet.Column(2).Width = 30;
+                worksheet.Column(3).Width = 20;
+                worksheet.Column(4).Width = 15;
+                worksheet.Column(5).Width = 20;
+                worksheet.Column(6).Width = 20;
+                worksheet.Column(7).Width = 30;
+                worksheet.Cells["F2"].Formula = "C2*E2";
 
                 string[] headers = { "ID", "Name", "Total Shifts", "Role", "Salary", "Total Salary", "Time" };
                 for (int i = 0; i < headers.Length; i++)
@@ -294,46 +305,47 @@ namespace QuanLiQuanAn.ViewModels
                     worksheet.Cells[1, i + 1].Value = headers[i];
                     worksheet.Cells[1, i + 1].Style.Font.Bold = true;
                     worksheet.Cells[1, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+                    worksheet.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(178, 61, 35));
+                    worksheet.Cells[1, i + 1].Style.Font.Color.SetColor(Color.FromArgb(245, 213, 194));
                     worksheet.Cells[1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
                     worksheet.Cells[1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Column(i + 1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Column(i + 1).Width = 30;
                 }
-
                 QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
                 int row = 2;
                 foreach (Employee employee in db.Employees.Where(e => e.Status == 2).Include(e => e.Information).ToList())
                 {
+                    worksheet.Cells[$"F{row}"].Formula = $"C{row}*E{row}";
+
                     var cell1 = worksheet.Cells[row, 1];
                     var cell2 = worksheet.Cells[row, 2];
                     var cell3 = worksheet.Cells[row, 4];
                     var cell4 = worksheet.Cells[row, 5];
                     var cell5 = worksheet.Cells[row, 7];
 
-                    row++;
+                    worksheet.Cells[row, 3].Style.Border.BorderAround(ExcelBorderStyle.Dotted);
+
                     cell1.Value = employee.Id;
                     cell2.Value = employee.Information.Name;
                     cell3.Value = employee.Role;
                     cell4.Value = employee.Salary;
-                    cell5.Value = date.Date;
+                    cell5.Value = date.ToString();
+                    row++;
                 }
-                //worksheet.Cells.AutoFitColumns();
-
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Excel Files|*.xlsx";
-                saveFileDialog.Title = "Chọn nơi lưu file Excel";
+                saveFileDialog.Title = "Choose File Excel Location";
                 saveFileDialog.FileName = "Salary.xlsx";
 
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     string filePath = saveFileDialog.FileName;
                     File.WriteAllBytes(filePath, package.GetAsByteArray());
-                    MessageBox.Show($"File đã được lưu tại: {filePath}");
+                    MessageBox.Show($"File Location At: {filePath}");
                 }
                 else
                 {
-                    MessageBox.Show("Hủy lưu file.");
+                    MessageBox.Show("Cancel Save file.");
                 }
             }
         }
@@ -344,71 +356,48 @@ namespace QuanLiQuanAn.ViewModels
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db = new QuanannhatContext();
-                if (EmployeeTmp.Salary.ToString() == "")
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db = new QuanannhatContext();
+                if (EmployeeTmp.Information.Name.IsNullOrEmpty() || EmployeeTmp.Salary == null || EmployeeTmp.Information.Birth == null || EmployeeTmp.Information.Phone.IsNullOrEmpty() || EmployeeTmp.Information.CitizenId == null)
                 {
-                    Exception exception = new Exception("Salary was write in wrong condiction");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
-                else if (InformationTmp.CitizenId.ToString() == "")
-                {
-                    Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-                    throw exception;
-                }
-                else if (InformationTmp.Name == "")
-                {
-                    Exception exception = new Exception("Name is emty");
-                    throw exception;
-                }
-
                 db.Informations.Update(InformationTmp);
                 db.Employees.Update(EmployeeTmp);
                 db.SaveChanges();
                 db.Entry(InformationTmp).State = EntityState.Detached;
                 db.Entry(EmployeeTmp).State = EntityState.Detached;
 
-                MessageBox.Show("Sua thanh cong");
+                MessageBox.Show("Edit Completed!");
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
         private void SaveNewEmployee()
         {
             try
             {
-                QuanannhatContext db = Singleton.DatabaseSingleton.GetInstance().db;
+                QuanannhatContext db = DatabaseSingleton.GetInstance().db;
                 InformationTmp.Id = db.Informations.IsNullOrEmpty() ? 1 : db.Informations.OrderBy(e => e.Id).Last().Id + 1;
                 EmployeeTmp.Id = db.Employees.IsNullOrEmpty() ? 1 : db.Employees.OrderBy(e => e.Id).Last().Id + 1;
                 EmployeeTmp.InformationId = InformationTmp.Id;
                 InformationTmp.Birth = Date;
 
-                if (EmployeeTmp.Salary.ToString() == "")
+                if (EmployeeTmp.Information.Name.IsNullOrEmpty() || EmployeeTmp.Salary == null || EmployeeTmp.Information.Birth == null || EmployeeTmp.Information.Phone.IsNullOrEmpty() || EmployeeTmp.Information.CitizenId == null)
                 {
-                    Exception exception = new Exception("Salary was write in wrong condiction");
+                    Exception exception = new Exception("Please fill all the blank");
                     throw exception;
                 }
-                else if (InformationTmp.CitizenId.ToString() == "")
-                {
-                    Exception exception = new Exception("Cityzen Id was write in wrong condiction");
-                    throw exception;
-                }
-                else if (InformationTmp.Name == "")
-                {
-                    Exception exception = new Exception("Name is emty");
-                    throw exception;
-                }
-
                 db.Informations.Add(InformationTmp);
                 db.Employees.Add(EmployeeTmp);
                 db.SaveChanges();
                 db.Entry(InformationTmp).State = EntityState.Detached;
                 db.Entry(EmployeeTmp).State = EntityState.Detached;
-                MessageBox.Show("Them thanh cong");
+                MessageBox.Show("Add Completed!");
             }
             catch (Exception ex)
             {

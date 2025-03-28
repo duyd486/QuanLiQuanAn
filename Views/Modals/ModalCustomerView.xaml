@@ -89,7 +89,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Content="Apply" IsCancel="True" Style="{StaticResource ApplyButton}"/>
+            <Button Grid.Column="2" Content="Close" IsCancel="True" Style="{StaticResource ApplyButton}"/>
         </Grid>
     </Grid>
 </Window>

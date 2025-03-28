@@ -128,8 +128,8 @@
                 <DataTemplate DataType="{x:Type viewmodels:EmployeeViewModel}">
                     <views:EmployeeView/>
                 </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:UserViewModel}">
-                    <views:UserView/>
+                <DataTemplate DataType="{x:Type viewmodels:CustomerViewModel}">
+                    <views:CustomerView/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:StockViewModel}">
                     <views:StockView/>
